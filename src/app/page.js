@@ -1,12 +1,17 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { db } from '../firebase';
+import { db, auth } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 import { collection, onSnapshot, addDoc, deleteDoc, doc, writeBatch } from 'firebase/firestore';
 
 export default function AdminDashboard() {
   const [books, setBooks] = useState([]);
-  
+  const [user, setUser] = useState(null);
+const [isAdmin, setIsAdmin] = useState(false);
+
+const router = useRouter();
   // Form States for Single Book Mode
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
@@ -18,12 +23,35 @@ export default function AdminDashboard() {
   const [bulkFile, setBulkFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
 
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'books'), (snapshot) => {
-      setBooks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-    });
-    return () => unsubscribe();
-  }, []);
+useEffect(() => {
+  const unsubscribeBooks = onSnapshot(
+    collection(db, 'books'),
+    (snapshot) => {
+      setBooks(
+        snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+      );
+    }
+  );
+
+  const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+
+    // Replace this with your admin email
+    if (currentUser?.email === 'bvrvlibrary@gmail.com') {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  });
+
+  return () => {
+    unsubscribeBooks();
+    unsubscribeAuth();
+  };
+}, []);
 
   // Operation 1: Add a Single Book
   const handleAddBook = async (e) => {
@@ -47,7 +75,14 @@ export default function AdminDashboard() {
       await deleteDoc(doc(db, 'books', id));
     }
   };
+const handleRequestBook = async (book) => {
+  if (!user) {
+    router.push('/signin');
+    return;
+  }
 
+  alert(`Book Requested: ${book.name}`);
+};
   // Operation 3: Handle Bulk Upload processing (.CSV files)
   const handleBulkUpload = async (e) => {
     e.preventDefault();
@@ -125,7 +160,9 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h2 className="text-danger mb-4">Admin Inventory Control & Bulk System</h2>
+      <h2 className="text-danger mb-4">
+  Library Management System
+</h2>
       
       <div className="row">
         {/* VIEW 1: SINGLE DATA ENTRY FORM */}
