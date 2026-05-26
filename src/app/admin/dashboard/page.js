@@ -1,10 +1,25 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
-import { collection, onSnapshot, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import {
+  sendStudentEmail
+} from '../../../lib/sendEmail';
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  deleteDoc,
+  doc,
+  updateDoc,
+  getDoc,
+  increment
+} from 'firebase/firestore';
 
 export default function AdminDashboard() {
   const [books, setBooks] = useState([]);
+  const [students, setStudents] = useState([]);
+const [requests, setRequests] = useState([]);
+const [issueDays, setIssueDays] = useState({});
   
   // Data input states for adding a new book
   const [name, setName] = useState('');
@@ -14,10 +29,37 @@ export default function AdminDashboard() {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
+    const unsubStudents = onSnapshot(
+  collection(db, 'users'),
+  (snapshot) => {
+    setStudents(
+      snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+    );
+  }
+);
+
+const unsubRequests = onSnapshot(
+  collection(db, 'bookRequests'),
+  (snapshot) => {
+    setRequests(
+      snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+    );
+  }
+);
     const unsubscribe = onSnapshot(collection(db, 'books'), (snapshot) => {
       setBooks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     });
-    return () => unsubscribe();
+   return () => {
+  unsubscribe();
+  unsubStudents();
+  unsubRequests();
+};
   }, []);
 
   // BUTTON OPERATION 1: ADD BOOK
@@ -43,7 +85,33 @@ export default function AdminDashboard() {
       await deleteDoc(doc(db, 'books', id));
     }
   };
+const handleApproveStudent = async (
+  student
+) => {
+  try {
+    await updateDoc(
+      doc(db, 'users', student.id),
+      {
+        approved: true
+      }
+    );
 
+    await sendStudentEmail({
+      to_email: student.email,
+      subject: 'Library Account Approved',
+      message: `
+Your library account has been approved.
+
+You can now login and request books.
+      `,
+    });
+
+    alert('Student approved');
+  } catch (err) {
+    console.error(err);
+    alert('Approval failed');
+  }
+};
   return (
     <div>
       <h2 className="text-danger mb-4">Admin Book Control</h2>
@@ -108,5 +176,46 @@ export default function AdminDashboard() {
         </table>
       </div>
     </div>
+<div className="card p-4 mt-4 shadow-sm">
+  <h4 className="mb-3 text-warning">
+    Pending Student Approvals
+  </h4>
+
+  <table className="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+        <th>Temple</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {students
+        .filter(student => !student.approved)
+        .map(student => (
+          <tr key={student.id}>
+            <td>{student.fullName}</td>
+            <td>{student.email}</td>
+            <td>{student.mobile}</td>
+            <td>{student.temple}</td>
+
+            <td>
+              <button
+                onClick={() =>
+                  handleApproveStudent(student)
+                }
+                className="btn btn-success btn-sm"
+              >
+                Approve
+              </button>
+            </td>
+          </tr>
+        ))}
+    </tbody>
+  </table>
+</div>
   );
 }
