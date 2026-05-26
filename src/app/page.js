@@ -11,11 +11,11 @@ import {
   addDoc,
   deleteDoc,
   doc,
-  writeBatch,
   updateDoc,
   query,
   where,
   getDocs,
+  getDoc,
   increment
 } from 'firebase/firestore';
 
@@ -29,58 +29,58 @@ export default function LibraryDashboard() {
 
   const router = useRouter();
 
-  // Admin Form States
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [language, setLanguage] = useState('');
   const [position, setPosition] = useState('');
   const [quantity, setQuantity] = useState(1);
 
-  // Bulk Upload State
   const [bulkFile, setBulkFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState('');
 
+  // ---------------- LOAD DATA ----------------
   useEffect(() => {
-    const unsubscribeBooks = onSnapshot(collection(db, 'books'), (snapshot) => {
-      setBooks(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+    const unsubBooks = onSnapshot(collection(db, 'books'), (snap) => {
+      setBooks(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     });
 
-    const unsubscribeRequests = onSnapshot(collection(db, 'bookRequests'), (snapshot) => {
-      setRequests(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+    const unsubRequests = onSnapshot(collection(db, 'bookRequests'), (snap) => {
+      setRequests(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     });
 
-    const unsubscribeAuth = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
+    const unsubAuth = onAuthStateChanged(auth, async (u) => {
+      setUser(u);
 
       const adminEmail = 'bvrvlibrary@gmail.com';
+      setIsAdmin(u?.email?.toLowerCase() === adminEmail.toLowerCase());
 
-      setIsAdmin(currentUser?.email?.toLowerCase() === adminEmail.toLowerCase());
-
-      if (currentUser) {
-        const myBooksQuery = query(
+      if (u) {
+        const q = query(
           collection(db, 'bookRequests'),
-          where('studentId', '==', currentUser.uid)
+          where('studentId', '==', u.uid)
         );
 
-        const snapshot = await getDocs(myBooksQuery);
-
-        setMyBooks(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+        const snap = await getDocs(q);
+        setMyBooks(snap.docs.map(d => ({ id: d.id, ...d.data() })));
       } else {
         setMyBooks([]);
       }
     });
 
     return () => {
-      unsubscribeBooks();
-      unsubscribeRequests();
-      unsubscribeAuth();
+      unsubBooks();
+      unsubRequests();
+      unsubAuth();
     };
   }, []);
 
+  // ---------------- ADD BOOK ----------------
   const handleAddBook = async (e) => {
     e.preventDefault();
 
-    if (!name || !author) return alert('Book Name and Author are required.');
+    if (!name || !author) {
+      return alert('Book Name and Author required');
+    }
 
     await addDoc(collection(db, 'books'), {
       name,
@@ -97,146 +97,185 @@ export default function LibraryDashboard() {
     setQuantity(1);
   };
 
+  // ---------------- DELETE BOOK ----------------
   const handleDeleteBook = async (id) => {
-    if (confirm('Are you sure you want to delete this book?')) {
+    if (confirm('Delete book?')) {
       await deleteDoc(doc(db, 'books', id));
     }
   };
 
+  // ---------------- REQUEST BOOK (STUDENT) ----------------
   const handleRequestBook = async (book) => {
-    if (!user) {
-      router.push('/login');
+    if (!user) return router.push('/login');
+
+    if ((book.quantity ?? 0) <= 0) {
+      return alert('No books available');
+    }
+
+    const existing = await getDocs(
+      query(
+        collection(db, 'bookRequests'),
+        where('studentId', '==', user.uid),
+        where('bookId', '==', book.id),
+        where('status', '!=', 'Returned')
+      )
+    );
+
+    if (!existing.empty) {
+      alert('Already requested/issued this book');
       return;
     }
 
+    await addDoc(collection(db, 'bookRequests'), {
+      studentEmail: user.email,
+      studentId: user.uid,
+      bookId: book.id,
+      bookName: book.name,
+      author: book.author,
+      status: 'Pending',
+      requestDate: new Date()
+    });
+
+    alert(`Request sent for ${book.name}`);
+  };
+
+  // ---------------- APPROVE (ADMIN -> ISSUE BOOK) ----------------
+  const handleApproveRequest = async (request) => {
     try {
-      const requestQuery = query(
-        collection(db, 'bookRequests'),
-        where('studentId', '==', user.uid),
-        where('bookId', '==', book.id)
-      );
+      const bookRef = doc(db, 'books', request.bookId);
+      const bookSnap = await getDoc(bookRef);
 
-      const existing = await getDocs(requestQuery);
-
-      if (!existing.empty) {
-        alert('You already requested this book.');
-        return;
+      if (!bookSnap.exists()) {
+        return alert('Book not found');
       }
 
-      const currentQty = book.quantity ?? 0;
+      const bookData = bookSnap.data();
 
-      if (currentQty <= 0) {
-        alert(`There were ${currentQty} books. All are issued.`);
-        return;
+      if ((bookData.quantity ?? 0) <= 0) {
+        return alert('No stock available');
       }
 
-      await addDoc(collection(db, 'bookRequests'), {
-        studentEmail: user.email,
-        studentId: user.uid,
-        bookId: book.id,
-        bookName: book.name,
-        author: book.author,
-        status: 'Pending',
-        requestDate: new Date()
+      await updateDoc(doc(db, 'bookRequests', request.id), {
+        status: 'Issued'
       });
 
-      await updateDoc(doc(db, 'books', book.id), {
+      await updateDoc(bookRef, {
         quantity: increment(-1)
       });
 
-      alert(`Request sent for ${book.name}`);
-    } catch (error) {
-      console.error(error);
-      alert('Failed to request book');
-    }
-  };
-
-  const handleApproveRequest = async (requestId, days) => {
-    try {
-      const nextRenewalDate = new Date();
-      nextRenewalDate.setDate(nextRenewalDate.getDate() + Number(days));
-
-      await updateDoc(doc(db, 'bookRequests', requestId), {
-        status: 'Approved',
-        renewalDays: Number(days),
-        nextRenewalDate
-      });
-
-      alert('Book request approved');
-    } catch (error) {
-      console.error(error);
+      alert('Book issued successfully');
+    } catch (err) {
+      console.error(err);
       alert('Approval failed');
     }
   };
 
-  const handleBulkUpload = async (e) => {
-    e.preventDefault();
+  // ---------------- RETURN BOOK ----------------
+  const handleReturnBook = async (request) => {
+    try {
+      await updateDoc(doc(db, 'bookRequests', request.id), {
+        status: 'Returned',
+        returnDate: new Date()
+      });
 
-    if (!bulkFile) return alert('Please choose a CSV file first.');
+      await updateDoc(doc(db, 'books', request.bookId), {
+        quantity: increment(1)
+      });
 
-    setUploadStatus('Reading CSV file...');
-
-    const reader = new FileReader();
-
-    reader.onload = async (event) => {
-      try {
-        const text = event.target.result;
-        const rows = text.split(/\r?\n/);
-        const headers = rows[0].split(',').map((h) => h.trim().toLowerCase());
-
-        const nameIdx = headers.indexOf('name');
-        const authorIdx = headers.indexOf('author');
-        const langIdx = headers.indexOf('language');
-        const posIdx = headers.indexOf('position');
-        const qtyIdx = headers.indexOf('quantity');
-
-        const batch = writeBatch(db);
-        let count = 0;
-
-        for (let i = 1; i < rows.length; i++) {
-          if (!rows[i].trim()) continue;
-
-          const cols = rows[i].split(',');
-
-          const bookName = cols[nameIdx]?.trim();
-          const bookAuthor = cols[authorIdx]?.trim();
-          const bookLang = langIdx !== -1 ? cols[langIdx]?.trim() : 'English';
-          const bookPos = posIdx !== -1 ? cols[posIdx]?.trim() : 'Unassigned';
-          const bookQty = qtyIdx !== -1 ? Number(cols[qtyIdx]) : 1;
-
-          if (bookName && bookAuthor) {
-            const ref = doc(collection(db, 'books'));
-            batch.set(ref, {
-              name: bookName,
-              author: bookAuthor,
-              language: bookLang,
-              position: bookPos,
-              quantity: isNaN(bookQty) ? 1 : bookQty
-            });
-            count++;
-          }
-        }
-
-        await batch.commit();
-        setUploadStatus(`Successfully uploaded ${count} books`);
-        setBulkFile(null);
-        e.target.reset();
-      } catch (err) {
-        console.error(err);
-        setUploadStatus('Upload failed');
-        alert(`Upload Failed: ${err.message}`);
-      }
-    };
-
-    reader.readAsText(bulkFile);
+      alert('Book returned');
+    } catch (err) {
+      console.error(err);
+      alert('Return failed');
+    }
   };
 
+  // ---------------- UI ----------------
   return (
-    <div>
-      <h2 className="text-danger mb-4">Library Management System</h2>
+    <div className="p-4">
+      <h2>Library Management System</h2>
 
+      {/* BOOK LIST */}
+      <div className="card p-3 mt-3">
+        <h4>Books ({books.length})</h4>
+
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Author</th>
+              <th>Stock</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {books.map(book => (
+              <tr key={book.id}>
+                <td>{book.name}</td>
+                <td>{book.author}</td>
+                <td>{book.quantity}</td>
+                <td>
+                  {isAdmin ? (
+                    <button onClick={() => handleDeleteBook(book.id)}>
+                      Delete
+                    </button>
+                  ) : (
+                    <button onClick={() => handleRequestBook(book)}>
+                      Request
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ADMIN REQUEST PANEL */}
       {isAdmin && (
-        <div className="row" />
+        <div className="card p-3 mt-4">
+          <h4>Book Requests</h4>
+
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Book</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {requests.map(req => (
+                <tr key={req.id}>
+                  <td>{req.studentEmail}</td>
+                  <td>{req.bookName}</td>
+                  <td>{req.status}</td>
+                  <td>
+                    {req.status === 'Pending' ? (
+                      <button
+                        onClick={() => handleApproveRequest(req)}
+                        className="btn btn-success btn-sm"
+                      >
+                        Issue
+                      </button>
+                    ) : req.status === 'Issued' ? (
+                      <button
+                        onClick={() => handleReturnBook(req)}
+                        className="btn btn-warning btn-sm"
+                      >
+                        Return
+                      </button>
+                    ) : (
+                      <span>Returned</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
