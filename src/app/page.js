@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+
 import {
   collection,
   onSnapshot,
@@ -29,13 +30,17 @@ export default function LibraryDashboard() {
   const [position, setPosition] = useState('');
   const [quantity, setQuantity] = useState(1);
 
+  const [issueDays, setIssueDays] = useState({});
+
   // ---------------- LOAD DATA ----------------
   useEffect(() => {
     const unsubBooks = onSnapshot(collection(db, 'books'), (snap) => {
-      setBooks(snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data()
-      })));
+      setBooks(
+        snap.docs.map((d) => ({
+          id: d.id,
+          ...d.data()
+        }))
+      );
     });
 
     const unsubRequests = onSnapshot(
@@ -56,7 +61,8 @@ export default function LibraryDashboard() {
       const adminEmail = 'bvrvlibrary@gmail.com';
 
       setIsAdmin(
-        u?.email?.toLowerCase() === adminEmail.toLowerCase()
+        u?.email?.toLowerCase() ===
+          adminEmail.toLowerCase()
       );
     });
 
@@ -73,7 +79,9 @@ export default function LibraryDashboard() {
 
     try {
       if (!name || !author) {
-        return alert('Book name and author required');
+        return alert(
+          'Book name and author required'
+        );
       }
 
       await addDoc(collection(db, 'books'), {
@@ -100,7 +108,9 @@ export default function LibraryDashboard() {
   // ---------------- DELETE BOOK ----------------
   const handleDeleteBook = async (id) => {
     try {
-      const confirmDelete = confirm('Delete this book?');
+      const confirmDelete = confirm(
+        'Delete this book?'
+      );
 
       if (!confirmDelete) return;
 
@@ -124,7 +134,6 @@ export default function LibraryDashboard() {
         return alert('Book out of stock');
       }
 
-      // prevent duplicate active request
       const q = query(
         collection(db, 'bookRequests'),
         where('studentId', '==', user.uid),
@@ -143,7 +152,9 @@ export default function LibraryDashboard() {
       });
 
       if (alreadyExists) {
-        return alert('You already requested this book');
+        return alert(
+          'You already requested this book'
+        );
       }
 
       await addDoc(collection(db, 'bookRequests'), {
@@ -164,13 +175,20 @@ export default function LibraryDashboard() {
   };
 
   // ---------------- APPROVE REQUEST ----------------
-  const handleApproveRequest = async (request) => {
+  const handleApproveRequest = async (
+    request,
+    days
+  ) => {
     try {
       if (request.status !== 'Pending') {
-        return alert('Request already processed');
+        return alert('Already processed');
       }
 
-      const bookRef = doc(db, 'books', request.bookId);
+      const bookRef = doc(
+        db,
+        'books',
+        request.bookId
+      );
 
       const bookSnap = await getDoc(bookRef);
 
@@ -184,21 +202,29 @@ export default function LibraryDashboard() {
         return alert('No stock available');
       }
 
-      // update request
+      const issueDate = new Date();
+
+      const dueDate = new Date();
+
+      dueDate.setDate(
+        issueDate.getDate() + days
+      );
+
       await updateDoc(
         doc(db, 'bookRequests', request.id),
         {
           status: 'Issued',
-          issuedDate: new Date()
+          issueDate,
+          dueDate,
+          renewalCount: 0
         }
       );
 
-      // reduce quantity safely
       await updateDoc(bookRef, {
         quantity: increment(-1)
       });
 
-      alert('Book issued successfully');
+      alert(`Book issued for ${days} days`);
     } catch (err) {
       console.error(err);
       alert('Issue failed');
@@ -206,13 +232,16 @@ export default function LibraryDashboard() {
   };
 
   // ---------------- RETURN BOOK ----------------
-  const handleReturnBook = async (request) => {
+  const handleReturnBook = async (
+    request
+  ) => {
     try {
       if (request.status !== 'Issued') {
-        return alert('Book already returned');
+        return alert(
+          'Book already returned'
+        );
       }
 
-      // update request
       await updateDoc(
         doc(db, 'bookRequests', request.id),
         {
@@ -221,15 +250,50 @@ export default function LibraryDashboard() {
         }
       );
 
-      // increase quantity safely
-      await updateDoc(doc(db, 'books', request.bookId), {
-        quantity: increment(1)
-      });
+      await updateDoc(
+        doc(db, 'books', request.bookId),
+        {
+          quantity: increment(1)
+        }
+      );
 
       alert('Book returned successfully');
     } catch (err) {
       console.error(err);
       alert('Return failed');
+    }
+  };
+
+  // ---------------- RENEW BOOK ----------------
+  const handleRenewBook = async (
+    request
+  ) => {
+    try {
+      if (request.status !== 'Issued') {
+        return alert('Cannot renew');
+      }
+
+      const currentDueDate = new Date(
+        request.dueDate.seconds * 1000
+      );
+
+      currentDueDate.setDate(
+        currentDueDate.getDate() + 7
+      );
+
+      await updateDoc(
+        doc(db, 'bookRequests', request.id),
+        {
+          dueDate: currentDueDate,
+          renewalCount:
+            (request.renewalCount || 0) + 1
+        }
+      );
+
+      alert('Book renewed for 7 days');
+    } catch (err) {
+      console.error(err);
+      alert('Renew failed');
     }
   };
 
@@ -360,11 +424,13 @@ export default function LibraryDashboard() {
                         handleRequestBook(book)
                       }
                       className="btn btn-primary btn-sm"
-                      disabled={book.quantity <= 0}
+                      disabled={
+                        book.quantity <= 0
+                      }
                     >
                       {book.quantity <= 0
-                        ? 'Already Issued'
-                        : 'Click to Issue'}
+                        ? 'Out of Stock'
+                        : 'Request'}
                     </button>
                   )}
                 </td>
@@ -376,7 +442,7 @@ export default function LibraryDashboard() {
 
       {/* ADMIN REQUESTS */}
       {isAdmin && (
-        <div className="card p-3">
+        <div className="card p-3 mb-4">
           <h4>Book Requests</h4>
 
           <table className="table table-bordered">
@@ -385,6 +451,7 @@ export default function LibraryDashboard() {
                 <th>Student</th>
                 <th>Book</th>
                 <th>Status</th>
+                <th>Due Date</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -397,16 +464,57 @@ export default function LibraryDashboard() {
                   <td>{req.status}</td>
 
                   <td>
-                    {req.status === 'Pending' ? (
-                      <button
-                        onClick={() =>
-                          handleApproveRequest(req)
-                        }
-                        className="btn btn-success btn-sm"
-                      >
-                        Issue
-                      </button>
-                    ) : req.status === 'Issued' ? (
+                    {req.dueDate
+                      ? new Date(
+                          req.dueDate.seconds *
+                            1000
+                        ).toLocaleDateString()
+                      : '-'}
+                  </td>
+
+                  <td>
+                    {req.status ===
+                    'Pending' ? (
+                      <div className="d-flex gap-2">
+                        <input
+                          type="number"
+                          min="1"
+                          placeholder="Days"
+                          className="form-control form-control-sm"
+                          style={{
+                            width: '80px'
+                          }}
+                          value={
+                            issueDays[req.id] ||
+                            ''
+                          }
+                          onChange={(e) =>
+                            setIssueDays({
+                              ...issueDays,
+                              [req.id]:
+                                e.target.value
+                            })
+                          }
+                        />
+
+                        <button
+                          onClick={() =>
+                            handleApproveRequest(
+                              req,
+                              Number(
+                                issueDays[
+                                  req.id
+                                ] || 15
+                              )
+                            )
+                          }
+                          className="btn btn-success btn-sm"
+                        >
+                          Issue
+                        </button>
+                      </div>
+                    ) : req.status ===
+                      'Issued' ? (
                       <button
                         onClick={() =>
                           handleReturnBook(req)
@@ -423,6 +531,84 @@ export default function LibraryDashboard() {
                   </td>
                 </tr>
               ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* STUDENT MY BOOKS */}
+      {!isAdmin && user && (
+        <div className="card p-3">
+          <h4>My Books</h4>
+
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>Book</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Renew Count</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {requests
+                .filter(
+                  (r) =>
+                    r.studentId === user.uid
+                )
+                .map((req) => (
+                  <tr key={req.id}>
+                    <td>{req.bookName}</td>
+
+                    <td>{req.status}</td>
+
+                    <td>
+                      {req.dueDate
+                        ? new Date(
+                            req.dueDate
+                              .seconds * 1000
+                          ).toLocaleDateString()
+                        : '-'}
+                    </td>
+
+                    <td>
+                      {req.renewalCount || 0}
+                    </td>
+
+                    <td>
+                      {req.status ===
+                      'Issued' ? (
+                        <div className="d-flex gap-2">
+                          <button
+                            className="btn btn-primary btn-sm"
+                            onClick={() =>
+                              handleRenewBook(
+                                req
+                              )
+                            }
+                          >
+                            Renew
+                          </button>
+
+                          <button
+                            className="btn btn-warning btn-sm"
+                            onClick={() =>
+                              handleReturnBook(
+                                req
+                              )
+                            }
+                          >
+                            Return
+                          </button>
+                        </div>
+                      ) : (
+                        req.status
+                      )}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
