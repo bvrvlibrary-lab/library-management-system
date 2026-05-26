@@ -1,11 +1,18 @@
 'use client';
 
 import Link from 'next/link';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
 
 export default function Navbar({
   isAdmin,
   user
 }) {
+  const handleLogout = async () => {
+  await signOut(auth);
+
+  window.location.href = '/login';
+};
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
       <div className="container-fluid">
@@ -62,6 +69,16 @@ export default function Navbar({
             )}
 
             {isAdmin && (
+              {user && (
+  <li className="nav-item">
+    <button
+      onClick={handleLogout}
+      className="btn btn-danger btn-sm ms-3"
+    >
+      Logout
+    </button>
+  </li>
+)}
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
