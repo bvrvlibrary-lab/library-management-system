@@ -52,14 +52,16 @@ export default function LibraryDashboard() {
         setUser(currentUser);
 
         // ADMIN EMAIL
-        if (
-          currentUser?.email ===
-          'bvrvlibrary@gmail.com'
-        ) {
-          setIsAdmin(true);
-        } else {
-          setIsAdmin(false);
-        }
+       const adminEmail = 'bvrvlibrary@gmail.com';
+
+if (
+  currentUser?.email?.toLowerCase() ===
+  adminEmail.toLowerCase()
+) {
+  setIsAdmin(true);
+} else {
+  setIsAdmin(false);
+}
       }
     );
 
@@ -304,7 +306,13 @@ export default function LibraryDashboard() {
       <h2 className="text-danger mb-4">
         Library Management System
       </h2>
+<p>
+  Logged in as: {user?.email || 'No user'}
+</p>
 
+<p>
+  Admin Status: {isAdmin ? 'YES' : 'NO'}
+</p>
       {/* ADMIN ONLY */}
       {isAdmin && (
         <div className="row">
