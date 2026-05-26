@@ -131,6 +131,22 @@ export default function LibraryDashboard() {
   const handleRequestBook = async (book) => {
     try {
       if (!user) {
+    const userQuery = query(
+  collection(db, 'users'),
+  where('email', '==', user.email)
+);
+
+const userSnap = await getDocs(userQuery);
+
+let studentName = '';
+let mobileNumber = '';
+
+if (!userSnap.empty) {
+  const userData = userSnap.docs[0].data();
+
+  studentName = userData.name || '';
+  mobileNumber = userData.mobile || '';
+}
         return alert('Please login first');
       }
 
@@ -164,22 +180,29 @@ export default function LibraryDashboard() {
       await addDoc(collection(db, 'bookRequests'), {
         studentEmail: user.email,
         studentId: user.uid,
+        studentName,
+mobileNumber,
         bookId: book.id,
-        bookName: book.name,
+        bookName: book.name,  
         author: book.author,
         status: 'Pending',
         requestDate: new Date()
+        
       });
 await sendAdminEmail({
   to_email: 'bvrvlibrary@gmail.com',
   subject: 'New Book Request',
-  message: `
+message: `
 A new book request was submitted.
 
 Book: ${book.name}
 
+Student Name: ${studentName}
+
+Mobile Number: ${mobileNumber}
+
 Student Email: ${user.email}
-  `,
+`,
 });
       alert('Book request submitted');
     } catch (err) {
