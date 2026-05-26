@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
+import { sendAdminEmail } from '../../lib/sendEmail';
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState('');
@@ -41,7 +42,27 @@ export default function SignupPage() {
         approved: false,
         createdAt: new Date()
       });
+await sendAdminEmail({
+  to_email: 'bvrvlibrary@gmail.com',
+  subject: 'New Student Registration',
+  message: `
+A new student registered and is waiting for approval.
 
+Full Name: ${fullName}
+
+Initiated Name: ${initiatedName}
+
+Mobile: ${mobile}
+
+Email: ${email}
+
+Counselor Name: ${counselorName}
+
+Counselor Mobile: ${counselorMobile}
+
+Temple: ${temple}
+  `,
+});
       setMessage(
         'Registration submitted. Waiting for admin approval.'
       );
