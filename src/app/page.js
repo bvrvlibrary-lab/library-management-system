@@ -612,69 +612,71 @@ if (
               )
             )}
           </tbody>
-        </table>
+       </table>
       </div>
+
+      {/* ADMIN BOOK REQUESTS */}
+      {isAdmin && (
+        <div className="card p-4 shadow-sm mt-4">
+          <h4 className="mb-3">
+            Student Book Requests
+          </h4>
+
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {requests.map((request) => (
+                <tr key={request.id}>
+                  <td>
+                    {request.studentEmail}
+                  </td>
+
+                  <td>
+                    {request.bookName}
+                  </td>
+
+                  <td>
+                    {request.author}
+                  </td>
+
+                  <td>
+                    {request.status}
+                  </td>
+
+                  <td>
+                    {request.status ===
+                    'Pending' ? (
+                      <button
+                        onClick={() =>
+                          handleApproveRequest(
+                            request.id
+                          )
+                        }
+                        className="btn btn-success btn-sm"
+                      >
+                        Approve
+                      </button>
+                    ) : (
+                      <span>
+                        Approved
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
-{isAdmin && (
-  <div className="card p-4 shadow-sm mt-4">
-    <h4 className="mb-3">
-      Student Book Requests
-    </h4>
-
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>Student</th>
-          <th>Book</th>
-          <th>Author</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {requests.map((request) => (
-          <tr key={request.id}>
-            <td>
-              {request.studentEmail}
-            </td>
-
-            <td>
-              {request.bookName}
-            </td>
-
-            <td>
-              {request.author}
-            </td>
-
-            <td>
-              {request.status}
-            </td>
-
-            <td>
-              {request.status ===
-              'Pending' ? (
-                <button
-                  onClick={() =>
-                    handleApproveRequest(
-                      request.id
-                    )
-                  }
-                  className="btn btn-success btn-sm"
-                >
-                  Approve
-                </button>
-              ) : (
-                <span>
-                  Approved
-                </span>
-              )}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-)}
