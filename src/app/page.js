@@ -108,15 +108,29 @@ if (
   };
 
   // Student Request Book
-  const handleRequestBook = async (book) => {
-    if (!user) {
-      router.push('/signin');
-      return;
-    }
+ const handleRequestBook = async (book) => {
+  if (!user) {
+    router.push('/login');
+    return;
+  }
 
-    alert(
-      `Book Requested: ${book.name}`
-    );
+  try {
+    await addDoc(collection(db, 'bookRequests'), {
+      studentEmail: user.email,
+      studentId: user.uid,
+      bookId: book.id,
+      bookName: book.name,
+      author: book.author,
+      status: 'Pending',
+      requestDate: new Date()
+    });
+
+    alert(`Request sent for ${book.name}`);
+  } catch (error) {
+    console.error(error);
+    alert('Failed to request book');
+  }
+};
   };
 
   // Bulk Upload CSV
