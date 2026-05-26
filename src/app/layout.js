@@ -7,15 +7,26 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* We use Bootstrap CSS for clean styling without writing heavy custom styles */}
-        <link 
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-          rel="stylesheet" 
+
+        {/* Bootstrap CSS */}
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
         />
+
       </head>
+
       <body style={{ backgroundColor: '#f8f9fa' }}>
-      
-        <main className="container">{children}</main>
+
+        <main className="container-fluid p-0">
+          {children}
+        </main>
+
+        {/* Bootstrap JS */}
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        ></script>
+
       </body>
     </html>
   );
