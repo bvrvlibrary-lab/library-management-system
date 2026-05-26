@@ -364,7 +364,7 @@ export default function LibraryDashboard() {
                     >
                       {book.quantity <= 0
                         ? 'Already Issued'
-                        : 'Request'}
+                        : 'Click to Issue'}
                     </button>
                   )}
                 </td>
