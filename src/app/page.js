@@ -376,13 +376,7 @@ const handleRequestBook = async (book) => {
       <h2 className="text-danger mb-4">
         Library Management System
       </h2>
-<p>
-  Logged in as: {user?.email || 'No user'}
-</p>
 
-<p>
-  Admin Status: {isAdmin ? 'YES' : 'NO'}
-</p>
       {/* ADMIN ONLY */}
       {isAdmin && (
         <div className="row">
