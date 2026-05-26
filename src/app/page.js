@@ -290,7 +290,7 @@ export default function LibraryDashboard() {
         }
       );
 
-      alert('Book renewed for 7 days');
+      alert('Book renewed for 15 more days');
     } catch (err) {
       console.error(err);
       alert('Renew failed');
