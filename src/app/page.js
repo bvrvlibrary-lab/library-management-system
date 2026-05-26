@@ -516,8 +516,7 @@ Welcome to the library system.
   <h4>Pending Student Approvals</h4>
  <div className="table-responsive">
   <table className="table table-hover align-middle">
-        </table>
-        </div>
+       
     <thead>
       <tr>
         <th>Name</th>
@@ -552,6 +551,7 @@ Welcome to the library system.
         ))}
     </tbody>
   </table>
+      </div>
 </div>
       {/* BOOK LIST */}
       <div className="card p-3 mb-4">
@@ -561,8 +561,7 @@ Welcome to the library system.
 
  <div className="table-responsive">
   <table className="table table-hover align-middle">
-        </table>
-        </div>
+       
           <thead>
             <tr>
               <th>Name</th>
@@ -613,7 +612,8 @@ Welcome to the library system.
             ))}
           </tbody>
         </table>
-      </div>
+      </div> 
+</div>
 
       {/* ADMIN REQUESTS */}
       {isAdmin && (
@@ -622,8 +622,7 @@ Welcome to the library system.
 
  <div className="table-responsive">
   <table className="table table-hover align-middle">
-        </table>
-        </div>
+     
             <thead>
               <tr>
                 <th>Student</th>
@@ -744,6 +743,7 @@ Welcome to the library system.
             </tbody>
           </table>
         </div>
+</div>
       )}
 
       {/* STUDENT MY BOOKS */}
@@ -754,8 +754,7 @@ Welcome to the library system.
     
  <div className="table-responsive">
   <table className="table table-hover align-middle">
-        </table>
-        </div>
+        
             <thead>
               <tr>
                 <th>Book</th>
@@ -829,6 +828,7 @@ Welcome to the library system.
             </tbody>
           </table>
         </div>
+</div>
       )}
     </div>
 </>
