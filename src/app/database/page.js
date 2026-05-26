@@ -6,7 +6,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 export default function PhysicalBooks() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState('');
-
+const [students, setStudents] = useState([]);
   useEffect(() => {
     // This looks at your live database books collection
     const unsubscribe = onSnapshot(collection(db, 'books'), (snapshot) => {
