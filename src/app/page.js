@@ -384,36 +384,7 @@ Welcome to the library system.
     alert('Approval failed');
   }
 };
-      const handleApproveStudent = async (
-  student
-) => {
-  try {
-    await updateDoc(
-      doc(db, 'users', student.id),
-      {
-        approved: true
-      }
-    );
-
-    await sendStudentEmail({
-      to_email: student.email,
-      subject: 'Library Account Approved',
-      message: `
-Your library account has been approved.
-
-You can now login and request books.
-
-Welcome to the library system.
-      `,
-    });
-
-    alert('Student approved successfully');
-  } catch (err) {
-    console.error(err);
-    alert('Approval failed');
-  }
-};
-      const currentDueDate = new Date(
+           const currentDueDate = new Date(
         request.dueDate.seconds * 1000
       );
 
