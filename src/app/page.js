@@ -513,7 +513,7 @@ export default function LibraryDashboard() {
                           Issue
                         </button>
                       </div>
-                    ) : ) : req.status === 'Issued' ? (
+                     ) : req.status === 'Issued' ? (
   <div className="d-flex gap-2">
     <button
       onClick={() =>
