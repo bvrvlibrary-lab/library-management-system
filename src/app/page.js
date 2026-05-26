@@ -363,7 +363,7 @@ export default function LibraryDashboard() {
                       disabled={book.quantity <= 0}
                     >
                       {book.quantity <= 0
-                        ? 'Out of Stock'
+                        ? 'Already Issued'
                         : 'Request'}
                     </button>
                   )}
