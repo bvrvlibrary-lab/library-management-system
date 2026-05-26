@@ -461,7 +461,20 @@ export default function LibraryDashboard() {
                 <tr key={req.id}>
                   <td>{req.studentEmail}</td>
                   <td>{req.bookName}</td>
-                  <td>{req.status}</td>
+                <td>
+  {req.status === 'Issued' &&
+  req.dueDate &&
+  new Date() >
+    new Date(
+      req.dueDate.seconds * 1000
+    ) ? (
+    <span className="text-danger fw-bold">
+      OVERDUE
+    </span>
+  ) : (
+    req.status
+  )}
+</td>
 
                   <td>
                     {req.dueDate
@@ -571,8 +584,20 @@ export default function LibraryDashboard() {
                 .map((req) => (
                   <tr key={req.id}>
                     <td>{req.bookName}</td>
-
-                    <td>{req.status}</td>
+<td>
+  {req.status === 'Issued' &&
+  req.dueDate &&
+  new Date() >
+    new Date(
+      req.dueDate.seconds * 1000
+    ) ? (
+    <span className="text-danger fw-bold">
+      OVERDUE
+    </span>
+  ) : (
+    req.status
+  )}
+</td>
 
                     <td>
                       {req.dueDate
