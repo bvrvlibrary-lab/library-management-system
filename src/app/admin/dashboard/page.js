@@ -192,31 +192,30 @@ You can now login and request books.
       </tr>
     </thead>
 
-    <tbody>
-      {students
-        .filter(student => !student.approved)
-        .map(student => (
-          <tr key={student.id}>
-            <td>{student.fullName}</td>
-            <td>{student.email}</td>
-            <td>{student.mobile}</td>
-            <td>{student.temple}</td>
+  <tbody>
+  {students
+    .filter(student => !student.approved)
+    .map(student => (
+      <tr key={student.id}>
+        <td>{student.fullName}</td>
+        <td>{student.email}</td>
+        <td>{student.mobile}</td>
+        <td>{student.temple}</td>
 
-            <td>
-              <button
-                onClick={() =>
-                  handleApproveStudent(student)
-                }
-                className="btn btn-success btn-sm"
-              >
-                Approve
-              </button>
-            </td>
-          </tr>
-        ))}
-    </tbody>
+        <td>
+          <button
+            onClick={() =>
+              handleApproveStudent(student)
+            }
+            className="btn btn-success btn-sm"
+          >
+            Approve
+          </button>
+        </td>
+      </tr>
+    ))}
+</tbody>
   </table>
-</div>
 </div>
   );
 }
