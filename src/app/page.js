@@ -12,7 +12,10 @@ import {
   deleteDoc,
   doc,
   writeBatch,
-  updateDoc
+  updateDoc,
+  query,
+  where,
+  getDocs
 } from 'firebase/firestore';
 
 export default function LibraryDashboard() {
@@ -122,27 +125,52 @@ if (
   };
 
   // Student Request Book
- const handleRequestBook = async (book) => {
+const handleRequestBook = async (book) => {
   if (!user) {
     router.push('/login');
     return;
   }
 
   try {
-    await addDoc(collection(db, 'bookRequests'), {
-      studentEmail: user.email,
-      studentId: user.uid,
-      bookId: book.id,
-      bookName: book.name,
-      author: book.author,
-      status: 'Pending',
-      requestDate: new Date()
-    });
+    // Check if already requested
+    const requestQuery = query(
+      collection(db, 'bookRequests'),
+      where('studentId', '==', user.uid),
+      where('bookId', '==', book.id)
+    );
 
-    alert(`Request sent for ${book.name}`);
+    const existingRequest =
+      await getDocs(requestQuery);
+
+    if (!existingRequest.empty) {
+      alert(
+        'You already requested this book.'
+      );
+      return;
+    }
+
+    // Add new request
+    await addDoc(
+      collection(db, 'bookRequests'),
+      {
+        studentEmail: user.email,
+        studentId: user.uid,
+        bookId: book.id,
+        bookName: book.name,
+        author: book.author,
+        status: 'Pending',
+        requestDate: new Date()
+      }
+    );
+
+    alert(
+      `Request sent for ${book.name}`
+    );
   } catch (error) {
     console.error(error);
-    alert('Failed to request book');
+    alert(
+      'Failed to request book'
+    );
   }
 };
   const handleApproveRequest = async (requestId) => {
