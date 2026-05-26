@@ -22,6 +22,7 @@ export default function LibraryDashboard() {
   const [books, setBooks] = useState([]);
   const [requests, setRequests] = useState([]);
   const [myBooks, setMyBooks] = useState([]);
+  const [renewDays, setRenewDays] =  useState({});
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -198,22 +199,41 @@ const handleRequestBook = async (book) => {
     );
   }
 };
-  const handleApproveRequest = async (requestId) => {
+  const handleApproveRequest = async (
+  requestId,
+  days
+) => {
   try {
+    const nextRenewalDate =
+      new Date();
+
+    nextRenewalDate.setDate(
+      nextRenewalDate.getDate() +
+        Number(days)
+    );
+
     await updateDoc(
-      doc(db, 'bookRequests', requestId),
+      doc(
+        db,
+        'bookRequests',
+        requestId
+      ),
       {
-        status: 'Approved'
+        status: 'Approved',
+        renewalDays:
+          Number(days),
+        nextRenewalDate
       }
     );
 
-    alert('Book request approved');
+    alert(
+      'Book request approved'
+    );
   } catch (error) {
     console.error(error);
     alert('Approval failed');
   }
 };
-
   // Bulk Upload CSV
   const handleBulkUpload = async (e) => {
     e.preventDefault();
@@ -742,19 +762,46 @@ const handleRequestBook = async (book) => {
                   </td>
 
                   <td>
-                    {request.status ===
-                    'Pending' ? (
-                      <button
-                        onClick={() =>
-                          handleApproveRequest(
-                            request.id
-                          )
-                        }
-                        className="btn btn-success btn-sm"
-                      >
-                        Approve
-                      </button>
-                    ) : (
+                  {request.status ===
+'Pending' ? (
+  <div>
+    <input
+      type="number"
+      placeholder="15"
+      className="form-control mb-2"
+      value={
+        renewDays[
+          request.id
+        ] || ''
+      }
+      onChange={(e) =>
+        setRenewDays({
+          ...renewDays,
+          [request.id]:
+            e.target.value
+        })
+      }
+    />
+
+    <button
+      onClick={() =>
+        handleApproveRequest(
+          request.id,
+          renewDays[
+            request.id
+          ] || 15
+        )
+      }
+      className="btn btn-success btn-sm"
+    >
+      Approve
+    </button>
+  </div>
+) : (
+  <span>
+    Approved
+  </span>
+)} : (
                       <span>
                         Approved
                       </span>
