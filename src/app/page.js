@@ -63,7 +63,7 @@ export default function LibraryDashboard() {
   }
 );
 
-   const unsubscribeAuth =
+  const unsubscribeAuth =
   onAuthStateChanged(
     auth,
     async (currentUser) => {
@@ -81,13 +81,10 @@ export default function LibraryDashboard() {
         setIsAdmin(false);
       }
 
-      // Load student approved books
+      // Load student books
       if (currentUser) {
         const myBooksQuery = query(
-          collection(
-            db,
-            'bookRequests'
-          ),
+          collection(db, 'bookRequests'),
           where(
             'studentId',
             '==',
@@ -96,22 +93,26 @@ export default function LibraryDashboard() {
         );
 
         const snapshot =
-          await getDocs(
-            myBooksQuery
-          );
+          await getDocs(myBooksQuery);
 
         setMyBooks(
-          snapshot.docs.map(
-            (doc) => ({
-              id: doc.id,
-              ...doc.data()
-            })
-          )
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+          }))
         );
+      } else {
+        setMyBooks([]);
       }
     }
   );
 
+return () => {
+  unsubscribeBooks();
+  unsubscribeRequests();
+  unsubscribeAuth();
+};
+}, []);
   // Add Book
   const handleAddBook = async (e) => {
     e.preventDefault();
