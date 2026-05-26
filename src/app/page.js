@@ -355,35 +355,7 @@ Thank you for using the library.
       if (request.status !== 'Issued') {
         return alert('Cannot renew');
       }
-const handleApproveStudent = async (
-  student
-) => {
-  try {
-    await updateDoc(
-      doc(db, 'users', student.id),
-      {
-        approved: true
-      }
-    );
 
-    await sendStudentEmail({
-      to_email: student.email,
-      subject: 'Library Account Approved',
-      message: `
-Your library account has been approved.
-
-You can now login and request books.
-
-Welcome to the library system.
-      `,
-    });
-
-    alert('Student approved successfully');
-  } catch (err) {
-    console.error(err);
-    alert('Approval failed');
-  }
-};
            const currentDueDate = new Date(
         request.dueDate.seconds * 1000
       );
@@ -418,7 +390,35 @@ ${currentDueDate.toLocaleDateString()}
       alert('Renew failed');
     }
   };
+const handleApproveStudent = async (
+  student
+) => {
+  try {
+    await updateDoc(
+      doc(db, 'users', student.id),
+      {
+        approved: true
+      }
+    );
 
+    await sendStudentEmail({
+      to_email: student.email,
+      subject: 'Library Account Approved',
+      message: `
+Your library account has been approved.
+
+You can now login and request books.
+
+Welcome to the library system.
+      `,
+    });
+
+    alert('Student approved successfully');
+  } catch (err) {
+    console.error(err);
+    alert('Approval failed');
+  }
+};
   return (
     <div className="container mt-4">
       <h2 className="mb-4">
