@@ -170,7 +170,17 @@ export default function LibraryDashboard() {
         status: 'Pending',
         requestDate: new Date()
       });
+await sendAdminEmail({
+  to_email: 'bvrvlibrary@gmail.com',
+  subject: 'New Book Request',
+  message: `
+A new book request was submitted.
 
+Book: ${book.name}
+
+Student Email: ${user.email}
+  `,
+});
       alert('Book request submitted');
     } catch (err) {
       console.error(err);
@@ -227,7 +237,20 @@ export default function LibraryDashboard() {
       await updateDoc(bookRef, {
         quantity: increment(-1)
       });
+await sendStudentEmail({
+  to_email: request.studentEmail,
+  subject: 'Book Issued Successfully',
+  message: `
+Your requested book has been issued.
 
+Book: ${request.bookName}
+
+Issue Days: ${days}
+
+Due Date:
+${dueDate.toLocaleDateString()}
+  `,
+});
       alert(`Book issued for ${days} days`);
     } catch (err) {
       console.error(err);
@@ -260,7 +283,17 @@ export default function LibraryDashboard() {
           quantity: increment(1)
         }
       );
+await sendStudentEmail({
+  to_email: request.studentEmail,
+  subject: 'Book Returned',
+  message: `
+Your returned book has been received.
 
+Book: ${request.bookName}
+
+Thank you for using the library.
+  `,
+});
       alert('Book returned successfully');
     } catch (err) {
       console.error(err);
@@ -293,7 +326,18 @@ export default function LibraryDashboard() {
             (request.renewalCount || 0) + 1
         }
       );
+await sendStudentEmail({
+  to_email: request.studentEmail,
+  subject: 'Book Renewed',
+  message: `
+Your book renewal was approved.
 
+Book: ${request.bookName}
+
+New Due Date:
+${currentDueDate.toLocaleDateString()}
+  `,
+});
       alert('Book renewed for 15 more days');
     } catch (err) {
       console.error(err);
