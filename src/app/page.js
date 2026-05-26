@@ -434,7 +434,7 @@ Welcome to the library system.
 
       {/* ADMIN ADD BOOK */}
       {isAdmin && (
-        <div className="card p-3 mb-4">
+        <div className="card border-0 shadow-sm p-4 mb-4">
           <h4>Add Book</h4>
 
           <form onSubmit={handleAddBook}>
@@ -514,8 +514,10 @@ Welcome to the library system.
 
   <div className="card p-3 mb-4">
   <h4>Pending Student Approvals</h4>
-
-  <table className="table table-bordered">
+ <div className="table-responsive">
+  <table className="table table-hover align-middle">
+        </table>
+        </div>
     <thead>
       <tr>
         <th>Name</th>
@@ -553,9 +555,14 @@ Welcome to the library system.
 </div>
       {/* BOOK LIST */}
       <div className="card p-3 mb-4">
-        <h4>Books ({books.length})</h4>
+      <h4 className="fw-bold mb-4">
+  Books ({books.length})
+</h4>
 
-        <table className="table table-bordered">
+ <div className="table-responsive">
+  <table className="table table-hover align-middle">
+        </table>
+        </div>
           <thead>
             <tr>
               <th>Name</th>
@@ -613,7 +620,10 @@ Welcome to the library system.
         <div className="card p-3 mb-4">
           <h4>Book Requests</h4>
 
-          <table className="table table-bordered">
+ <div className="table-responsive">
+  <table className="table table-hover align-middle">
+        </table>
+        </div>
             <thead>
               <tr>
                 <th>Student</th>
@@ -629,21 +639,30 @@ Welcome to the library system.
                 <tr key={req.id}>
                   <td>{req.studentEmail}</td>
                   <td>{req.bookName}</td>
-                <td>
+              <td>
   {req.status === 'Issued' &&
   req.dueDate &&
   new Date() >
     new Date(
       req.dueDate.seconds * 1000
     ) ? (
-    <span className="text-danger fw-bold">
+    <span className="badge bg-danger">
       OVERDUE
     </span>
+  ) : req.status === 'Pending' ? (
+    <span className="badge bg-warning text-dark">
+      Pending
+    </span>
+  ) : req.status === 'Issued' ? (
+    <span className="badge bg-success">
+      Issued
+    </span>
   ) : (
-    req.status
+    <span className="badge bg-secondary">
+      Returned
+    </span>
   )}
 </td>
-
                   <td>
                     {req.dueDate
                       ? new Date(
@@ -732,7 +751,11 @@ Welcome to the library system.
         <div className="card p-3">
           <h4>My Books</h4>
 
-          <table className="table table-bordered">
+    
+ <div className="table-responsive">
+  <table className="table table-hover align-middle">
+        </table>
+        </div>
             <thead>
               <tr>
                 <th>Book</th>
@@ -759,29 +782,47 @@ Welcome to the library system.
     new Date(
       req.dueDate.seconds * 1000
     ) ? (
-    <span className="text-danger fw-bold">
+    <span className="badge bg-danger">
       OVERDUE
     </span>
+  ) : req.status === 'Pending' ? (
+    <span className="badge bg-warning text-dark">
+      Pending
+    </span>
+  ) : req.status === 'Issued' ? (
+    <span className="badge bg-success">
+      Issued
+    </span>
   ) : (
-    req.status
+    <span className="badge bg-secondary">
+      Returned
+    </span>
   )}
 </td>
 
-                    <td>
-                      {req.dueDate
-                        ? new Date(
-                            req.dueDate
-                              .seconds * 1000
-                          ).toLocaleDateString()
-                        : '-'}
-                    </td>
-
-                    <td>
-                      {req.renewalCount || 0}
-                    </td>
-
                    <td>
-  {req.status}
+  {req.status === 'Issued' &&
+  req.dueDate &&
+  new Date() >
+    new Date(
+      req.dueDate.seconds * 1000
+    ) ? (
+    <span className="badge bg-danger">
+      OVERDUE
+    </span>
+  ) : req.status === 'Pending' ? (
+    <span className="badge bg-warning text-dark">
+      Pending
+    </span>
+  ) : req.status === 'Issued' ? (
+    <span className="badge bg-success">
+      Issued
+    </span>
+  ) : (
+    <span className="badge bg-secondary">
+      Returned
+    </span>
+  )}
 </td>
                   </tr>
                 ))}
