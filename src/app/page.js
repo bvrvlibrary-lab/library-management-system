@@ -105,39 +105,54 @@ export default function LibraryDashboard() {
   };
 
   // ---------------- REQUEST BOOK (STUDENT) ----------------
-  const handleRequestBook = async (book) => {
-    if (!user) return router.push('/login');
+ const handleRequestBook = async (book) => {
+  if (!user) {
+    router.push('/login');
+    return;
+  }
 
-    if ((book.quantity ?? 0) <= 0) {
-      return alert('No books available');
-    }
-
+  try {
+    // prevent multiple issue
     const existing = await getDocs(
       query(
         collection(db, 'bookRequests'),
         where('studentId', '==', user.uid),
         where('bookId', '==', book.id),
-        where('status', '!=', 'Returned')
+        where('status', '==', 'Issued')
       )
     );
 
     if (!existing.empty) {
-      alert('Already requested/issued this book');
+      alert('You already have this book issued.');
       return;
     }
 
+    if ((book.quantity ?? 0) <= 0) {
+      alert('No books available');
+      return;
+    }
+
+    // ISSUE BOOK DIRECTLY
     await addDoc(collection(db, 'bookRequests'), {
       studentEmail: user.email,
       studentId: user.uid,
       bookId: book.id,
       bookName: book.name,
       author: book.author,
-      status: 'Pending',
+      status: 'Issued',
       requestDate: new Date()
     });
 
-    alert(`Request sent for ${book.name}`);
-  };
+    await updateDoc(doc(db, 'books', book.id), {
+      quantity: increment(-1)
+    });
+
+    alert(`Book issued: ${book.name}`);
+  } catch (err) {
+    console.error(err);
+    alert('Request failed');
+  }
+};
 
   // ---------------- APPROVE (ADMIN -> ISSUE BOOK) ----------------
   const handleApproveRequest = async (request) => {
@@ -171,23 +186,22 @@ export default function LibraryDashboard() {
   };
 
   // ---------------- RETURN BOOK ----------------
-  const handleReturnBook = async (request) => {
-    try {
-      await updateDoc(doc(db, 'bookRequests', request.id), {
-        status: 'Returned',
-        returnDate: new Date()
-      });
+const handleReturnBook = async (request) => {
+  try {
+    await updateDoc(doc(db, 'bookRequests', request.id), {
+      status: 'Returned',
+      returnDate: new Date()
+    });
 
-      await updateDoc(doc(db, 'books', request.bookId), {
-        quantity: increment(1)
-      });
+    await updateDoc(doc(db, 'books', request.bookId), {
+      quantity: increment(1)
+    });
 
-      alert('Book returned');
-    } catch (err) {
-      console.error(err);
-      alert('Return failed');
-    }
-  };
+    alert('Book returned successfully');
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   // ---------------- UI ----------------
   return (
