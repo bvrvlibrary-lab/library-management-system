@@ -513,17 +513,27 @@ export default function LibraryDashboard() {
                           Issue
                         </button>
                       </div>
-                    ) : req.status ===
-                      'Issued' ? (
-                      <button
-                        onClick={() =>
-                          handleReturnBook(req)
-                        }
-                        className="btn btn-warning btn-sm"
-                      >
-                        Return
-                      </button>
-                    ) : (
+                    ) : ) : req.status === 'Issued' ? (
+  <div className="d-flex gap-2">
+    <button
+      onClick={() =>
+        handleRenewBook(req)
+      }
+      className="btn btn-primary btn-sm"
+    >
+      Renew
+    </button>
+
+    <button
+      onClick={() =>
+        handleReturnBook(req)
+      }
+      className="btn btn-warning btn-sm"
+    >
+      Return
+    </button>
+  </div>
+): (
                       <span className="text-success">
                         Returned
                       </span>
@@ -577,36 +587,9 @@ export default function LibraryDashboard() {
                       {req.renewalCount || 0}
                     </td>
 
-                    <td>
-                      {req.status ===
-                      'Issued' ? (
-                        <div className="d-flex gap-2">
-                          <button
-                            className="btn btn-primary btn-sm"
-                            onClick={() =>
-                              handleRenewBook(
-                                req
-                              )
-                            }
-                          >
-                            Renew
-                          </button>
-
-                          <button
-                            className="btn btn-warning btn-sm"
-                            onClick={() =>
-                              handleReturnBook(
-                                req
-                              )
-                            }
-                          >
-                            Return
-                          </button>
-                        </div>
-                      ) : (
-                        req.status
-                      )}
-                    </td>
+                   <td>
+  {req.status}
+</td>
                   </tr>
                 ))}
             </tbody>
