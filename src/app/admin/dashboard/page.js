@@ -175,7 +175,7 @@ You can now login and request books.
           </tbody>
         </table>
       </div>
-    </div>
+ 
 <div className="card p-4 mt-4 shadow-sm">
   <h4 className="mb-3 text-warning">
     Pending Student Approvals
