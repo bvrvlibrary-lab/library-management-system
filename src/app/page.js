@@ -1,5 +1,5 @@
 'use client';
-
+import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -420,6 +420,13 @@ Welcome to the library system.
   }
 };
   return (
+  <>
+    <Navbar
+      isAdmin={isAdmin}
+      user={user}
+    />
+
+    <div className="container mt-4">
     <div className="container mt-4">
       <h2 className="mb-4">
         Library Management System
@@ -783,5 +790,6 @@ Welcome to the library system.
         </div>
       )}
     </div>
+</>
   );
 }
