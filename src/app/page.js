@@ -153,7 +153,19 @@ if (!userSnap.empty) {
       if ((book.quantity ?? 0) <= 0) {
         return alert('Book out of stock');
       }
+const userRef = doc(db, 'users', user.uid);
 
+const userSnap = await getDoc(userRef);
+
+let studentName = '';
+let mobileNumber = '';
+
+if (userSnap.exists()) {
+  const userData = userSnap.data();
+
+  studentName = userData.fullName || '';
+  mobileNumber = userData.mobile || '';
+}
       const q = query(
         collection(db, 'bookRequests'),
         where('studentId', '==', user.uid),
