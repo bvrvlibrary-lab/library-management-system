@@ -131,7 +131,6 @@ if (
     alert('Failed to request book');
   }
 };
-  };
 
   // Bulk Upload CSV
   const handleBulkUpload = async (e) => {
