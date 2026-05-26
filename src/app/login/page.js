@@ -8,10 +8,8 @@ import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] =
-    useState('');
-  const [message, setMessage] =
-    useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   const router = useRouter();
 
@@ -28,17 +26,24 @@ export default function LoginPage() {
 
       const user = userCredential.user;
 
-      // Admin Login
+      // YOUR ADMIN EMAIL
+      const adminEmail =
+        'bvrvlibrary@gmail.com';
+
+      // ADMIN LOGIN
       if (
-        user.email ===
-        'admin@library.com'
+        user.email?.toLowerCase() ===
+        adminEmail.toLowerCase()
       ) {
-        setMessage('Admin Login Success');
+        setMessage(
+          'Admin Login Success'
+        );
+
         router.push('/');
         return;
       }
 
-      // Student Check
+      // STUDENT CHECK
       const userRef = doc(
         db,
         'users',
@@ -71,7 +76,9 @@ export default function LoginPage() {
 
       router.push('/');
     } catch (error) {
-      setMessage(error.message);
+      setMessage(
+        'Invalid email or password'
+      );
     }
   };
 
@@ -126,11 +133,7 @@ export default function LoginPage() {
         </button>
       </form>
 
-      <p
-        style={{
-          marginTop: '20px'
-        }}
-      >
+      <p style={{ marginTop: '20px' }}>
         New Student?{' '}
         <a href="/signup">
           Register Here
@@ -138,11 +141,7 @@ export default function LoginPage() {
       </p>
 
       {message && (
-        <p
-          style={{
-            marginTop: '20px'
-          }}
-        >
+        <p style={{ marginTop: '20px' }}>
           {message}
         </p>
       )}
