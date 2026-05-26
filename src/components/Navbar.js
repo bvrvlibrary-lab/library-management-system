@@ -69,16 +69,7 @@ export default function Navbar({
             )}
 
             {isAdmin && (
-              {user && (
-  <li className="nav-item">
-    <button
-      onClick={handleLogout}
-      className="btn btn-danger btn-sm ms-3"
-    >
-      Logout
-    </button>
-  </li>
-)}
+  
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
@@ -139,7 +130,16 @@ export default function Navbar({
                 </ul>
               </li>
             )}
-
+            {user && (
+  <li className="nav-item">
+    <button
+      onClick={handleLogout}
+      className="btn btn-danger btn-sm ms-3"
+    >
+      Logout
+    </button>
+  </li>
+)}
           </ul>
         </div>
       </div>
