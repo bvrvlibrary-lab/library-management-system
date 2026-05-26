@@ -21,6 +21,7 @@ import {
 export default function LibraryDashboard() {
   const [books, setBooks] = useState([]);
   const [requests, setRequests] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -62,31 +63,54 @@ export default function LibraryDashboard() {
   }
 );
 
-    const unsubscribeAuth = onAuthStateChanged(
-      auth,
-      (currentUser) => {
-        setUser(currentUser);
+   const unsubscribeAuth =
+  onAuthStateChanged(
+    auth,
+    async (currentUser) => {
+      setUser(currentUser);
 
-        // ADMIN EMAIL
-       const adminEmail = 'bvrvlibrary@gmail.com';
+      const adminEmail =
+        'bvrvlibrary@gmail.com';
 
-if (
-  currentUser?.email?.toLowerCase() ===
-  adminEmail.toLowerCase()
-) {
-  setIsAdmin(true);
-} else {
-  setIsAdmin(false);
-}
+      if (
+        currentUser?.email?.toLowerCase() ===
+        adminEmail.toLowerCase()
+      ) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
       }
-    );
 
-    return () => {
-  unsubscribeBooks();
-  unsubscribeRequests();
-  unsubscribeAuth();
-};
-  }, []);
+      // Load student approved books
+      if (currentUser) {
+        const myBooksQuery = query(
+          collection(
+            db,
+            'bookRequests'
+          ),
+          where(
+            'studentId',
+            '==',
+            currentUser.uid
+          )
+        );
+
+        const snapshot =
+          await getDocs(
+            myBooksQuery
+          );
+
+        setMyBooks(
+          snapshot.docs.map(
+            (doc) => ({
+              id: doc.id,
+              ...doc.data()
+            })
+          )
+        );
+      }
+    }
+  );
 
   // Add Book
   const handleAddBook = async (e) => {
@@ -542,7 +566,49 @@ const handleRequestBook = async (book) => {
           </div>
         </div>
       )}
+{user && !isAdmin && (
+  <div className="card p-4 shadow-sm mb-4">
+    <h4 className="mb-3">
+      My Books
+    </h4>
 
+    {myBooks.length === 0 ? (
+      <p>
+        No books requested yet.
+      </p>
+    ) : (
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Book</th>
+            <th>Author</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {myBooks.map(
+            (book) => (
+              <tr key={book.id}>
+                <td>
+                  {book.bookName}
+                </td>
+
+                <td>
+                  {book.author}
+                </td>
+
+                <td>
+                  {book.status}
+                </td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
+    )}
+  </div>
+)}
       {/* BOOKS TABLE */}
       <div className="card p-4 shadow-sm">
         <h4 className="mb-3">
