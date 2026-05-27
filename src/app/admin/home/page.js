@@ -1,5 +1,5 @@
 'use client';
-import Navbar from '../../components/Navbar';
+import { db } from '../../firebase';
 import { useState, useEffect } from 'react';
 
 import { db } from '../../../firebase';
@@ -298,7 +298,7 @@ const filteredBooks =
   />
 
   <div className="container mt-4">
-    <div className="container mt-4">
+   
 
       <h3 className="mb-4">
         Admin Home
@@ -666,7 +666,7 @@ const filteredBooks =
         </div>
 
       </div>
-  </div>
+ 
   </div>
 </>
   );
