@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Navbar from '../../components/Navbar';
 import {
   doc,
   getDoc,
@@ -140,7 +141,14 @@ export default function ProfilePage() {
     );
   }
 
-  return (
+ return (
+  <>
+    <Navbar
+      isAdmin={false}
+      user={auth.currentUser}
+    />
+
+    <div className="container mt-4">
     <div className="container mt-4">
 
       <h3 className="mb-4">
@@ -288,5 +296,6 @@ export default function ProfilePage() {
       </div>
 
     </div>
+            </>
   );
 }
