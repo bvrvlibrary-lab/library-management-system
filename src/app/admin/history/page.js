@@ -1031,7 +1031,7 @@ const handleApproveRequest = async (
       <input
         type="text"
         className="form-control"
-        placeholder="Search by Student Name or Mobile"
+        placeholder="Search by Student Name, Initiated Name or Mobile"
         value={studentSearch}
         onChange={(e) =>
           setStudentSearch(
