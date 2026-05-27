@@ -33,6 +33,9 @@ export default function AdminHistoryPage() {
   const [requestSearch,
     setRequestSearch] =
     useState('');
+  const [issuedSearch,
+  setIssuedSearch] =
+  useState('');
 const [issueDays, setIssueDays] =
   useState({});
   useEffect(() => {
@@ -232,6 +235,30 @@ const handleApproveRequest = async (
     );
   }
 };
+  const issuedBooks =
+  requests.filter(
+    (request) =>
+      request.status ===
+        'Issued' &&
+      (
+        request.studentName
+          ?.toLowerCase()
+          .includes(
+            issuedSearch.toLowerCase()
+          ) ||
+
+        request.mobileNumber
+          ?.includes(
+            issuedSearch
+          ) ||
+
+        request.bookName
+          ?.toLowerCase()
+          .includes(
+            issuedSearch.toLowerCase()
+          )
+      )
+  );
   return (
     <div className="container mt-4">
 
@@ -276,7 +303,20 @@ const handleApproveRequest = async (
             >
               Registration Approval
             </button>
-
+<button
+  className={`list-group-item list-group-item-action ${
+    activeTab === 'issuedbooks'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab(
+      'issuedbooks'
+    )
+  }
+>
+  Issued Books
+</button>
           </div>
 
         </div>
@@ -532,7 +572,128 @@ const handleApproveRequest = async (
 
             </div>
           )}
+{activeTab ===
+  'issuedbooks' && (
+  <div>
 
+    <div className="card p-3 mb-3">
+
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Search by Student Name, Mobile or Book"
+        value={issuedSearch}
+        onChange={(e) =>
+          setIssuedSearch(
+            e.target.value
+          )
+        }
+      />
+
+    </div>
+
+    <div className="card p-3">
+
+      <h4 className="mb-3">
+        Issued Books
+      </h4>
+
+      <div className="table-responsive">
+
+        <table className="table table-bordered">
+
+          <thead>
+            <tr>
+              <th>
+                Student
+              </th>
+
+              <th>
+                Mobile
+              </th>
+
+              <th>
+                Book
+              </th>
+
+              <th>
+                Issue Date
+              </th>
+
+              <th>
+                Due Date
+              </th>
+
+              <th>
+                Renewals
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {issuedBooks.map(
+              (request) => (
+                <tr
+                  key={
+                    request.id
+                  }
+                >
+                  <td>
+                    {
+                      request.studentName
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      request.mobileNumber
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      request.bookName
+                    }
+                  </td>
+
+                  <td>
+                    {request.issueDate
+                      ? new Date(
+                          request.issueDate.seconds *
+                            1000
+                        ).toLocaleDateString()
+                      : '-'}
+                  </td>
+
+                  <td>
+                    {request.dueDate
+                      ? new Date(
+                          request.dueDate.seconds *
+                            1000
+                        ).toLocaleDateString()
+                      : '-'}
+                  </td>
+
+                  <td>
+                    {request.renewalCount ||
+                      0}
+                  </td>
+
+                </tr>
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
         </div>
 
       </div>
