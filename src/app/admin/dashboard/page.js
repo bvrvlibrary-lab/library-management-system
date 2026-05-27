@@ -77,6 +77,12 @@ const duplicateBook = books.find(
       .toLowerCase() ===
     name
       .trim()
+      .toLowerCase() &&
+    book.author
+      ?.trim()
+      .toLowerCase() ===
+    author
+      .trim()
       .toLowerCase()
 );
 
@@ -195,6 +201,13 @@ const duplicateBook = books.find(
       .toLowerCase() ===
     bookName
       .trim()
+      .toLowerCase() &&
+
+    book.author
+      ?.trim()
+      .toLowerCase() ===
+    cols[1]
+      ?.trim()
       .toLowerCase()
 );
 
