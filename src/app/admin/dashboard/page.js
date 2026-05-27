@@ -197,14 +197,62 @@ You can now login and request books.
 
       if (cols.length < 5) continue;
 
-      await addDoc(collection(db, 'books'), {
-        name: cols[0]?.trim(),
-        author: cols[1]?.trim(),
-        language: cols[2]?.trim(),
-        position: cols[3]?.trim(),
-        quantity: Number(cols[4]?.trim())
-      });
+   const bookName = cols[0]
+  ?.trim()
+  .split(' ')
+  .map(
+    word =>
+      word.charAt(0).toUpperCase() +
+      word.slice(1).toLowerCase()
+  )
+  .join(' ');
 
+const duplicateBook = books.find(
+  (book) =>
+    book.name
+      ?.trim()
+      .toLowerCase() ===
+    bookName
+      .trim()
+      .toLowerCase()
+);
+
+if (duplicateBook) {
+  continue;
+}
+
+await addDoc(collection(db, 'books'), {
+  name: bookName,
+
+  author: cols[1]
+    ?.trim()
+    .split(' ')
+    .map(
+      word =>
+        word.charAt(0).toUpperCase() +
+        word.slice(1).toLowerCase()
+    )
+    .join(' '),
+
+  language:
+    cols[2]
+      ?.trim()
+      .charAt(0)
+      .toUpperCase() +
+    cols[2]
+      ?.trim()
+      .slice(1)
+      .toLowerCase(),
+
+  position:
+    cols[3]
+      ?.trim()
+      .toUpperCase(),
+
+  quantity: Number(
+    cols[4]?.trim()
+  )
+});
       successCount++;
     }
 
