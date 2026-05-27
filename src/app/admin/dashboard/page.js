@@ -20,6 +20,8 @@ export default function AdminDashboard() {
   const [students, setStudents] = useState([]);
 const [requests, setRequests] = useState([]);
 const [issueDays, setIssueDays] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+const [languageFilter, setLanguageFilter] = useState('');
   
   // Data input states for adding a new book
   const [name, setName] = useState('');
@@ -150,6 +152,21 @@ You can now login and request books.
 
   reader.readAsText(csvFile);
 };
+  const filteredBooks = books.filter((book) => {
+  const matchesSearch =
+    book.name
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase()) ||
+    book.author
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase());
+
+  const matchesLanguage =
+    languageFilter === '' ||
+    book.language === languageFilter;
+
+  return matchesSearch && matchesLanguage;
+});
   return (
     <div>
       <h2 className="text-danger mb-4">Admin Book Control</h2>
@@ -268,6 +285,50 @@ You can now login and request books.
     </a>
   </div>
 </div>
+  <div className="card p-3 mb-4">
+  <div className="row">
+
+    <div className="col-md-8 mb-2">
+      <input
+        type="text"
+        placeholder="Search by Book Name or Author"
+        className="form-control"
+        value={searchTerm}
+        onChange={(e) =>
+          setSearchTerm(e.target.value)
+        }
+      />
+    </div>
+
+    <div className="col-md-4 mb-2">
+      <select
+        className="form-select"
+        value={languageFilter}
+        onChange={(e) =>
+          setLanguageFilter(e.target.value)
+        }
+      >
+        <option value="">
+          All Languages
+        </option>
+
+        {[...new Set(
+          books.map(
+            (book) => book.language
+          )
+        )].map((language) => (
+          <option
+            key={language}
+            value={language}
+          >
+            {language}
+          </option>
+        ))}
+      </select>
+    </div>
+
+  </div>
+</div>
       {/* REPOSITORY BOOKS LIST TABLE */}
       <div className="card p-4 shadow-sm">
         <h4 className="mb-3">Current Library Stock Ledger</h4>
@@ -282,7 +343,7 @@ You can now login and request books.
             </tr>
           </thead>
           <tbody>
-            {books.map(book => (
+            {filteredBooks.map((book) => (
               <tr key={book.id}>
                 <td><strong>{book.name}</strong></td>
                 <td>{book.author}</td>
