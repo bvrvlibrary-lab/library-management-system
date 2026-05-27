@@ -7,7 +7,9 @@ import {
   collection,
   onSnapshot,
   updateDoc,
-  doc
+  doc,
+  getDoc,
+  increment
 } from 'firebase/firestore';
 
 import {
@@ -31,7 +33,8 @@ export default function AdminHistoryPage() {
   const [requestSearch,
     setRequestSearch] =
     useState('');
-
+const [issueDays, setIssueDays] =
+  useState({});
   useEffect(() => {
 
     const unsubscribeStudents =
@@ -152,7 +155,83 @@ You can now login and request books.
             )
         )
     );
+const handleApproveRequest = async (
+  request,
+  days
+) => {
+  try {
+    const bookRef = doc(
+      db,
+      'books',
+      request.bookId
+    );
 
+    const bookSnap =
+      await getDoc(bookRef);
+
+    if (!bookSnap.exists()) {
+      return alert(
+        'Book not found'
+      );
+    }
+
+    const bookData =
+      bookSnap.data();
+
+    if (
+      (bookData.quantity ?? 0) <= 0
+    ) {
+      return alert(
+        'No stock available'
+      );
+    }
+
+    const issueDate =
+      new Date();
+
+    const dueDate =
+      new Date();
+
+    dueDate.setDate(
+      issueDate.getDate() +
+        Number(days || 15)
+    );
+
+    await updateDoc(
+      doc(
+        db,
+        'bookRequests',
+        request.id
+      ),
+      {
+        status: 'Issued',
+        issueDate,
+        dueDate,
+        renewalCount: 0
+      }
+    );
+
+    await updateDoc(
+      bookRef,
+      {
+        quantity:
+          increment(-1)
+      }
+    );
+
+    alert(
+      `Book issued for ${
+        days || 15
+      } days`
+    );
+
+  } catch (err) {
+    console.error(err);
+    alert(
+      'Issue failed'
+    );
+  }
+};
   return (
     <div className="container mt-4">
 
@@ -281,8 +360,50 @@ You can now login and request books.
                               </td>
 
                               <td>
-                                Pending
-                              </td>
+
+  <div className="d-flex gap-2">
+
+    <input
+      type="number"
+      min="1"
+      placeholder="Days"
+      className="form-control form-control-sm"
+      style={{
+        width: '90px'
+      }}
+      value={
+        issueDays[
+          request.id
+        ] || ''
+      }
+      onChange={(e) =>
+        setIssueDays({
+          ...issueDays,
+          [request.id]:
+            e.target.value
+        })
+      }
+    />
+
+    <button
+      onClick={() =>
+        handleApproveRequest(
+          request,
+          Number(
+            issueDays[
+              request.id
+            ] || 15
+          )
+        )
+      }
+      className="btn btn-success btn-sm"
+    >
+      Issue
+    </button>
+
+  </div>
+
+</td>
 
                             </tr>
                           )
