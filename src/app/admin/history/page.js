@@ -38,6 +38,9 @@ export default function AdminHistoryPage() {
   useState('');
 const [issueDays, setIssueDays] =
   useState({});
+  const [renewSearch,
+  setRenewSearch] =
+  useState('');
   useEffect(() => {
 
     const unsubscribeStudents =
@@ -259,6 +262,56 @@ const handleApproveRequest = async (
           )
       )
   );
+  const overdueBooks =
+  requests.filter(
+    (request) => {
+
+      if (
+        request.status !==
+        'Issued'
+      ) {
+        return false;
+      }
+
+      if (
+        !request.dueDate
+      ) {
+        return false;
+      }
+
+      const dueDate =
+        new Date(
+          request.dueDate.seconds *
+            1000
+        );
+
+      const today =
+        new Date();
+
+      const matchesSearch =
+        request.studentName
+          ?.toLowerCase()
+          .includes(
+            renewSearch.toLowerCase()
+          ) ||
+
+        request.mobileNumber
+          ?.includes(
+            renewSearch
+          ) ||
+
+        request.bookName
+          ?.toLowerCase()
+          .includes(
+            renewSearch.toLowerCase()
+          );
+
+      return (
+        dueDate < today &&
+        matchesSearch
+      );
+    }
+  );
   return (
     <div className="container mt-4">
 
@@ -316,6 +369,20 @@ const handleApproveRequest = async (
   }
 >
   Issued Books
+</button>
+    <button
+  className={`list-group-item list-group-item-action ${
+    activeTab === 'renewbooks'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab(
+      'renewbooks'
+    )
+  }
+>
+  Renew Books
 </button>
           </div>
 
@@ -673,6 +740,101 @@ const handleApproveRequest = async (
                             1000
                         ).toLocaleDateString()
                       : '-'}
+                  </td>
+
+                  <td>
+                    {request.renewalCount ||
+                      0}
+                  </td>
+
+                </tr>
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+  {activeTab ===
+  'renewbooks' && (
+  <div>
+
+    <div className="card p-3 mb-3">
+
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Search by Student Name, Mobile or Book"
+        value={renewSearch}
+        onChange={(e) =>
+          setRenewSearch(
+            e.target.value
+          )
+        }
+      />
+
+    </div>
+
+    <div className="card p-3">
+
+      <h4 className="mb-3">
+        Overdue Books
+      </h4>
+
+      <div className="table-responsive">
+
+        <table className="table table-bordered">
+
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Mobile</th>
+              <th>Book</th>
+              <th>Due Date</th>
+              <th>Renewals</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {overdueBooks.map(
+              (request) => (
+                <tr
+                  key={
+                    request.id
+                  }
+                >
+                  <td>
+                    {
+                      request.studentName
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      request.mobileNumber
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      request.bookName
+                    }
+                  </td>
+
+                  <td>
+                    <span className="text-danger fw-bold">
+                      {new Date(
+                        request.dueDate.seconds *
+                          1000
+                      ).toLocaleDateString()}
+                    </span>
                   </td>
 
                   <td>
