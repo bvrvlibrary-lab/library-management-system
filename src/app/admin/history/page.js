@@ -1316,8 +1316,7 @@ const handleApproveRequest = async (
     </div>
   </div>
 )}
-{activeTab ===
-  'deletestudent' && (
+{activeTab === 'deletestudent' && (
   <div>
 
     <div
@@ -1327,34 +1326,26 @@ const handleApproveRequest = async (
           'linear-gradient(135deg, #fff5f5, #ffeaea)'
       }}
     >
-
       <input
         type="text"
         className="form-control"
         placeholder="Search by Name, Initiated Name or Mobile"
-        value={
-          deleteStudentSearch
-        }
+        value={deleteStudentSearch}
         onChange={(e) =>
           setDeleteStudentSearch(
             e.target.value
           )
         }
       />
-
     </div>
 
     <div
       className="card p-4 border-0 shadow-sm"
       style={{
-        backgroundColor:
-          '#fff8f8'
+        backgroundColor: '#fff8f8'
       }}
     >
-
-      <h4
-        className="mb-4 fw-bold text-danger"
-      >
+      <h4 className="mb-4 fw-bold text-danger">
         Delete Student
       </h4>
 
@@ -1366,41 +1357,32 @@ const handleApproveRequest = async (
             const issuedCount =
               requests.filter(
                 (r) =>
-                  r.studentId ===
-                    student.id &&
-                  r.status ===
-                    'Issued'
+                  r.studentId === student.id &&
+                  r.status === 'Issued'
               ).length;
 
             const returnedCount =
               requests.filter(
                 (r) =>
-                  r.studentId ===
-                    student.id &&
-                  r.status ===
-                    'Returned'
+                  r.studentId === student.id &&
+                  r.status === 'Returned'
               ).length;
 
             return (
               <div
-                key={
-                  student.id
-                }
+                key={student.id}
                 className="col-lg-6 col-xl-4 mb-4"
               >
-
                 <div
                   className="card border-0 shadow h-100"
                   style={{
-                    borderRadius:
-                      '18px'
+                    borderRadius: '18px'
                   }}
                 >
 
                   <div
                     style={{
-                      height:
-                        '6px',
+                      height: '6px',
                       background:
                         'linear-gradient(90deg,#dc3545,#ff6b6b)'
                     }}
@@ -1409,61 +1391,40 @@ const handleApproveRequest = async (
                   <div className="card-body">
 
                     <h5 className="fw-bold text-danger">
-                      {
-                        student.fullName
-                      }
+                      {student.fullName}
                     </h5>
 
                     <p>
-                      {
-                        student.initiatedName ||
-                        '-'
-                      }
+                      {student.initiatedName || '-'}
                     </p>
 
                     <p>
-                      📱 {
-                        student.mobile
-                      }
+                      📱 {student.mobile}
                     </p>
 
                     <p>
-                      📧 {
-                        student.email
-                      }
+                      📧 {student.email}
                     </p>
 
                     <p>
-                      🏛 {
-                        student.temple
-                      }
+                      🏛 {student.temple}
                     </p>
 
                     <div className="mb-3">
 
                       <span className="badge bg-primary me-2">
-                        Issued:
-                        {' '}
-                        {
-                          issuedCount
-                        }
+                        Issued: {issuedCount}
                       </span>
 
                       <span className="badge bg-success">
-                        Returned:
-                        {' '}
-                        {
-                          returnedCount
-                        }
+                        Returned: {returnedCount}
                       </span>
 
                     </div>
 
                     <button
                       onClick={() =>
-                        handleDeleteStudent(
-                          student
-                        )
+                        handleDeleteStudent(student)
                       }
                       className="btn btn-danger w-100"
                     >
@@ -1473,28 +1434,18 @@ const handleApproveRequest = async (
                   </div>
 
                 </div>
-
               </div>
             );
           }
         )}
 
       </div>
-
     </div>
-
   </div>
 )}
 
-</div>
-    </div>
-
-  </div>
-)}
         </div>
-
       </div>
-
     </div>
   );
 }
