@@ -185,7 +185,9 @@ You can now login and request books.
       .split('\n')
       .filter(row => row.trim());
 
-    let successCount = 0;
+   let successCount = 0;
+let duplicateCount = 0;
+
 const processedBooks = new Set();
     for (let i = 1; i < rows.length; i++) {
       const cols = rows[i].split(',');
@@ -236,6 +238,7 @@ const duplicateBook =
   processedBooks.has(uniqueKey);
 
 if (duplicateBook) {
+  duplicateCount++;
   continue;
 }
 
@@ -276,7 +279,19 @@ await addDoc(collection(db, 'books'), {
       successCount++;
     }
 
-    alert(`${successCount} books uploaded successfully`);
+  alert(
+  `Uploaded ${successCount} books successfully\n\nSkipped ${duplicateCount} duplicates`
+);
+    setCsvFile(null);
+
+const fileInput =
+  document.getElementById(
+    'csvUpload'
+  );
+
+if (fileInput) {
+  fileInput.value = '';
+}
   };
 
   reader.readAsText(csvFile);
@@ -390,14 +405,15 @@ await addDoc(collection(db, 'books'), {
     Bulk CSV Upload
   </h4>
 
-  <input
-    type="file"
-    accept=".csv"
-    className="form-control mb-3"
-    onChange={(e) =>
-      setCsvFile(e.target.files[0])
-    }
-  />
+ <input
+  id="csvUpload"
+  type="file"
+  accept=".csv"
+  className="form-control mb-3"
+  onChange={(e) =>
+    setCsvFile(e.target.files[0])
+  }
+/>
 
   <div className="d-flex gap-2">
     <button
