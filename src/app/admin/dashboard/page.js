@@ -239,14 +239,7 @@ You can now login and request books.
     Bulk CSV Upload
   </h4>
 
-  <input
-    type="file"
-    accept=".csv"
-    className="form-control mb-3"
-    onChange={(e) =>
-      setCsvFile(e.target.files[0])
-    }
-  />
+ <div className="d-flex gap-2">
 
   <button
     onClick={handleBulkUpload}
@@ -254,6 +247,16 @@ You can now login and request books.
   >
     Upload CSV
   </button>
+
+  <a
+    href="/Bulk_Upload.csv"
+    download
+    className="btn btn-outline-primary"
+  >
+    Download Sample CSV
+  </a>
+
+</div>
 </div>
       {/* REPOSITORY BOOKS LIST TABLE */}
       <div className="card p-4 shadow-sm">
