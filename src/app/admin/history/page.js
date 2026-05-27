@@ -1047,17 +1047,19 @@ const handleApproveRequest = async (
         <table className="table table-bordered">
 
           <thead>
-            <tr>
-              <th>Name</th>
-              <th>Mobile</th>
-              <th>Email</th>
-              <th>Temple</th>
-              <th>Counselor</th>
-              <th>Status</th>
-              <th>Issued</th>
-              <th>Returned</th>
-              <th>Active</th>
-            </tr>
+       <tr>
+  <th>Name</th>
+  <th>Initiated Name</th>
+  <th>Mobile</th>
+  <th>Email</th>
+  <th>Temple</th>
+  <th>Counselor Name</th>
+  <th>Counselor Mobile</th>
+  <th>Status</th>
+  <th>Issued</th>
+  <th>Returned</th>
+  <th>Active</th>
+</tr>
           </thead>
 
           <tbody>
@@ -1098,21 +1100,13 @@ const handleApproveRequest = async (
                       student.id
                     }
                   >
-                    <td>
-                      <strong>
-                        {
-                          student.fullName
-                        }
-                      </strong>
+                   <td>
+  {student.fullName}
+</td>
 
-                      <br />
-
-                      <small>
-                        {
-                          student.initiatedName
-                        }
-                      </small>
-                    </td>
+<td>
+  {student.initiatedName || '-'}
+</td>
 
                     <td>
                       {
@@ -1132,19 +1126,13 @@ const handleApproveRequest = async (
                       }
                     </td>
 
-                    <td>
-                      {
-                        student.counselorName
-                      }
+               <td>
+  {student.counselorName}
+</td>
 
-                      <br />
-
-                      <small>
-                        {
-                          student.counselorMobile
-                        }
-                      </small>
-                    </td>
+<td>
+  {student.counselorMobile}
+</td>
 
                     <td>
                       {student.approved
