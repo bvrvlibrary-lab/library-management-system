@@ -1042,7 +1042,12 @@ const handleApproveRequest = async (
 
     </div>
 
-    <div className="card p-3">
+    <div
+  className="card p-4 border-0 shadow-sm"
+  style={{
+    backgroundColor: '#f8f9fa'
+  }}
+>
 
       <h4 className="mb-3">
         Student Details
@@ -1080,99 +1085,141 @@ const handleApproveRequest = async (
               'Issued'
         ).length;
 
-      return (
-        <div
-          key={student.id}
-          className="col-md-6 mb-3"
-        >
-          <div className="card shadow-sm border-0 h-100">
+     return (
+  <div
+    key={student.id}
+    className="col-lg-6 col-xl-4 mb-4"
+  >
+    <div
+      className="card border-0 shadow h-100"
+      style={{
+        borderRadius: '18px',
+        overflow: 'hidden'
+      }}
+    >
 
-            <div className="card-body">
+      <div
+        style={{
+          height: '6px',
+          background:
+            'linear-gradient(90deg, #0d6efd, #20c997)'
+        }}
+      />
 
-              <h5 className="card-title fw-bold">
-                {student.fullName}
-              </h5>
+      <div
+        className="card-body"
+        style={{
+          background:
+            'linear-gradient(135deg, #f8fbff, #eef5ff)'
+        }}
+      >
 
-              <hr />
+        <div className="text-center mb-3">
 
-              <p>
-                <strong>
-                  Initiated Name:
-                </strong>{' '}
-                {student.initiatedName || '-'}
-              </p>
-
-              <p>
-                <strong>
-                  Mobile:
-                </strong>{' '}
-                {student.mobile}
-              </p>
-
-              <p>
-                <strong>
-                  Email:
-                </strong>{' '}
-                {student.email}
-              </p>
-
-              <p>
-                <strong>
-                  Temple:
-                </strong>{' '}
-                {student.temple}
-              </p>
-
-              <p>
-                <strong>
-                  Counselor Name:
-                </strong>{' '}
-                {student.counselorName}
-              </p>
-
-              <p>
-                <strong>
-                  Counselor Mobile:
-                </strong>{' '}
-                {student.counselorMobile}
-              </p>
-
-              <div className="mb-3">
-
-                {student.approved ? (
-                  <span className="badge bg-success">
-                    Approved
-                  </span>
-                ) : (
-                  <span className="badge bg-warning text-dark">
-                    Pending
-                  </span>
-                )}
-
-              </div>
-
-              <div className="d-flex gap-2 flex-wrap">
-
-                <span className="badge bg-primary">
-                  Issued: {issuedCount}
-                </span>
-
-                <span className="badge bg-success">
-                  Returned: {returnedCount}
-                </span>
-
-                <span className="badge bg-danger">
-                  Active: {activeCount}
-                </span>
-
-              </div>
-
-            </div>
-
+          <div
+            style={{
+              width: '70px',
+              height: '70px',
+              borderRadius: '50%',
+              background:
+                'linear-gradient(135deg, #0d6efd, #20c997)',
+              color: 'white',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '28px',
+              fontWeight: 'bold',
+              margin: '0 auto'
+            }}
+          >
+            {student.fullName
+              ?.charAt(0)
+              ?.toUpperCase()}
           </div>
+
+          <h5
+            className="mt-3 mb-1 fw-bold"
+            style={{
+              color: '#0d6efd'
+            }}
+          >
+            {student.fullName}
+          </h5>
+
+          <small className="text-muted">
+            {student.initiatedName ||
+              'No Initiated Name'}
+          </small>
+
         </div>
-      );
-    }
+
+        <hr />
+
+        <div className="mb-2">
+          <strong>📱 Mobile:</strong>
+          <br />
+          {student.mobile}
+        </div>
+
+        <div className="mb-2">
+          <strong>📧 Email:</strong>
+          <br />
+          {student.email}
+        </div>
+
+        <div className="mb-2">
+          <strong>🏛 Temple:</strong>
+          <br />
+          {student.temple}
+        </div>
+
+        <div className="mb-2">
+          <strong>👤 Counselor:</strong>
+          <br />
+          {student.counselorName}
+        </div>
+
+        <div className="mb-3">
+          <strong>☎ Counselor Mobile:</strong>
+          <br />
+          {student.counselorMobile}
+        </div>
+
+        <div className="mb-3">
+
+          {student.approved ? (
+            <span className="badge bg-success fs-6">
+              Approved
+            </span>
+          ) : (
+            <span className="badge bg-warning text-dark fs-6">
+              Pending
+            </span>
+          )}
+
+        </div>
+
+        <div className="d-flex justify-content-between">
+
+          <span className="badge bg-primary p-2">
+            Issued: {issuedCount}
+          </span>
+
+          <span className="badge bg-success p-2">
+            Returned: {returnedCount}
+          </span>
+
+          <span className="badge bg-danger p-2">
+            Active: {activeCount}
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+);    }
   )}
 
 </div>
