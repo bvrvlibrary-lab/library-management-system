@@ -65,7 +65,7 @@ export default function HistoryPage() {
     );
 
   return (
-    <div className="container return (
+    
   <>
     <Navbar
       isAdmin={false}
