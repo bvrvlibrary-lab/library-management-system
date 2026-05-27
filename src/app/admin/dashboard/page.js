@@ -69,14 +69,73 @@ const unsubRequests = onSnapshot(
   const handleAddBook = async (e) => {
     e.preventDefault();
     if (!name || !author) return alert('Book Name and Author are required.');
+    const duplicateQuery = query(
+  collection(db, 'books'),
+  where('name', '==', name.trim())
+);
 
+  const duplicateBook = books.find(
+  (book) =>
+    book.name
+      ?.trim()
+      .toLowerCase() ===
+    name
+      .trim()
+      .toLowerCase()
+);
+
+if (duplicateBook) {
+  return alert(
+    'Book already exists in library'
+  );
+}
+const duplicateBook = books.find(
+  (book) =>
+    book.name
+      ?.trim()
+      .toLowerCase() ===
+    name
+      .trim()
+      .toLowerCase()
+);
+
+if (duplicateBook) {
+  return alert(
+    'Book already exists in library'
+  );
+}
     await addDoc(collection(db, 'books'), {
-      name,
-      author,
+       name:
+    name
+      .trim()
+      .split(' ')
+      .map(
+        word =>
+          word.charAt(0).toUpperCase() +
+          word.slice(1).toLowerCase()
+      )
+      .join(' '),
+      
+        author:
+    author
+      .trim()
+      .split(' ')
+      .map(
+        word =>
+          word.charAt(0).toUpperCase() +
+          word.slice(1).toLowerCase()
+      )
+      .join(' '),
+      
     language:
   language.charAt(0).toUpperCase() +
   language.slice(1).toLowerCase(),
-      position,
+   
+ position:
+    position
+      .trim()
+      .toUpperCase(),
+      
       quantity: Number(quantity)
     });
 
