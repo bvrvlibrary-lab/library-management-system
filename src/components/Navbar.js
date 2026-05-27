@@ -59,17 +59,28 @@ export default function Navbar({ isAdmin, user }) {
   </>
 )}
 
-            {/* Admin Links */}
-            {isAdmin && (
-              <li className="nav-item">
-                <Link
-                  href="/admin/dashboard"
-                  className="nav-link"
-                >
-                  Admin Dashboard
-                </Link>
-              </li>
-            )}
+          {/* Admin Links */}
+{isAdmin && (
+  <>
+    <li className="nav-item">
+      <Link
+        href="/admin/home"
+        className="nav-link"
+      >
+        Home
+      </Link>
+    </li>
+
+    <li className="nav-item">
+      <Link
+        href="/admin/history"
+        className="nav-link"
+      >
+        History
+      </Link>
+    </li>
+  </>
+)}
           </ul>
 
           {/* Right Side */}
