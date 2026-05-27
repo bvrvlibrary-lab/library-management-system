@@ -35,12 +35,14 @@ export default function Navbar({ isAdmin, user }) {
           {/* Left Side */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-            {/* Home */}
-            <li className="nav-item">
-              <Link href="/" className="nav-link">
-                Home
-              </Link>
-            </li>
+         {/* Public / Student Home */}
+{!isAdmin && (
+  <li className="nav-item">
+    <Link href="/" className="nav-link">
+      Home
+    </Link>
+  </li>
+)}
 
          {/* Student Links */}
 {!isAdmin && user && (
