@@ -351,6 +351,12 @@ const handleApproveRequest = async (
           studentSearch.toLowerCase()
         ) ||
 
+      student.initiatedName
+        ?.toLowerCase()
+        .includes(
+          studentSearch.toLowerCase()
+        ) ||
+
       student.mobile
         ?.includes(
           studentSearch
