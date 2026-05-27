@@ -186,7 +186,7 @@ You can now login and request books.
       .filter(row => row.trim());
 
     let successCount = 0;
-
+const processedBooks = new Set();
     for (let i = 1; i < rows.length; i++) {
       const cols = rows[i].split(',');
 
@@ -202,32 +202,44 @@ You can now login and request books.
   )
   .join(' ');
 
-const duplicateBook = books.find(
-  (book) =>
-    book.name
-      ?.trim()
-      .toLowerCase() ===
-    name
-      .trim()
-      .toLowerCase() &&
+const uniqueKey =
+  `${bookName}|${cols[1]
+    ?.trim()
+    .toLowerCase()}|${cols[2]
+    ?.trim()
+    .toLowerCase()}`;
 
-    book.author
-      ?.trim()
-      .toLowerCase() ===
-    author
-      .trim()
-      .toLowerCase() &&
+const duplicateBook =
+  books.find(
+    (book) =>
+      book.name
+        ?.trim()
+        .toLowerCase() ===
+      bookName
+        .trim()
+        .toLowerCase() &&
 
-    book.language
-      ?.trim()
-      .toLowerCase() ===
-    language
-      .trim()
-      .toLowerCase()
-);
+      book.author
+        ?.trim()
+        .toLowerCase() ===
+      cols[1]
+        ?.trim()
+        .toLowerCase() &&
+
+      book.language
+        ?.trim()
+        .toLowerCase() ===
+      cols[2]
+        ?.trim()
+        .toLowerCase()
+  ) ||
+  processedBooks.has(uniqueKey);
+
 if (duplicateBook) {
   continue;
 }
+
+processedBooks.add(uniqueKey);
 
 await addDoc(collection(db, 'books'), {
   name: bookName,
