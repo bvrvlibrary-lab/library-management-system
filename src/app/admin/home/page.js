@@ -21,6 +21,8 @@ const [language, setLanguage] = useState('');
 const [position, setPosition] = useState('');
 const [quantity, setQuantity] =
   useState(1);
+  const [csvFile, setCsvFile] =
+  useState(null);
   useEffect(() => {
   const unsubscribe =
     onSnapshot(
@@ -94,6 +96,137 @@ const handleAddBook = async (e) => {
   setQuantity(1);
 
   alert('Book added successfully');
+};
+  const handleBulkUpload = async () => {
+  if (!csvFile) {
+    return alert(
+      'Please select a CSV file'
+    );
+  }
+
+  const reader =
+    new FileReader();
+
+  reader.onload = async (e) => {
+    const text =
+      e.target.result;
+
+    const rows = text
+      .split('\n')
+      .filter(row =>
+        row.trim()
+      );
+
+    let successCount = 0;
+    let duplicateCount = 0;
+
+    const processedBooks =
+      new Set();
+
+    for (
+      let i = 1;
+      i < rows.length;
+      i++
+    ) {
+      const cols =
+        rows[i].split(',');
+
+      if (
+        cols.length < 5
+      )
+        continue;
+
+      const bookName =
+        cols[0]
+          ?.trim()
+          .split(' ')
+          .map(
+            word =>
+              word.charAt(
+                0
+              ) +
+              word
+                .slice(1)
+                .toLowerCase()
+          )
+          .join(' ');
+
+      const uniqueKey =
+        `${bookName}|${cols[1]
+          ?.trim()
+          .toLowerCase()}|${cols[2]
+          ?.trim()
+          .toLowerCase()}`;
+
+      const duplicateBook =
+        books.find(
+          (book) =>
+            book.name
+              ?.trim()
+              .toLowerCase() ===
+              bookName
+                .trim()
+                .toLowerCase() &&
+            book.author
+              ?.trim()
+              .toLowerCase() ===
+              cols[1]
+                ?.trim()
+                .toLowerCase() &&
+            book.language
+              ?.trim()
+              .toLowerCase() ===
+              cols[2]
+                ?.trim()
+                .toLowerCase()
+        ) ||
+        processedBooks.has(
+          uniqueKey
+        );
+
+      if (
+        duplicateBook
+      ) {
+        duplicateCount++;
+        continue;
+      }
+
+      processedBooks.add(
+        uniqueKey
+      );
+
+      await addDoc(
+        collection(
+          db,
+          'books'
+        ),
+        {
+          name: bookName,
+          author:
+            cols[1]?.trim(),
+          language:
+            cols[2]?.trim(),
+          position:
+            cols[3]?.trim(),
+          quantity: Number(
+            cols[4]?.trim()
+          )
+        }
+      );
+
+      successCount++;
+    }
+
+    alert(
+      `Uploaded ${successCount} books successfully\n\nSkipped ${duplicateCount} duplicates`
+    );
+
+    setCsvFile(null);
+  };
+
+  reader.readAsText(
+    csvFile
+  );
 };
   return (
     <div className="container mt-4">
@@ -265,14 +398,41 @@ const handleAddBook = async (e) => {
           {activeTab ===
             'bulkupload' && (
             <div className="card p-3">
-              <h4>
-                Bulk Upload
-              </h4>
-              <p>
-                Bulk Upload
-                section will
-                come here.
-              </p>
+             <h4 className="mb-3">
+  Bulk Upload
+</h4>
+
+<input
+  type="file"
+  accept=".csv"
+  className="form-control mb-3"
+  onChange={(e) =>
+    setCsvFile(
+      e.target.files[0]
+    )
+  }
+/>
+
+<div className="d-flex gap-2">
+
+  <button
+    onClick={
+      handleBulkUpload
+    }
+    className="btn btn-success"
+  >
+    Upload CSV
+  </button>
+
+  <a
+    href="/Bulk_Upload.csv"
+    download
+    className="btn btn-outline-primary"
+  >
+    Download Sample CSV
+  </a>
+
+</div>
             </div>
           )}
 
