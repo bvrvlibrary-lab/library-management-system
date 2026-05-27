@@ -42,14 +42,22 @@ export default function Navbar({ isAdmin, user }) {
               </Link>
             </li>
 
-            {/* Student Links */}
-            {!isAdmin && user && (
-              <li className="nav-item">
-                <Link href="/mybooks" className="nav-link">
-                  My Books
-                </Link>
-              </li>
-            )}
+         {/* Student Links */}
+{!isAdmin && user && (
+  <>
+    <li className="nav-item">
+      <Link href="/history" className="nav-link">
+        Book History
+      </Link>
+    </li>
+
+    <li className="nav-item">
+      <Link href="/profile" className="nav-link">
+        Profile
+      </Link>
+    </li>
+  </>
+)}
 
             {/* Admin Links */}
             {isAdmin && (
