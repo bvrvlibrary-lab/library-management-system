@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
 import { db } from '../../../firebase';
 
 import {
@@ -15,135 +14,145 @@ import {
   sendStudentEmail
 } from '../../../lib/sendEmail';
 
-const [requests, setRequests] =
-  useState([]);
-
-const [requestSearch,
-  setRequestSearch] =
-  useState('');
 export default function AdminHistoryPage() {
+
   const [activeTab, setActiveTab] =
     useState('approvalpending');
+
   const [students, setStudents] =
-  useState([]);
+    useState([]);
 
-const [searchTerm, setSearchTerm] =
-  useState('');
-useEffect(() => {
-  const unsubscribe =
-    onSnapshot(
-      collection(db, 'users'),
-      (snapshot) => {
-        setStudents(
-          snapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-          }))
-        );
-      }
-    );
-const unsubRequests =
-  onSnapshot(
-    collection(
-      db,
-      'bookRequests'
-    ),
-    (snapshot) => {
-      setRequests(
-        snapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data()
-          })
-        )
-      );
-    }
-  );
-return () => {
-  unsubscribe();
-  unsubRequests();
-};
-}, []);
+  const [requests, setRequests] =
+    useState([]);
 
-const handleApproveStudent =
-  async (student) => {
-    try {
-      await updateDoc(
-        doc(
-          db,
-          'users',
-          student.id
-        ),
-        {
-          approved: true
+  const [searchTerm, setSearchTerm] =
+    useState('');
+
+  const [requestSearch,
+    setRequestSearch] =
+    useState('');
+
+  useEffect(() => {
+
+    const unsubscribeStudents =
+      onSnapshot(
+        collection(db, 'users'),
+        (snapshot) => {
+          setStudents(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data()
+            }))
+          );
         }
       );
 
-      await sendStudentEmail({
-        to_email:
-          student.email,
-        subject:
-          'Library Account Approved',
-        message: `
+    const unsubscribeRequests =
+      onSnapshot(
+        collection(db, 'bookRequests'),
+        (snapshot) => {
+          setRequests(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data()
+            }))
+          );
+        }
+      );
+
+    return () => {
+      unsubscribeStudents();
+      unsubscribeRequests();
+    };
+
+  }, []);
+
+  const handleApproveStudent =
+    async (student) => {
+
+      try {
+
+        await updateDoc(
+          doc(
+            db,
+            'users',
+            student.id
+          ),
+          {
+            approved: true
+          }
+        );
+
+        await sendStudentEmail({
+          to_email:
+            student.email,
+          subject:
+            'Library Account Approved',
+          message: `
 Your library account has been approved.
 
 You can now login and request books.
-        `
-      });
+          `
+        });
 
-      alert(
-        'Student approved'
-      );
-    } catch (err) {
-      console.error(err);
-      alert(
-        'Approval failed'
-      );
-    }
-  };
+        alert(
+          'Student approved successfully'
+        );
 
-const pendingStudents =
-  students.filter(
-    (student) =>
-      !student.approved &&
-      (
-        student.fullName
-          ?.toLowerCase()
-          .includes(
-            searchTerm.toLowerCase()
-          ) ||
+      } catch (err) {
 
-        student.mobile
-          ?.toLowerCase()
-          .includes(
-            searchTerm.toLowerCase()
-          )
-      )
-  );
+        console.error(err);
+
+        alert(
+          'Approval failed'
+        );
+      }
+    };
+
+  const pendingStudents =
+    students.filter(
+      (student) =>
+        !student.approved &&
+        (
+          student.fullName
+            ?.toLowerCase()
+            .includes(
+              searchTerm.toLowerCase()
+            ) ||
+
+          student.mobile
+            ?.toLowerCase()
+            .includes(
+              searchTerm.toLowerCase()
+            )
+        )
+    );
+
   const pendingRequests =
-  requests.filter(
-    (request) =>
-      request.status ===
-        'Pending' &&
-      (
-        request.studentName
-          ?.toLowerCase()
-          .includes(
-            requestSearch.toLowerCase()
-          ) ||
+    requests.filter(
+      (request) =>
+        request.status ===
+          'Pending' &&
+        (
+          request.studentName
+            ?.toLowerCase()
+            .includes(
+              requestSearch.toLowerCase()
+            ) ||
 
-        request.mobileNumber
-          ?.includes(
-            requestSearch
-          ) ||
+          request.mobileNumber
+            ?.includes(
+              requestSearch
+            ) ||
 
-        request.bookName
-          ?.toLowerCase()
-          .includes(
-            requestSearch.toLowerCase()
-          )
-      )
-  );
+          request.bookName
+            ?.toLowerCase()
+            .includes(
+              requestSearch.toLowerCase()
+            )
+        )
+    );
+
   return (
     <div className="container mt-4">
 
@@ -196,197 +205,212 @@ const pendingStudents =
         <div className="col-md-9">
 
           {activeTab ===
-  'approvalpending' && (
-  <div>
+            'approvalpending' && (
+            <div>
 
-    <div className="card p-3 mb-3">
+              <div className="card p-3 mb-3">
 
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Search by Student Name, Mobile or Book"
-        value={requestSearch}
-        onChange={(e) =>
-          setRequestSearch(
-            e.target.value
-          )
-        }
-      />
-
-    </div>
-
-    <div className="card p-3">
-
-      <h4 className="mb-3">
-        Approval Pending
-      </h4>
-
-      <table className="table table-bordered">
-
-        <thead>
-          <tr>
-            <th>
-              Student
-            </th>
-
-            <th>
-              Mobile
-            </th>
-
-            <th>
-              Book
-            </th>
-
-            <th>
-              Status
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          {pendingRequests.map(
-            (request) => (
-              <tr
-                key={
-                  request.id
-                }
-              >
-                <td>
-                  {
-                    request.studentName
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search by Student Name, Mobile or Book"
+                  value={requestSearch}
+                  onChange={(e) =>
+                    setRequestSearch(
+                      e.target.value
+                    )
                   }
-                </td>
+                />
 
-                <td>
-                  {
-                    request.mobileNumber
-                  }
-                </td>
+              </div>
 
-                <td>
-                  {
-                    request.bookName
-                  }
-                </td>
+              <div className="card p-3">
 
-                <td>
-                  Pending
-                </td>
+                <h4 className="mb-3">
+                  Approval Pending
+                </h4>
 
-              </tr>
-            )
+                <div className="table-responsive">
+
+                  <table className="table table-bordered">
+
+                    <thead>
+                      <tr>
+                        <th>Student</th>
+                        <th>Mobile</th>
+                        <th>Book</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+
+                      {pendingRequests.length === 0 ? (
+                        <tr>
+                          <td
+                            colSpan="4"
+                            className="text-center"
+                          >
+                            No pending requests
+                          </td>
+                        </tr>
+                      ) : (
+                        pendingRequests.map(
+                          (request) => (
+                            <tr
+                              key={
+                                request.id
+                              }
+                            >
+                              <td>
+                                {
+                                  request.studentName
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  request.mobileNumber
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  request.bookName
+                                }
+                              </td>
+
+                              <td>
+                                Pending
+                              </td>
+
+                            </tr>
+                          )
+                        )
+                      )}
+
+                    </tbody>
+
+                  </table>
+
+                </div>
+
+              </div>
+
+            </div>
           )}
 
-        </tbody>
+          {activeTab ===
+            'registrationapproval' && (
+            <div>
 
-      </table>
+              <div className="card p-3 mb-3">
 
-    </div>
-
-  </div>
-)}
-
-        {activeTab ===
-  'registrationapproval' && (
-  <div>
-
-    <div className="card p-3 mb-3">
-
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Search by Name or Mobile"
-        value={searchTerm}
-        onChange={(e) =>
-          setSearchTerm(
-            e.target.value
-          )
-        }
-      />
-
-    </div>
-
-    <div className="card p-3">
-
-      <h4 className="mb-3">
-        Registration Approval
-      </h4>
-
-      <div className="table-responsive">
-
-        <table className="table table-bordered">
-
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Mobile</th>
-              <th>Temple</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-            {pendingStudents.map(
-              (student) => (
-                <tr
-                  key={
-                    student.id
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search by Name or Mobile"
+                  value={searchTerm}
+                  onChange={(e) =>
+                    setSearchTerm(
+                      e.target.value
+                    )
                   }
-                >
-                  <td>
-                    {
-                      student.fullName
-                    }
-                  </td>
+                />
 
-                  <td>
-                    {
-                      student.email
-                    }
-                  </td>
+              </div>
 
-                  <td>
-                    {
-                      student.mobile
-                    }
-                  </td>
+              <div className="card p-3">
 
-                  <td>
-                    {
-                      student.temple
-                    }
-                  </td>
+                <h4 className="mb-3">
+                  Registration Approval
+                </h4>
 
-                  <td>
-                    <button
-                      onClick={() =>
-                        handleApproveStudent(
-                          student
+                <div className="table-responsive">
+
+                  <table className="table table-bordered">
+
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Temple</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+
+                      {pendingStudents.length === 0 ? (
+                        <tr>
+                          <td
+                            colSpan="5"
+                            className="text-center"
+                          >
+                            No pending students
+                          </td>
+                        </tr>
+                      ) : (
+                        pendingStudents.map(
+                          (student) => (
+                            <tr
+                              key={
+                                student.id
+                              }
+                            >
+                              <td>
+                                {
+                                  student.fullName
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  student.email
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  student.mobile
+                                }
+                              </td>
+
+                              <td>
+                                {
+                                  student.temple
+                                }
+                              </td>
+
+                              <td>
+                                <button
+                                  onClick={() =>
+                                    handleApproveStudent(
+                                      student
+                                    )
+                                  }
+                                  className="btn btn-success btn-sm"
+                                >
+                                  Approve
+                                </button>
+                              </td>
+
+                            </tr>
+                          )
                         )
-                      }
-                      className="btn btn-success btn-sm"
-                    >
-                      Approve
-                    </button>
-                  </td>
+                      )}
 
-                </tr>
-              )
-            )}
+                    </tbody>
 
-          </tbody>
+                  </table>
 
-        </table>
+                </div>
 
-      </div>
+              </div>
 
-    </div>
-
-  </div>
-)}
+            </div>
+          )}
 
         </div>
 
