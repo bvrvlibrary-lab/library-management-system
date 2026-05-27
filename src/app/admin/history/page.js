@@ -1312,6 +1312,10 @@ const handleApproveRequest = async (
   </div>
 );    }
   )}
+      </div>
+    </div>
+  </div>
+)}
 {activeTab ===
   'deletestudent' && (
   <div>
