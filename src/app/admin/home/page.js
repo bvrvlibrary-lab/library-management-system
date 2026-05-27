@@ -1,5 +1,5 @@
 'use client';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 import { useState, useEffect } from 'react';
 
 
