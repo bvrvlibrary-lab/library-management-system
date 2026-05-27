@@ -157,26 +157,82 @@ You can now login and request books.
       {/* ADD NEW ITEM FORM */}
       <div className="card p-4 mb-4 shadow-sm border-primary">
         <h4 className="mb-3 text-primary">Add a New Book</h4>
-        <form onSubmit={handleAddBook} className="row g-3">
-          <div className="col-md-4">
-            <input type="text" className="form-control" placeholder="Book Name" value={name} onChange={e => setName(e.target.value)} required />
-          </div>
-          <div className="col-md-4">
-            <input type="text" className="form-control" placeholder="Author" value={author} onChange={e => setAuthor(e.target.value)} required />
-          </div>
-          <div className="col-md-4">
-            <input type="text" className="form-control" placeholder="Language" value={language} onChange={e => setLanguage(e.target.value)} />
-          </div>
-          <div className="col-md-4">
-            <input type="text" className="form-control" placeholder="Shelf/Rack Location Coordinates" value={position} onChange={e => setPosition(e.target.value)} />
-          </div>
-          <div className="col-md-4">
-            <input type="number" className="form-control" placeholder="Quantity/Stock" value={quantity} onChange={e => setQuantity(e.target.value)} min="0" />
-          </div>
-          <div className="col-md-4">
-            <button type="submit" className="btn btn-success w-100">Add Book Button</button>
-          </div>
-        </form>
+      <form onSubmit={handleAddBook}>
+  <div className="row">
+
+    <div className="col-md-3 mb-2">
+      <input
+        type="text"
+        placeholder="Book Name"
+        className="form-control"
+        value={name}
+        onChange={(e) =>
+          setName(e.target.value)
+        }
+        required
+      />
+    </div>
+
+    <div className="col-md-3 mb-2">
+      <input
+        type="text"
+        placeholder="Author"
+        className="form-control"
+        value={author}
+        onChange={(e) =>
+          setAuthor(e.target.value)
+        }
+        required
+      />
+    </div>
+
+    <div className="col-md-2 mb-2">
+      <input
+        type="text"
+        placeholder="Language"
+        className="form-control"
+        value={language}
+        onChange={(e) =>
+          setLanguage(e.target.value)
+        }
+      />
+    </div>
+
+    <div className="col-md-2 mb-2">
+      <input
+        type="text"
+        placeholder="Position"
+        className="form-control"
+        value={position}
+        onChange={(e) =>
+          setPosition(e.target.value)
+        }
+      />
+    </div>
+
+    <div className="col-md-1 mb-2">
+      <input
+        type="number"
+        min="1"
+        className="form-control"
+        value={quantity}
+        onChange={(e) =>
+          setQuantity(e.target.value)
+        }
+      />
+    </div>
+
+    <div className="col-md-1 mb-2">
+      <button
+        type="submit"
+        className="btn btn-success w-100"
+      >
+        Add
+      </button>
+    </div>
+
+  </div>
+</form>
       </div>
 <div className="card p-4 mb-4 shadow-sm border-success">
   <h4 className="mb-3 text-success">
