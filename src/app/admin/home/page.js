@@ -217,11 +217,20 @@ const handleAddBook = async (e) => {
       successCount++;
     }
 
-    alert(
-      `Uploaded ${successCount} books successfully\n\nSkipped ${duplicateCount} duplicates`
-    );
+   alert(
+  `Uploaded ${successCount} books successfully\n\nSkipped ${duplicateCount} duplicates`
+);
 
-    setCsvFile(null);
+setCsvFile(null);
+
+const fileInput =
+  document.getElementById(
+    'csvUpload'
+  );
+
+if (fileInput) {
+  fileInput.value = '';
+}
   };
 
   reader.readAsText(
@@ -403,6 +412,7 @@ const handleAddBook = async (e) => {
 </h4>
 
 <input
+  id="csvUpload"
   type="file"
   accept=".csv"
   className="form-control mb-3"
@@ -412,7 +422,6 @@ const handleAddBook = async (e) => {
     )
   }
 />
-
 <div className="d-flex gap-2">
 
   <button
