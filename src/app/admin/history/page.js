@@ -15,6 +15,12 @@ import {
   sendStudentEmail
 } from '../../../lib/sendEmail';
 
+const [requests, setRequests] =
+  useState([]);
+
+const [requestSearch,
+  setRequestSearch] =
+  useState('');
 export default function AdminHistoryPage() {
   const [activeTab, setActiveTab] =
     useState('approvalpending');
@@ -36,8 +42,27 @@ useEffect(() => {
         );
       }
     );
-
-  return () => unsubscribe();
+const unsubRequests =
+  onSnapshot(
+    collection(
+      db,
+      'bookRequests'
+    ),
+    (snapshot) => {
+      setRequests(
+        snapshot.docs.map(
+          (doc) => ({
+            id: doc.id,
+            ...doc.data()
+          })
+        )
+      );
+    }
+  );
+return () => {
+  unsubscribe();
+  unsubRequests();
+};
 }, []);
 
 const handleApproveStudent =
@@ -95,6 +120,30 @@ const pendingStudents =
           )
       )
   );
+  const pendingRequests =
+  requests.filter(
+    (request) =>
+      request.status ===
+        'Pending' &&
+      (
+        request.studentName
+          ?.toLowerCase()
+          .includes(
+            requestSearch.toLowerCase()
+          ) ||
+
+        request.mobileNumber
+          ?.includes(
+            requestSearch
+          ) ||
+
+        request.bookName
+          ?.toLowerCase()
+          .includes(
+            requestSearch.toLowerCase()
+          )
+      )
+  );
   return (
     <div className="container mt-4">
 
@@ -147,11 +196,96 @@ const pendingStudents =
         <div className="col-md-9">
 
           {activeTab ===
-            'approvalpending' && (
-            <div className="card p-3">
-              Approval Pending
-            </div>
+  'approvalpending' && (
+  <div>
+
+    <div className="card p-3 mb-3">
+
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Search by Student Name, Mobile or Book"
+        value={requestSearch}
+        onChange={(e) =>
+          setRequestSearch(
+            e.target.value
+          )
+        }
+      />
+
+    </div>
+
+    <div className="card p-3">
+
+      <h4 className="mb-3">
+        Approval Pending
+      </h4>
+
+      <table className="table table-bordered">
+
+        <thead>
+          <tr>
+            <th>
+              Student
+            </th>
+
+            <th>
+              Mobile
+            </th>
+
+            <th>
+              Book
+            </th>
+
+            <th>
+              Status
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {pendingRequests.map(
+            (request) => (
+              <tr
+                key={
+                  request.id
+                }
+              >
+                <td>
+                  {
+                    request.studentName
+                  }
+                </td>
+
+                <td>
+                  {
+                    request.mobileNumber
+                  }
+                </td>
+
+                <td>
+                  {
+                    request.bookName
+                  }
+                </td>
+
+                <td>
+                  Pending
+                </td>
+
+              </tr>
+            )
           )}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+)}
 
         {activeTab ===
   'registrationapproval' && (
