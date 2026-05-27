@@ -163,9 +163,14 @@ You can now login and request books.
       ?.toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-  const matchesLanguage =
-    languageFilter === '' ||
-    book.language === languageFilter;
+ const matchesLanguage =
+  languageFilter === '' ||
+  book.language
+    ?.trim()
+    .toLowerCase() ===
+    languageFilter
+      .trim()
+      .toLowerCase();
 
   return matchesSearch && matchesLanguage;
 });
@@ -323,11 +328,12 @@ You can now login and request books.
   )
 )].map((language) => (
           <option
-            key={language}
-            value={language}
-          >
-            {language}
-          </option>
+  key={language}
+  value={language}
+>
+  {language.charAt(0).toUpperCase() +
+    language.slice(1)}
+</option>
         ))}
       </select>
     </div>
