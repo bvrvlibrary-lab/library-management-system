@@ -73,7 +73,9 @@ const unsubRequests = onSnapshot(
     await addDoc(collection(db, 'books'), {
       name,
       author,
-      language,
+    language:
+  language.charAt(0).toUpperCase() +
+  language.slice(1).toLowerCase(),
       position,
       quantity: Number(quantity)
     });
@@ -313,10 +315,13 @@ You can now login and request books.
         </option>
 
         {[...new Set(
-          books.map(
-            (book) => book.language
-          )
-        )].map((language) => (
+  books.map(
+    (book) =>
+      book.language
+        ?.trim()
+        .toLowerCase()
+  )
+)].map((language) => (
           <option
             key={language}
             value={language}
@@ -337,6 +342,7 @@ You can now login and request books.
             <tr>
               <th>Title</th>
               <th>Author</th>
+        <th>Language</th>  
               <th>Location</th>
               <th>Stock Total</th>
               <th>Actions</th>
@@ -347,6 +353,7 @@ You can now login and request books.
               <tr key={book.id}>
                 <td><strong>{book.name}</strong></td>
                 <td>{book.author}</td>
+              <td>{book.language}</td>
                 <td>{book.position || 'Not Assigned'}</td>
                 <td>{book.quantity} copies</td>
                 <td>
