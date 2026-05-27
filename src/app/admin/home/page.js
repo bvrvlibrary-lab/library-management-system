@@ -497,19 +497,163 @@ const filteredBooks =
           )}
 
           {activeTab ===
-            'librarybooks' && (
-            <div className="card p-3">
-              <h4>
-                Library Books
-              </h4>
-              <p>
-                Library Books
-                section will
-                come here.
-              </p>
-            </div>
-          )}
+  'librarybooks' && (
+  <div>
 
+    <div className="card p-3 mb-3">
+
+      <div className="row">
+
+        <div className="col-md-8 mb-2">
+          <input
+            type="text"
+            placeholder="Search by Book Name or Author"
+            className="form-control"
+            value={searchTerm}
+            onChange={(e) =>
+              setSearchTerm(
+                e.target.value
+              )
+            }
+          />
+        </div>
+
+        <div className="col-md-4 mb-2">
+          <select
+            className="form-select"
+            value={languageFilter}
+            onChange={(e) =>
+              setLanguageFilter(
+                e.target.value
+              )
+            }
+          >
+            <option value="">
+              All Languages
+            </option>
+
+            {[...new Set(
+              books.map(
+                (book) =>
+                  book.language
+                    ?.trim()
+                    .toLowerCase()
+              )
+            )].map(
+              (language) => (
+                <option
+                  key={language}
+                  value={language}
+                >
+                  {language.charAt(
+                    0
+                  ).toUpperCase() +
+                    language.slice(
+                      1
+                    )}
+                </option>
+              )
+            )}
+
+          </select>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div className="card p-3">
+
+      <h4 className="mb-3">
+        Library Books
+      </h4>
+
+      <div className="table-responsive">
+
+        <table className="table table-bordered">
+
+          <thead>
+            <tr>
+              <th>
+                Book Name
+              </th>
+
+              <th>
+                Author
+              </th>
+
+              <th>
+                Language
+              </th>
+
+              <th>
+                Position
+              </th>
+
+              <th>
+                Quantity
+              </th>
+
+              <th>
+                Action
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {filteredBooks.map(
+              (book) => (
+                <tr
+                  key={book.id}
+                >
+                  <td>
+                    {book.name}
+                  </td>
+
+                  <td>
+                    {book.author}
+                  </td>
+
+                  <td>
+                    {book.language}
+                  </td>
+
+                  <td>
+                    {book.position}
+                  </td>
+
+                  <td>
+                    {book.quantity}
+                  </td>
+
+                  <td>
+                    <button
+                      onClick={() =>
+                        handleDeleteBook(
+                          book.id
+                        )
+                      }
+                      className="btn btn-danger btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </td>
+
+                </tr>
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
         </div>
 
       </div>
