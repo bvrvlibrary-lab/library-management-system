@@ -7,7 +7,9 @@ import { db } from '../../../firebase';
 import {
   collection,
   onSnapshot,
-  addDoc
+  addDoc,
+  deleteDoc,
+  doc
 } from 'firebase/firestore';
 
 export default function AdminHomePage() {
@@ -23,6 +25,12 @@ const [quantity, setQuantity] =
   useState(1);
   const [csvFile, setCsvFile] =
   useState(null);
+  const [searchTerm, setSearchTerm] =
+  useState('');
+
+const [languageFilter,
+  setLanguageFilter] =
+  useState('');
   useEffect(() => {
   const unsubscribe =
     onSnapshot(
@@ -237,6 +245,49 @@ if (fileInput) {
     csvFile
   );
 };
+  const handleDeleteBook = async (
+  id
+) => {
+  if (
+    confirm(
+      'Are you sure you want to delete this book?'
+    )
+  ) {
+    await deleteDoc(
+      doc(db, 'books', id)
+    );
+  }
+};
+
+const filteredBooks =
+  books.filter((book) => {
+
+    const matchesSearch =
+      book.name
+        ?.toLowerCase()
+        .includes(
+          searchTerm.toLowerCase()
+        ) ||
+      book.author
+        ?.toLowerCase()
+        .includes(
+          searchTerm.toLowerCase()
+        );
+
+    const matchesLanguage =
+      languageFilter === '' ||
+      book.language
+        ?.trim()
+        .toLowerCase() ===
+      languageFilter
+        .trim()
+        .toLowerCase();
+
+    return (
+      matchesSearch &&
+      matchesLanguage
+    );
+  });
   return (
     <div className="container mt-4">
 
