@@ -1,5 +1,5 @@
 'use client';
-
+import Navbar from '../../components/Navbar';
 import { useState, useEffect } from 'react';
 
 import { db } from '../../../firebase';
@@ -289,6 +289,15 @@ const filteredBooks =
     );
   });
   return (
+    <>
+  <Navbar
+    isAdmin={true}
+    user={{
+      email: 'bvrvlibrary@gmail.com'
+    }}
+  />
+
+  <div className="container mt-4">
     <div className="container mt-4">
 
       <h3 className="mb-4">
@@ -658,6 +667,7 @@ const filteredBooks =
 
       </div>
 
-    </div>
+  </div>
+</>
   );
 }
