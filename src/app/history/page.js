@@ -1,5 +1,5 @@
 'use client';
-
+import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase';
 
@@ -65,7 +65,14 @@ export default function HistoryPage() {
     );
 
   return (
-    <div className="container mt-4">
+    <div className="container return (
+  <>
+    <Navbar
+      isAdmin={false}
+      user={auth.currentUser}
+    />
+
+    <div className="container mt-4">">
       <h3 className="mb-4">
         Book History
       </h3>
@@ -251,5 +258,6 @@ export default function HistoryPage() {
 
       </div>
     </div>
+            </>
   );
 }
