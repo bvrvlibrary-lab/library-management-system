@@ -69,10 +69,6 @@ const unsubRequests = onSnapshot(
   const handleAddBook = async (e) => {
     e.preventDefault();
     if (!name || !author) return alert('Book Name and Author are required.');
-    const duplicateQuery = query(
-  collection(db, 'books'),
-  where('name', '==', name.trim())
-);
 
 const duplicateBook = books.find(
   (book) =>
