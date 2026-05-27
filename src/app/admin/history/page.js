@@ -1048,133 +1048,134 @@ const handleApproveRequest = async (
         Student Details
       </h4>
 
-      <div className="table-responsive">
+     <div className="row">
 
-        <table className="table table-bordered">
+  {filteredStudents.map(
+    (student) => {
 
-          <thead>
-       <tr>
-  <th>Name</th>
-  <th>Initiated Name</th>
-  <th>Mobile</th>
-  <th>Email</th>
-  <th>Temple</th>
-  <th>Counselor Name</th>
-  <th>Counselor Mobile</th>
-  <th>Status</th>
-  <th>Issued</th>
-  <th>Returned</th>
-  <th>Active</th>
-</tr>
-          </thead>
+      const issuedCount =
+        requests.filter(
+          (r) =>
+            r.studentId ===
+              student.id &&
+            r.status ===
+              'Issued'
+        ).length;
 
-          <tbody>
+      const returnedCount =
+        requests.filter(
+          (r) =>
+            r.studentId ===
+              student.id &&
+            r.status ===
+              'Returned'
+        ).length;
 
-            {filteredStudents.map(
-              (student) => {
+      const activeCount =
+        requests.filter(
+          (r) =>
+            r.studentId ===
+              student.id &&
+            r.status ===
+              'Issued'
+        ).length;
 
-                const issuedCount =
-                  requests.filter(
-                    (r) =>
-                      r.studentId ===
-                        student.id &&
-                      r.status ===
-                        'Issued'
-                  ).length;
+      return (
+        <div
+          key={student.id}
+          className="col-md-6 mb-3"
+        >
+          <div className="card shadow-sm border-0 h-100">
 
-                const returnedCount =
-                  requests.filter(
-                    (r) =>
-                      r.studentId ===
-                        student.id &&
-                      r.status ===
-                        'Returned'
-                  ).length;
+            <div className="card-body">
 
-                const activeCount =
-                  requests.filter(
-                    (r) =>
-                      r.studentId ===
-                        student.id &&
-                      r.status ===
-                        'Issued'
-                  ).length;
+              <h5 className="card-title fw-bold">
+                {student.fullName}
+              </h5>
 
-                return (
-                  <tr
-                    key={
-                      student.id
-                    }
-                  >
-                   <td>
-  {student.fullName}
-</td>
+              <hr />
 
-<td>
-  {student.initiatedName || '-'}
-</td>
+              <p>
+                <strong>
+                  Initiated Name:
+                </strong>{' '}
+                {student.initiatedName || '-'}
+              </p>
 
-                    <td>
-                      {
-                        student.mobile
-                      }
-                    </td>
+              <p>
+                <strong>
+                  Mobile:
+                </strong>{' '}
+                {student.mobile}
+              </p>
 
-                    <td>
-                      {
-                        student.email
-                      }
-                    </td>
+              <p>
+                <strong>
+                  Email:
+                </strong>{' '}
+                {student.email}
+              </p>
 
-                    <td>
-                      {
-                        student.temple
-                      }
-                    </td>
+              <p>
+                <strong>
+                  Temple:
+                </strong>{' '}
+                {student.temple}
+              </p>
 
-               <td>
-  {student.counselorName}
-</td>
+              <p>
+                <strong>
+                  Counselor Name:
+                </strong>{' '}
+                {student.counselorName}
+              </p>
 
-<td>
-  {student.counselorMobile}
-</td>
+              <p>
+                <strong>
+                  Counselor Mobile:
+                </strong>{' '}
+                {student.counselorMobile}
+              </p>
 
-                    <td>
-                      {student.approved
-                        ? 'Approved'
-                        : 'Pending'}
-                    </td>
+              <div className="mb-3">
 
-                    <td>
-                      {
-                        issuedCount
-                      }
-                    </td>
+                {student.approved ? (
+                  <span className="badge bg-success">
+                    Approved
+                  </span>
+                ) : (
+                  <span className="badge bg-warning text-dark">
+                    Pending
+                  </span>
+                )}
 
-                    <td>
-                      {
-                        returnedCount
-                      }
-                    </td>
+              </div>
 
-                    <td>
-                      {
-                        activeCount
-                      }
-                    </td>
+              <div className="d-flex gap-2 flex-wrap">
 
-                  </tr>
-                );
-              }
-            )}
+                <span className="badge bg-primary">
+                  Issued: {issuedCount}
+                </span>
 
-          </tbody>
+                <span className="badge bg-success">
+                  Returned: {returnedCount}
+                </span>
 
-        </table>
+                <span className="badge bg-danger">
+                  Active: {activeCount}
+                </span>
 
-      </div>
+              </div>
 
+            </div>
+
+          </div>
+        </div>
+      );
+    }
+  )}
+
+</div>
     </div>
 
   </div>
