@@ -74,21 +74,6 @@ const unsubRequests = onSnapshot(
   where('name', '==', name.trim())
 );
 
-  const duplicateBook = books.find(
-  (book) =>
-    book.name
-      ?.trim()
-      .toLowerCase() ===
-    name
-      .trim()
-      .toLowerCase()
-);
-
-if (duplicateBook) {
-  return alert(
-    'Book already exists in library'
-  );
-}
 const duplicateBook = books.find(
   (book) =>
     book.name
