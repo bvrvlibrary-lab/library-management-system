@@ -41,6 +41,9 @@ const [issueDays, setIssueDays] =
   const [renewSearch,
   setRenewSearch] =
   useState('');
+  const [returnedSearch,
+  setReturnedSearch] =
+  useState('');
   useEffect(() => {
 
     const unsubscribeStudents =
@@ -312,6 +315,30 @@ const handleApproveRequest = async (
       );
     }
   );
+  const returnedBooks =
+  requests.filter(
+    (request) =>
+      request.status ===
+        'Returned' &&
+      (
+        request.studentName
+          ?.toLowerCase()
+          .includes(
+            returnedSearch.toLowerCase()
+          ) ||
+
+        request.mobileNumber
+          ?.includes(
+            returnedSearch
+          ) ||
+
+        request.bookName
+          ?.toLowerCase()
+          .includes(
+            returnedSearch.toLowerCase()
+          )
+      )
+  );
   return (
     <div className="container mt-4">
 
@@ -383,6 +410,20 @@ const handleApproveRequest = async (
   }
 >
   Renew Books
+</button>
+    <button
+  className={`list-group-item list-group-item-action ${
+    activeTab === 'returnedbooks'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab(
+      'returnedbooks'
+    )
+  }
+>
+  Returned Books
 </button>
           </div>
 
@@ -842,6 +883,94 @@ const handleApproveRequest = async (
                       0}
                   </td>
 
+                </tr>
+              )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+  {activeTab ===
+  'returnedbooks' && (
+  <div>
+
+    <div className="card p-3 mb-3">
+
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Search by Student Name, Mobile or Book"
+        value={returnedSearch}
+        onChange={(e) =>
+          setReturnedSearch(
+            e.target.value
+          )
+        }
+      />
+
+    </div>
+
+    <div className="card p-3">
+
+      <h4 className="mb-3">
+        Returned Books
+      </h4>
+
+      <div className="table-responsive">
+
+        <table className="table table-bordered">
+
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Mobile</th>
+              <th>Book</th>
+              <th>Return Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {returnedBooks.map(
+              (request) => (
+                <tr
+                  key={
+                    request.id
+                  }
+                >
+                  <td>
+                    {
+                      request.studentName
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      request.mobileNumber
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      request.bookName
+                    }
+                  </td>
+
+                  <td>
+                    {request.returnDate
+                      ? new Date(
+                          request.returnDate.seconds *
+                            1000
+                        ).toLocaleDateString()
+                      : '-'}
+                  </td>
                 </tr>
               )
             )}
