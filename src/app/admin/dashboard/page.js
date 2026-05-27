@@ -27,6 +27,7 @@ const [issueDays, setIssueDays] = useState({});
   const [language, setLanguage] = useState('');
   const [position, setPosition] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [csvFile, setCsvFile] = useState(null);
 
   useEffect(() => {
     const unsubStudents = onSnapshot(
@@ -112,6 +113,43 @@ You can now login and request books.
     alert('Approval failed');
   }
 };
+  const handleBulkUpload = async () => {
+  if (!csvFile) {
+    return alert('Please select a CSV file');
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = async (e) => {
+    const text = e.target.result;
+
+    const rows = text
+      .split('\n')
+      .filter(row => row.trim());
+
+    let successCount = 0;
+
+    for (let i = 1; i < rows.length; i++) {
+      const cols = rows[i].split(',');
+
+      if (cols.length < 5) continue;
+
+      await addDoc(collection(db, 'books'), {
+        name: cols[0]?.trim(),
+        author: cols[1]?.trim(),
+        language: cols[2]?.trim(),
+        position: cols[3]?.trim(),
+        quantity: Number(cols[4]?.trim())
+      });
+
+      successCount++;
+    }
+
+    alert(`${successCount} books uploaded successfully`);
+  };
+
+  reader.readAsText(csvFile);
+};
   return (
     <div>
       <h2 className="text-danger mb-4">Admin Book Control</h2>
@@ -140,7 +178,27 @@ You can now login and request books.
           </div>
         </form>
       </div>
+<div className="card p-4 mb-4 shadow-sm border-success">
+  <h4 className="mb-3 text-success">
+    Bulk CSV Upload
+  </h4>
 
+  <input
+    type="file"
+    accept=".csv"
+    className="form-control mb-3"
+    onChange={(e) =>
+      setCsvFile(e.target.files[0])
+    }
+  />
+
+  <button
+    onClick={handleBulkUpload}
+    className="btn btn-success"
+  >
+    Upload CSV
+  </button>
+</div>
       {/* REPOSITORY BOOKS LIST TABLE */}
       <div className="card p-4 shadow-sm">
         <h4 className="mb-3">Current Library Stock Ledger</h4>
