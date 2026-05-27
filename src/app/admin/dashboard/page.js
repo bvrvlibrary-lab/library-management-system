@@ -255,10 +255,10 @@ You can now login and request books.
     >
       Upload CSV
     </button>
-<p className="text-muted mt-3 mb-0">
+/*<p className="text-muted mt-3 mb-0">
   CSV format:
   name, author, language, position, quantity
-</p>
+</p>*/
     <a
       href="/Bulk_Upload.csv"
       download
