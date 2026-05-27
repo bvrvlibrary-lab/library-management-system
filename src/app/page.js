@@ -26,7 +26,8 @@ export default function LibraryDashboard() {
   const [requests, setRequests] = useState([]);
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-
+const [searchTerm, setSearchTerm] = useState('');
+const [languageFilter, setLanguageFilter] = useState('');
 
 
   const [issueDays, setIssueDays] = useState({});
@@ -327,7 +328,26 @@ ${currentDueDate.toLocaleDateString()}
       alert('Renew failed');
     }
   };
+const filteredBooks = books.filter((book) => {
+  const matchesSearch =
+    book.name
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase()) ||
+    book.author
+      ?.toLowerCase()
+      .includes(searchTerm.toLowerCase());
 
+  const matchesLanguage =
+    languageFilter === '' ||
+    book.language
+      ?.trim()
+      .toLowerCase() ===
+      languageFilter
+        .trim()
+        .toLowerCase();
+
+  return matchesSearch && matchesLanguage;
+});
   return (
   <>
     <Navbar
@@ -340,7 +360,54 @@ ${currentDueDate.toLocaleDateString()}
       <h2 className="mb-4">
         Library Management System
       </h2>
+<div className="card p-3 mb-4">
+  <div className="row">
 
+    <div className="col-md-8 mb-2">
+      <input
+        type="text"
+        placeholder="Search by Book Name or Author"
+        className="form-control"
+        value={searchTerm}
+        onChange={(e) =>
+          setSearchTerm(e.target.value)
+        }
+      />
+    </div>
+
+    <div className="col-md-4 mb-2">
+      <select
+        className="form-select"
+        value={languageFilter}
+        onChange={(e) =>
+          setLanguageFilter(e.target.value)
+        }
+      >
+        <option value="">
+          All Languages
+        </option>
+
+        {[...new Set(
+          books.map(
+            (book) =>
+              book.language
+                ?.trim()
+                .toLowerCase()
+          )
+        )].map((language) => (
+          <option
+            key={language}
+            value={language}
+          >
+            {language.charAt(0).toUpperCase() +
+              language.slice(1)}
+          </option>
+        ))}
+      </select>
+    </div>
+
+  </div>
+</div>
      
        {/* BOOK LIST */}
       <div className="card p-3 mb-4">
@@ -363,7 +430,7 @@ ${currentDueDate.toLocaleDateString()}
           </thead>
 
           <tbody>
-            {books.map((book) => (
+         {filteredBooks.map((book) => (
               <tr key={book.id}>
                 <td>{book.name}</td>
                 <td>{book.author}</td>
