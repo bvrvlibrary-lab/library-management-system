@@ -32,18 +32,17 @@ export default function LoginPage() {
         'bvrvlibrary@gmail.com';
 
       // ADMIN LOGIN
-      if (
-        user.email?.toLowerCase() ===
-        adminEmail.toLowerCase()
-      ) {
-        setMessage(
-          'Admin Login Success'
-        );
+     if (
+  user.email?.toLowerCase() ===
+  adminEmail.toLowerCase()
+) {
+  setMessage(
+    'Admin Login Success'
+  );
 
-        router.push('/');
-        return;
-      }
-
+  router.push('/admin/home');
+  return;
+}
       // STUDENT CHECK
       const userRef = doc(
         db,
