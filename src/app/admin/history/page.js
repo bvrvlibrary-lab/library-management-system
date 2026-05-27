@@ -7,6 +7,7 @@ import {
   collection,
   onSnapshot,
   updateDoc,
+  deleteDoc,
   doc,
   getDoc,
   increment
@@ -46,6 +47,9 @@ const [issueDays, setIssueDays] =
   useState('');
   const [studentSearch,
   setStudentSearch] =
+  useState('');
+  const [deleteStudentSearch,
+  setDeleteStudentSearch] =
   useState('');
   useEffect(() => {
 
@@ -123,7 +127,60 @@ You can now login and request books.
         );
       }
     };
+const handleDeleteStudent =
+  async (student) => {
 
+    const confirmDelete =
+      window.confirm(
+        `Delete ${student.fullName} and all history?`
+      );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+
+      const requestsToDelete =
+        requests.filter(
+          (request) =>
+            request.studentId ===
+            student.id
+        );
+
+      for (const request of requestsToDelete) {
+
+        await deleteDoc(
+          doc(
+            db,
+            'bookRequests',
+            request.id
+          )
+        );
+
+      }
+
+      await deleteDoc(
+        doc(
+          db,
+          'users',
+          student.id
+        )
+      );
+
+      alert(
+        'Student and history deleted successfully'
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert(
+        'Failed to delete student'
+      );
+    }
+  };
   const pendingStudents =
     students.filter(
       (student) =>
@@ -362,6 +419,26 @@ const handleApproveRequest = async (
           studentSearch
         )
   );
+  const deleteStudents =
+  students.filter(
+    (student) =>
+      student.fullName
+        ?.toLowerCase()
+        .includes(
+          deleteStudentSearch.toLowerCase()
+        ) ||
+
+      student.initiatedName
+        ?.toLowerCase()
+        .includes(
+          deleteStudentSearch.toLowerCase()
+        ) ||
+
+      student.mobile
+        ?.includes(
+          deleteStudentSearch
+        )
+  );
   return (
     <div className="container mt-4">
 
@@ -461,6 +538,20 @@ const handleApproveRequest = async (
   }
 >
   Student Details
+</button>
+    <button
+  className={`list-group-item list-group-item-action ${
+    activeTab === 'deletestudent'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab(
+      'deletestudent'
+    )
+  }
+>
+  Delete Student
 </button>
           </div>
 
@@ -1221,6 +1312,175 @@ const handleApproveRequest = async (
   </div>
 );    }
   )}
+{activeTab ===
+  'deletestudent' && (
+  <div>
+
+    <div
+      className="card p-3 mb-3 border-0 shadow-sm"
+      style={{
+        background:
+          'linear-gradient(135deg, #fff5f5, #ffeaea)'
+      }}
+    >
+
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Search by Name, Initiated Name or Mobile"
+        value={
+          deleteStudentSearch
+        }
+        onChange={(e) =>
+          setDeleteStudentSearch(
+            e.target.value
+          )
+        }
+      />
+
+    </div>
+
+    <div
+      className="card p-4 border-0 shadow-sm"
+      style={{
+        backgroundColor:
+          '#fff8f8'
+      }}
+    >
+
+      <h4
+        className="mb-4 fw-bold text-danger"
+      >
+        Delete Student
+      </h4>
+
+      <div className="row">
+
+        {deleteStudents.map(
+          (student) => {
+
+            const issuedCount =
+              requests.filter(
+                (r) =>
+                  r.studentId ===
+                    student.id &&
+                  r.status ===
+                    'Issued'
+              ).length;
+
+            const returnedCount =
+              requests.filter(
+                (r) =>
+                  r.studentId ===
+                    student.id &&
+                  r.status ===
+                    'Returned'
+              ).length;
+
+            return (
+              <div
+                key={
+                  student.id
+                }
+                className="col-lg-6 col-xl-4 mb-4"
+              >
+
+                <div
+                  className="card border-0 shadow h-100"
+                  style={{
+                    borderRadius:
+                      '18px'
+                  }}
+                >
+
+                  <div
+                    style={{
+                      height:
+                        '6px',
+                      background:
+                        'linear-gradient(90deg,#dc3545,#ff6b6b)'
+                    }}
+                  />
+
+                  <div className="card-body">
+
+                    <h5 className="fw-bold text-danger">
+                      {
+                        student.fullName
+                      }
+                    </h5>
+
+                    <p>
+                      {
+                        student.initiatedName ||
+                        '-'
+                      }
+                    </p>
+
+                    <p>
+                      📱 {
+                        student.mobile
+                      }
+                    </p>
+
+                    <p>
+                      📧 {
+                        student.email
+                      }
+                    </p>
+
+                    <p>
+                      🏛 {
+                        student.temple
+                      }
+                    </p>
+
+                    <div className="mb-3">
+
+                      <span className="badge bg-primary me-2">
+                        Issued:
+                        {' '}
+                        {
+                          issuedCount
+                        }
+                      </span>
+
+                      <span className="badge bg-success">
+                        Returned:
+                        {' '}
+                        {
+                          returnedCount
+                        }
+                      </span>
+
+                    </div>
+
+                    <button
+                      onClick={() =>
+                        handleDeleteStudent(
+                          student
+                        )
+                      }
+                      className="btn btn-danger w-100"
+                    >
+                      Delete Student
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+            );
+          }
+        )}
+
+      </div>
+
+    </div>
+
+  </div>
+)}
 
 </div>
     </div>
