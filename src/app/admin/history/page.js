@@ -44,6 +44,9 @@ const [issueDays, setIssueDays] =
   const [returnedSearch,
   setReturnedSearch] =
   useState('');
+  const [studentSearch,
+  setStudentSearch] =
+  useState('');
   useEffect(() => {
 
     const unsubscribeStudents =
@@ -339,6 +342,20 @@ const handleApproveRequest = async (
           )
       )
   );
+  const filteredStudents =
+  students.filter(
+    (student) =>
+      student.fullName
+        ?.toLowerCase()
+        .includes(
+          studentSearch.toLowerCase()
+        ) ||
+
+      student.mobile
+        ?.includes(
+          studentSearch
+        )
+  );
   return (
     <div className="container mt-4">
 
@@ -424,6 +441,20 @@ const handleApproveRequest = async (
   }
 >
   Returned Books
+</button>
+    <button
+  className={`list-group-item list-group-item-action ${
+    activeTab === 'studentdetails'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab(
+      'studentdetails'
+    )
+  }
+>
+  Student Details
 </button>
           </div>
 
@@ -973,6 +1004,175 @@ const handleApproveRequest = async (
                   </td>
                 </tr>
               )
+            )}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
+  {activeTab ===
+  'studentdetails' && (
+  <div>
+
+    <div className="card p-3 mb-3">
+
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Search by Student Name or Mobile"
+        value={studentSearch}
+        onChange={(e) =>
+          setStudentSearch(
+            e.target.value
+          )
+        }
+      />
+
+    </div>
+
+    <div className="card p-3">
+
+      <h4 className="mb-3">
+        Student Details
+      </h4>
+
+      <div className="table-responsive">
+
+        <table className="table table-bordered">
+
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Temple</th>
+              <th>Counselor</th>
+              <th>Status</th>
+              <th>Issued</th>
+              <th>Returned</th>
+              <th>Active</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {filteredStudents.map(
+              (student) => {
+
+                const issuedCount =
+                  requests.filter(
+                    (r) =>
+                      r.studentId ===
+                        student.id &&
+                      r.status ===
+                        'Issued'
+                  ).length;
+
+                const returnedCount =
+                  requests.filter(
+                    (r) =>
+                      r.studentId ===
+                        student.id &&
+                      r.status ===
+                        'Returned'
+                  ).length;
+
+                const activeCount =
+                  requests.filter(
+                    (r) =>
+                      r.studentId ===
+                        student.id &&
+                      r.status ===
+                        'Issued'
+                  ).length;
+
+                return (
+                  <tr
+                    key={
+                      student.id
+                    }
+                  >
+                    <td>
+                      <strong>
+                        {
+                          student.fullName
+                        }
+                      </strong>
+
+                      <br />
+
+                      <small>
+                        {
+                          student.initiatedName
+                        }
+                      </small>
+                    </td>
+
+                    <td>
+                      {
+                        student.mobile
+                      }
+                    </td>
+
+                    <td>
+                      {
+                        student.email
+                      }
+                    </td>
+
+                    <td>
+                      {
+                        student.temple
+                      }
+                    </td>
+
+                    <td>
+                      {
+                        student.counselorName
+                      }
+
+                      <br />
+
+                      <small>
+                        {
+                          student.counselorMobile
+                        }
+                      </small>
+                    </td>
+
+                    <td>
+                      {student.approved
+                        ? 'Approved'
+                        : 'Pending'}
+                    </td>
+
+                    <td>
+                      {
+                        issuedCount
+                      }
+                    </td>
+
+                    <td>
+                      {
+                        returnedCount
+                      }
+                    </td>
+
+                    <td>
+                      {
+                        activeCount
+                      }
+                    </td>
+
+                  </tr>
+                );
+              }
             )}
 
           </tbody>
