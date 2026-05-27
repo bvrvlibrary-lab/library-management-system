@@ -7,7 +7,6 @@ import { onAuthStateChanged } from 'firebase/auth';
 import {
   collection,
   onSnapshot,
-  addDoc,
   deleteDoc,
   doc,
   updateDoc,
@@ -27,12 +26,8 @@ export default function LibraryDashboard() {
   const [requests, setRequests] = useState([]);
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-const [students, setStudents] = useState([]);
-  const [name, setName] = useState('');
-  const [author, setAuthor] = useState('');
-  const [language, setLanguage] = useState('');
-  const [position, setPosition] = useState('');
-  const [quantity, setQuantity] = useState(1);
+
+
 
   const [issueDays, setIssueDays] = useState({});
 
@@ -46,17 +41,7 @@ const [students, setStudents] = useState([]);
         }))
       );
     });
-const unsubStudents = onSnapshot(
-  collection(db, 'users'),
-  (snap) => {
-    setStudents(
-      snap.docs.map((d) => ({
-        id: d.id,
-        ...d.data()
-      }))
-    );
-  }
-);  
+
     const unsubRequests = onSnapshot(
       collection(db, 'bookRequests'),
       (snap) => {
@@ -84,41 +69,9 @@ const unsubStudents = onSnapshot(
       unsubBooks();
       unsubRequests();
       unsubAuth();
-      unsubStudents();
     };
   }, []);
 
-  // ---------------- ADD BOOK ----------------
-  const handleAddBook = async (e) => {
-    e.preventDefault();
-
-    try {
-      if (!name || !author) {
-        return alert(
-          'Book name and author required'
-        );
-      }
-
-      await addDoc(collection(db, 'books'), {
-        name,
-        author,
-        language,
-        position,
-        quantity: Number(quantity)
-      });
-
-      setName('');
-      setAuthor('');
-      setLanguage('');
-      setPosition('');
-      setQuantity(1);
-
-      alert('Book added successfully');
-    } catch (err) {
-      console.error(err);
-      alert('Failed to add book');
-    }
-  };
 
   // ---------------- DELETE BOOK ----------------
   const handleDeleteBook = async (id) => {
@@ -142,24 +95,8 @@ const unsubStudents = onSnapshot(
   const handleRequestBook = async (book) => {
     try {
       if (!user) {
-    const userQuery = query(
-  collection(db, 'users'),
-  where('email', '==', user.email)
-);
-
-const userSnap = await getDocs(userQuery);
-
-let studentName = '';
-let mobileNumber = '';
-
-if (!userSnap.empty) {
-  const userData = userSnap.docs[0].data();
-
-  studentName = userData.name || '';
-  mobileNumber = userData.mobile || '';
+  return alert('Please login first');
 }
-        return alert('Please login first');
-      }
 
       if ((book.quantity ?? 0) <= 0) {
         return alert('Book out of stock');
@@ -390,35 +327,7 @@ ${currentDueDate.toLocaleDateString()}
       alert('Renew failed');
     }
   };
-const handleApproveStudent = async (
-  student
-) => {
-  try {
-    await updateDoc(
-      doc(db, 'users', student.id),
-      {
-        approved: true
-      }
-    );
 
-    await sendStudentEmail({
-      to_email: student.email,
-      subject: 'Library Account Approved',
-      message: `
-Your library account has been approved.
-
-You can now login and request books.
-
-Welcome to the library system.
-      `,
-    });
-
-    alert('Student approved successfully');
-  } catch (err) {
-    console.error(err);
-    alert('Approval failed');
-  }
-};
   return (
   <>
     <Navbar
@@ -433,48 +342,7 @@ Welcome to the library system.
       </h2>
 
      
-  <div className="card p-3 mb-4">
-  <h4>Pending Student Approvals</h4>
- <div className="table-responsive">
-  <table className="table table-hover align-middle">
-       
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Mobile</th>
-        <th>Temple</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {students
-        .filter((s) => !s.approved)
-        .map((student) => (
-          <tr key={student.id}>
-            <td>{student.fullName}</td>
-            <td>{student.email}</td>
-            <td>{student.mobile}</td>
-            <td>{student.temple}</td>
-
-            <td>
-              <button
-                onClick={() =>
-                  handleApproveStudent(student)
-                }
-                className="btn btn-success btn-sm"
-              >
-                Approve
-              </button>
-            </td>
-          </tr>
-        ))}
-    </tbody>
-  </table>
-      </div>
-</div>
-      {/* BOOK LIST */}
+       {/* BOOK LIST */}
       <div className="card p-3 mb-4">
       <h4 className="fw-bold mb-4">
   Books ({books.length})
@@ -720,29 +588,20 @@ Welcome to the library system.
   )}
 </td>
 
-                   <td>
-  {req.status === 'Issued' &&
-  req.dueDate &&
-  new Date() >
-    new Date(
-      req.dueDate.seconds * 1000
-    ) ? (
-    <span className="badge bg-danger">
-      OVERDUE
-    </span>
-  ) : req.status === 'Pending' ? (
-    <span className="badge bg-warning text-dark">
-      Pending
-    </span>
-  ) : req.status === 'Issued' ? (
-    <span className="badge bg-success">
-      Issued
-    </span>
-  ) : (
-    <span className="badge bg-secondary">
-      Returned
-    </span>
-  )}
+ <td>
+  {req.dueDate
+    ? new Date(
+        req.dueDate.seconds * 1000
+      ).toLocaleDateString()
+    : '-'}
+</td>
+
+<td>
+  {req.renewalCount || 0}
+</td>
+
+<td>
+  {req.status}
 </td>
                   </tr>
                 ))}
