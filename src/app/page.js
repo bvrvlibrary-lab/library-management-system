@@ -15,7 +15,7 @@ import {
   getDocs,
   getDoc,
   increment,
-  adddoc
+  addDoc
 } from 'firebase/firestore';
 import {
   sendAdminEmail,
