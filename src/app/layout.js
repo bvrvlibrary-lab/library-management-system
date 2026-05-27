@@ -1,3 +1,4 @@
+import Navbar from './components/Navbar';
 export const metadata = {
   title: 'Library Management System',
   description: 'PRD Cloud Native LMS App',
@@ -18,16 +19,12 @@ export default function RootLayout({ children }) {
 
       <body style={{ backgroundColor: '#f8f9fa' }}>
 
-        <main className="container-fluid p-0">
-          {children}
-        </main>
+  <Navbar />
 
-        {/* Bootstrap JS */}
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        ></script>
+  <main className="container-fluid p-0">
+    {children}
+  </main>
 
-      </body>
-    </html>
+</body>    </html>
   );
 }
