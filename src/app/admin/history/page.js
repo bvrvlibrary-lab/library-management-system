@@ -871,6 +871,9 @@ const handleApproveRequest = async (
               <th>
                 Renewals
               </th>
+          <th>
+  Action
+</th>
             </tr>
           </thead>
 
@@ -923,6 +926,20 @@ const handleApproveRequest = async (
                     {request.renewalCount ||
                       0}
                   </td>
+                    <td>
+
+  <button
+    onClick={() =>
+      handleReturnBook(
+        request
+      )
+    }
+    className="btn btn-success btn-sm"
+  >
+    Return Book
+  </button>
+
+</td>
 
                 </tr>
               )
