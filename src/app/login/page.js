@@ -134,15 +134,32 @@ export default function LoginPage() {
     marginBottom: '25px'
   }}
 >
+ <div
+  style={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '15px',
+    marginBottom: '10px'
+  }}
+>
+  <img
+    src="/logo.png"
+    alt="BVRV Library"
+    width="60"
+    height="60"
+  />
+
   <h1
     style={{
       color: '#6f4e37',
       fontWeight: 'bold',
-      marginBottom: '10px'
+      margin: 0
     }}
   >
-    📚 BVRV Library
+    BVRV Library
   </h1>
+</div>
 
   <p
     style={{
