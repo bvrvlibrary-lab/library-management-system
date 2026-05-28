@@ -576,7 +576,7 @@ const handleApproveRequest = async (
                 )
               }
             >
-              Approve Book Request
+              📚 Approve Book Request
             </button>
 
             <button
@@ -592,7 +592,7 @@ const handleApproveRequest = async (
                 )
               }
             >
-             Approve New Student
+             👨‍🎓 Approve New Student
             </button>
 <button
   className={`list-group-item list-group-item-action fw-semibold ${
@@ -606,7 +606,7 @@ const handleApproveRequest = async (
     )
   }
 >
-  Issued Books
+  📖 Issued Books
 </button>
     <button
   className={`list-group-item list-group-item-action fw-semibold ${
@@ -620,7 +620,7 @@ const handleApproveRequest = async (
     )
   }
 >
-  Renew Books
+  🔄 Renew Books
 </button>
     <button
   className={`list-group-item list-group-item-action fw-semibold ${
@@ -634,7 +634,7 @@ const handleApproveRequest = async (
     )
   }
 >
-  Returned Books
+  ✅ Returned Books
 </button>
     <button
   className={`list-group-item list-group-item-action fw-semibold ${
@@ -648,7 +648,7 @@ const handleApproveRequest = async (
     )
   }
 >
-  Student Details
+  👥 Student Details
 </button>
     <button
   className={`list-group-item list-group-item-action fw-semibold ${
@@ -662,7 +662,7 @@ const handleApproveRequest = async (
     )
   }
 >
-  Delete Student
+  🗑 Delete Student
 </button>
           </div>
 
