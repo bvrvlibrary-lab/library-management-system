@@ -17,3 +17,19 @@ body {
     #eef2f7 100%
   );
 }
+/* Admin Sidebar */
+
+.list-group-item {
+  border-radius: 12px !important;
+  margin-bottom: 6px;
+}
+
+.list-group-item.active {
+  background-color: #6f4e37 !important;
+  border-color: #6f4e37 !important;
+}
+
+.list-group-item:hover {
+  transform: translateX(4px);
+  transition: 0.2s;
+}
