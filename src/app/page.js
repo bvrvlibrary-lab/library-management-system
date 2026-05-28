@@ -419,9 +419,9 @@ const filteredBooks = books.filter((book) => {
   </div>
 </div>
 
-{/*  <div className="row g-3 mb-4">
+//<div className="row g-3 mb-4">
 
-  <div className="col-md-3">*/}
+ // <div className="col-md-3">
    <div className="row g-4 mb-4">
 
   <div className="col-md-3">
@@ -505,7 +505,7 @@ const filteredBooks = books.filter((book) => {
     </div>
   </div>
 
-{/* <div className="col-md-3">*/}
+//<div className="col-md-3">
     <div className="row g-4 mb-4">
 
   <div className="col-md-3">
@@ -589,7 +589,7 @@ const filteredBooks = books.filter((book) => {
     </div>
   </div>
 
-{/*<div className="col-md-3">*/}
+//<div className="col-md-3">
   <div className="row g-4 mb-4">
 
   <div className="col-md-3">
@@ -673,7 +673,7 @@ const filteredBooks = books.filter((book) => {
     </div>
   </div>
 
-{/* <div className="col-md-3">*/}
+// <div className="col-md-3">
    <div className="row g-4 mb-4">
 
   <div className="col-md-3">
