@@ -384,12 +384,37 @@ const filteredBooks =
   }}
 />
 
-  <div className="container mt-4">
+<div
+  className="container-fluid py-4"
+  style={{
+    minHeight: '100vh',
+    background:
+      'linear-gradient(135deg,#f4f7fc,#e9f2ff)'
+  }}
+>
    
 
-      <h3 className="mb-4">
-        Admin Home
-      </h3>
+      <div className="mb-4">
+
+  <h1
+    className="fw-bold mb-1"
+    style={{
+      color: '#1e293b'
+    }}
+  >
+    📚 Library Dashboard
+  </h1>
+
+  <p
+    style={{
+      color: '#64748b',
+      fontSize: '16px'
+    }}
+  >
+    Manage books, students and circulation
+  </p>
+
+</div>
 <div className="row mb-4">
 
   <div className="col-md-3 mb-3">
