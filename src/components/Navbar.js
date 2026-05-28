@@ -14,9 +14,9 @@ export default function Navbar({ isAdmin, user }) {
    <nav
   className="navbar navbar-expand-lg shadow-sm"
   style={{
-    background:
-      'linear-gradient(90deg,#0f172a,#1e3a8a)'
-  }}
+  background:
+    'linear-gradient(90deg,#4e342e,#6d4c41)'
+}}
 >
       <div className="container-fluid">
 
@@ -54,13 +54,13 @@ export default function Navbar({ isAdmin, user }) {
 {!isAdmin && user && (
   <>
     <li className="nav-item">
-      <Link href="/history" className="nav-link">
+      <Link href="/history" className="nav-link text-light fw-semibold">
         Book History
       </Link>
     </li>
 
     <li className="nav-item">
-      <Link href="/profile" className="nav-link">
+      <Link href="/profile" className="nav-link text-light fw-semibold">
         Profile
       </Link>
     </li>
@@ -73,7 +73,7 @@ export default function Navbar({ isAdmin, user }) {
     <li className="nav-item">
       <Link
         href="/admin/home"
-        className="nav-link"
+        className="nav-link text-light fw-semibold"
       >
         Home
       </Link>
@@ -82,7 +82,7 @@ export default function Navbar({ isAdmin, user }) {
     <li className="nav-item">
       <Link
         href="/admin/history"
-        className="nav-link"
+        className="nav-link text-light fw-semibold"
       >
         History
       </Link>
