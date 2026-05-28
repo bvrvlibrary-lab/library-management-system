@@ -1,4 +1,4 @@
-
+import './globals.css'
 export const metadata = {
   title: 'Library Management System',
   description: 'PRD Cloud Native LMS App',
