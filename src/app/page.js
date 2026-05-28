@@ -419,46 +419,10 @@ const filteredBooks = books.filter((book) => {
   </div>
 </div>
 
+<div className="row g-3 mb-4"> 422
 
-   <div className="row g-4 mb-4">
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#2F80ED,#56CCF2)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📚 Total Books</h5>
-        <h1 className="fw-bold">
-          {libraryStats.books}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#11998E,#38EF7D)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>👨‍🎓 Students</h5>
-        <h1 className="fw-bold">
-          {libraryStats.students}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-md-3">
+ <div className="col-md-3"> 424
+     <div className="col-md-3">
     <div
       className="card border-0 shadow-lg text-white"
       style={{
@@ -541,42 +505,8 @@ const filteredBooks = books.filter((book) => {
       </div>
     </div>
   </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#F7971E,#FFD200)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📖 Languages</h5>
-        <h1 className="fw-bold">
-          {libraryStats.languages}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#EB3349,#F45C43)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📦 Stock</h5>
-        <h1 className="fw-bold">
-          {libraryStats.copies}
-        </h1>
-      </div>
-    </div>
-  </div>
+<div className="col-md-3">
+  <div className="card stat-card shadow-sm border-0">
 
 </div>
       <div className="card-body text-center">
@@ -625,44 +555,8 @@ const filteredBooks = books.filter((book) => {
       </div>
     </div>
   </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#F7971E,#FFD200)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📖 Languages</h5>
-        <h1 className="fw-bold">
-          {libraryStats.languages}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#EB3349,#F45C43)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📦 Stock</h5>
-        <h1 className="fw-bold">
-          {libraryStats.copies}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-</div>
+<div className="col-md-3">
+  <div className="card stat-card shadow-sm border-0">
       <div className="card-body text-center">
         <h2>🌍</h2>
         <h4>{libraryStats.languages}</h4>
@@ -709,44 +603,8 @@ const filteredBooks = books.filter((book) => {
       </div>
     </div>
   </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#F7971E,#FFD200)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📖 Languages</h5>
-        <h1 className="fw-bold">
-          {libraryStats.languages}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-md-3">
-    <div
-      className="card border-0 shadow-lg text-white"
-      style={{
-        background:
-          "linear-gradient(135deg,#EB3349,#F45C43)",
-        borderRadius: "20px"
-      }}
-    >
-      <div className="card-body">
-        <h5>📦 Stock</h5>
-        <h1 className="fw-bold">
-          {libraryStats.copies}
-        </h1>
-      </div>
-    </div>
-  </div>
-
-</div>
+<div className="col-md-3">
+  <div className="card stat-card shadow-sm border-0">
       <div className="card-body text-center">
         <h2>📦</h2>
         <h4>{libraryStats.copies}</h4>
