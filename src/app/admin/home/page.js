@@ -1,6 +1,7 @@
 'use client';
-import { db } from '../../../firebase';
 
+import Navbar from '../../../components/Navbar';
+import { db } from '../../../firebase';
 import { useState, useEffect } from 'react';
 
 import {
@@ -289,7 +290,12 @@ const filteredBooks =
   });
   return (
     <>
-
+<Navbar
+  isAdmin={true}
+  user={{
+    email: 'bvrvlibrary@gmail.com'
+  }}
+/>
 
   <div className="container mt-4">
    
