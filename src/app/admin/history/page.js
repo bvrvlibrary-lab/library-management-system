@@ -448,8 +448,7 @@ const handleApproveRequest = async (
       }}
     />
 
-    <div className="container mt-4">
-    <div className="container mt-4">
+     <div className="container mt-4">
 
       <h3 className="mb-4">
         Admin History
