@@ -8,3 +8,12 @@
   background-color: #fff3cd;
   transition: 0.2s;
 }
+/* Dashboard Background */
+
+body {
+  background: linear-gradient(
+    180deg,
+    #f8f6f2 0%,
+    #eef2f7 100%
+  );
+}
