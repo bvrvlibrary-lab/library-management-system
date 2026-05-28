@@ -481,14 +481,24 @@ const filteredBooks = books.filter((book) => {
   </div>
 
 </div>
-<div className="card shadow-sm border-0 p-3 mb-4">
-    
+<div
+  className="card border-0 shadow-lg p-4 mb-4"
+  style={{
+    borderRadius: "18px"
+  }}
+>
+    <h5
+  className="fw-bold mb-3"
+  style={{ color: "#6f4e37" }}
+>
+  Search Library Collection
+</h5>
   <div className="row">
 
     <div className="col-md-8 mb-2">
       <input
-        type="text"
-        placeholder="Search by Book Name or Author"
+  type="text"
+  placeholder="🔍 Search books by name or author..."
         className="form-control"
         value={searchTerm}
         onChange={(e) =>
@@ -505,9 +515,9 @@ const filteredBooks = books.filter((book) => {
           setLanguageFilter(e.target.value)
         }
       >
-        <option value="">
-          All Languages
-        </option>
+       <option value="">
+  🌍 All Languages
+</option>
 
         {[...new Set(
           books.map(
