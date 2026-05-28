@@ -1168,7 +1168,12 @@ const handleApproveRequest = async (
   <div>
 
     <div className="card p-3 mb-3">
-
+<h6
+  className="fw-bold mb-3"
+  style={{ color: "#6f4e37" }}
+>
+  🔍 Search Records
+</h6>
       <input
         type="text"
         className="form-control"
