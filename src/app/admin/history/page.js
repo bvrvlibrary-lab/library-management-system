@@ -1185,9 +1185,15 @@ const handleApproveRequest = async (
 
     <div className="card p-3">
 
-      <h4 className="mb-3">
-        Returned Books
-      </h4>
+     <div className="d-flex justify-content-between align-items-center mb-3">
+  <h4 className="mb-0">
+    Returned Books
+  </h4>
+
+  <span className="badge bg-dark fs-6">
+    {returnedBooks.length} Records
+  </span>
+</div>
 
       <div className="table-responsive">
 
