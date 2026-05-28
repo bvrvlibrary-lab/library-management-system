@@ -48,6 +48,8 @@ const [editPosition,
 const [editQuantity,
     setEditQuantity] =
   useState('');
+  const [students, setStudents] =
+  useState([]);
 const [languageFilter,
   setLanguageFilter] =
   useState('');
@@ -67,7 +69,28 @@ const [languageFilter,
 
   return () => unsubscribe();
 }, []);
+useEffect(() => {
 
+  const unsubscribe =
+    onSnapshot(
+      collection(db, 'users'),
+      (snapshot) => {
+
+        setStudents(
+          snapshot.docs.map(
+            (doc) => ({
+              id: doc.id,
+              ...doc.data()
+            })
+          )
+        );
+
+      }
+    );
+
+  return () => unsubscribe();
+
+}, []);
 const handleAddBook = async (e) => {
   e.preventDefault();
 
@@ -367,7 +390,139 @@ const filteredBooks =
       <h3 className="mb-4">
         Admin Home
       </h3>
+<div className="row mb-4">
 
+  <div className="col-md-3 mb-3">
+
+    <div
+      className="card border-0 shadow"
+      style={{
+        background:
+          'linear-gradient(135deg,#0d6efd,#4dabf7)',
+        color: 'white',
+        borderRadius: '18px'
+      }}
+    >
+      <div className="card-body">
+
+        <h6>
+          📚 Total Books
+        </h6>
+
+        <h2 className="fw-bold">
+          {books.length}
+        </h2>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div className="col-md-3 mb-3">
+
+    <div
+      className="card border-0 shadow"
+      style={{
+        background:
+          'linear-gradient(135deg,#198754,#51cf66)',
+        color: 'white',
+        borderRadius: '18px'
+      }}
+    >
+      <div className="card-body">
+
+        <h6>
+          👥 Students
+        </h6>
+
+        <h2 className="fw-bold">
+          {students.length}
+        </h2>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div className="col-md-3 mb-3">
+
+    <div
+      className="card border-0 shadow"
+      style={{
+        background:
+          'linear-gradient(135deg,#fd7e14,#ffc078)',
+        color: 'white',
+        borderRadius: '18px'
+      }}
+    >
+      <div className="card-body">
+
+        <h6>
+          📖 Languages
+        </h6>
+
+        <h2 className="fw-bold">
+
+          {
+            [
+              ...new Set(
+                books.map(
+                  (b) =>
+                    b.language
+                )
+              )
+            ].length
+          }
+
+        </h2>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div className="col-md-3 mb-3">
+
+    <div
+      className="card border-0 shadow"
+      style={{
+        background:
+          'linear-gradient(135deg,#dc3545,#ff6b6b)',
+        color: 'white',
+        borderRadius: '18px'
+      }}
+    >
+      <div className="card-body">
+
+        <h6>
+          📦 Stock
+        </h6>
+
+        <h2 className="fw-bold">
+
+          {
+            books.reduce(
+              (
+                total,
+                book
+              ) =>
+                total +
+                Number(
+                  book.quantity ||
+                  0
+                ),
+              0
+            )
+          }
+
+        </h2>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
       <div className="row">
 
         <div className="col-md-3">
