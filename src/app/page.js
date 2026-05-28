@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-
 import {
   collection,
   onSnapshot,
