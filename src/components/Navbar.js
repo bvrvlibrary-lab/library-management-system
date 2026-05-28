@@ -11,12 +11,18 @@ export default function Navbar({ isAdmin, user }) {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-3">
+   <nav
+  className="navbar navbar-expand-lg shadow-sm"
+  style={{
+    background:
+      'linear-gradient(90deg,#0f172a,#1e3a8a)'
+  }}
+>
       <div className="container-fluid">
 
         {/* Logo / Brand */}
         <Link href="/" className="navbar-brand fw-bold">
-          Library System
+          📚 BVRV Library
         </Link>
 
         {/* Mobile Toggle */}
