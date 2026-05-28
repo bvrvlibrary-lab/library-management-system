@@ -473,7 +473,7 @@ const handleApproveRequest = async (
                 )
               }
             >
-              Approval Pending
+              Approval Books
             </button>
 
             <button
