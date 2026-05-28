@@ -21,7 +21,7 @@ export default function Navbar({ isAdmin, user }) {
       <div className="container-fluid">
 
         {/* Logo / Brand */}
-        <Link href="/" className="navbar-brand fw-bold">
+        <Link href="/" className="navbar-brand fw-bold text-warning">
           📚 BVRV Library
         </Link>
 
@@ -96,7 +96,7 @@ export default function Navbar({ isAdmin, user }) {
 
             {/* User Email */}
             {user && (
-              <span className="text-light small">
+              <span className="text-warning small fw-semibold">
                 {user.email}
               </span>
             )}
@@ -105,7 +105,7 @@ export default function Navbar({ isAdmin, user }) {
             {user && (
               <button
                 onClick={handleLogout}
-                className="btn btn-outline-light btn-sm"
+                className="btn btn-warning btn-sm fw-semibold"
               >
                 Logout
               </button>
