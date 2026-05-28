@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 
@@ -21,9 +22,29 @@ export default function Navbar({ isAdmin, user }) {
       <div className="container-fluid">
 
         {/* Logo / Brand */}
-        <Link href="/" className="navbar-brand fw-bold text-warning">
-          📚 BVRV Library
-        </Link>
+        <Link
+  href="/"
+  className="navbar-brand d-flex align-items-center"
+>
+
+  <Image
+    src="/logo.png"
+    alt="BVRV Library"
+    width={50}
+    height={50}
+  />
+
+  <span
+    className="ms-2 fw-bold"
+    style={{
+      color: '#F4E4BC',
+      fontSize: '1.4rem'
+    }}
+  >
+    BVRV Library
+  </span>
+
+</Link>
 
         {/* Mobile Toggle */}
         <button
