@@ -564,7 +564,7 @@ const handleApproveRequest = async (
           <div className="list-group">
 
             <button
-              className={`list-group-item list-group-item-action ${
+              className={`list-group-item list-group-item-action fw-semibold ${
                 activeTab ===
                 'approvalpending'
                   ? 'active'
@@ -580,7 +580,7 @@ const handleApproveRequest = async (
             </button>
 
             <button
-              className={`list-group-item list-group-item-action ${
+              className={`list-group-item list-group-item-action fw-semibold ${
                 activeTab ===
                 'registrationapproval'
                   ? 'active'
@@ -595,7 +595,7 @@ const handleApproveRequest = async (
              Approve New Student
             </button>
 <button
-  className={`list-group-item list-group-item-action ${
+  className={`list-group-item list-group-item-action fw-semibold ${
     activeTab === 'issuedbooks'
       ? 'active'
       : ''
@@ -609,7 +609,7 @@ const handleApproveRequest = async (
   Issued Books
 </button>
     <button
-  className={`list-group-item list-group-item-action ${
+  className={`list-group-item list-group-item-action fw-semibold ${
     activeTab === 'renewbooks'
       ? 'active'
       : ''
@@ -623,7 +623,7 @@ const handleApproveRequest = async (
   Renew Books
 </button>
     <button
-  className={`list-group-item list-group-item-action ${
+  className={`list-group-item list-group-item-action fw-semibold ${
     activeTab === 'returnedbooks'
       ? 'active'
       : ''
@@ -637,7 +637,7 @@ const handleApproveRequest = async (
   Returned Books
 </button>
     <button
-  className={`list-group-item list-group-item-action ${
+  className={`list-group-item list-group-item-action fw-semibold ${
     activeTab === 'studentdetails'
       ? 'active'
       : ''
@@ -651,7 +651,7 @@ const handleApproveRequest = async (
   Student Details
 </button>
     <button
-  className={`list-group-item list-group-item-action ${
+  className={`list-group-item list-group-item-action fw-semibold ${
     activeTab === 'deletestudent'
       ? 'active'
       : ''
@@ -701,7 +701,12 @@ const handleApproveRequest = async (
                   <table className="table table-bordered">
 
                     <thead>
-                      <tr>
+  <tr
+    style={{
+      backgroundColor: "#6f4e37",
+      color: "white"
+    }}
+  >
                         <th>Student</th>
                         <th>Mobile</th>
                         <th>Book</th>
@@ -924,7 +929,12 @@ const handleApproveRequest = async (
   <div>
 
     <div className="card p-3 mb-3">
-
+<h5
+  className="fw-bold mb-3"
+  style={{ color: "#6f4e37" }}
+>
+  🔍 Search Library Records
+</h5>
       <input
         type="text"
         className="form-control"
