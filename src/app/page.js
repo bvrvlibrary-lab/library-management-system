@@ -29,6 +29,12 @@ export default function LibraryDashboard() {
   const [isAdmin, setIsAdmin] = useState(false);
 const [searchTerm, setSearchTerm] = useState('');
 const [languageFilter, setLanguageFilter] = useState('');
+  const [libraryStats, setLibraryStats] = useState({
+  books: 0,
+  students: 0,
+  languages: 0,
+  copies: 0
+});
 
 
   const [issueDays, setIssueDays] = useState({});
@@ -66,7 +72,43 @@ const [languageFilter, setLanguageFilter] = useState('');
           adminEmail.toLowerCase()
       );
     });
+const loadLibraryStats = async () => {
+  try {
+    const booksSnap = await getDocs(
+      collection(db, 'books')
+    );
 
+    const studentsSnap = await getDocs(
+      collection(db, 'users')
+    );
+
+    let copies = 0;
+    const languages = new Set();
+
+    booksSnap.forEach((doc) => {
+      const book = doc.data();
+
+      copies += Number(book.quantity || 0);
+
+      if (book.language) {
+        languages.add(
+          book.language.trim().toLowerCase()
+        );
+      }
+    });
+
+    setLibraryStats({
+      books: booksSnap.size,
+      students: studentsSnap.size,
+      languages: languages.size,
+      copies
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+loadLibraryStats();
     return () => {
       unsubBooks();
       unsubRequests();
@@ -355,13 +397,74 @@ const filteredBooks = books.filter((book) => {
       isAdmin={isAdmin}
       user={user}
     />
-
  
     <div className="container mt-4">
-      <h2 className="mb-4">
-        Library Management System
-      </h2>
-<div className="card p-3 mb-4">
+        
+     <div
+  className="card border-0 shadow-lg mb-4"
+  style={{
+    background:
+      'linear-gradient(135deg,#6f4e37,#8b5e3c)',
+    color: 'white'
+  }}
+>
+  <div className="card-body p-4">
+    <h2 className="mb-2">
+      Welcome {user?.email ? '👋' : ''}
+    </h2>
+
+    <p className="mb-0">
+      Explore and request books from the
+      BVRV Library Management System.
+    </p>
+  </div>
+</div>
+
+      <div className="row g-3 mb-4">
+
+  <div className="col-md-3">
+    <div className="card stat-card shadow-sm border-0">
+      <div className="card-body text-center">
+        <h2>📚</h2>
+        <h4>{libraryStats.books}</h4>
+        <small>Total Books</small>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-md-3">
+    <div className="card stat-card shadow-sm border-0">
+      <div className="card-body text-center">
+        <h2>👨‍🎓</h2>
+        <h4>{libraryStats.students}</h4>
+        <small>Students</small>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-md-3">
+    <div className="card stat-card shadow-sm border-0">
+      <div className="card-body text-center">
+        <h2>🌍</h2>
+        <h4>{libraryStats.languages}</h4>
+        <small>Languages</small>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-md-3">
+    <div className="card stat-card shadow-sm border-0">
+      <div className="card-body text-center">
+        <h2>📦</h2>
+        <h4>{libraryStats.copies}</h4>
+        <small>Book Copies</small>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div className="card shadow-sm border-0 p-3 mb-4">
+    
   <div className="row">
 
     <div className="col-md-8 mb-2">
@@ -412,14 +515,25 @@ const filteredBooks = books.filter((book) => {
      
        {/* BOOK LIST */}
       <div className="card p-3 mb-4">
-      <h4 className="fw-bold mb-4">
-  Books ({books.length})
-</h4>
+     <div className="d-flex justify-content-between align-items-center mb-3">
+  <h4 className="fw-bold mb-0">
+    Library Books
+  </h4>
+
+  <span className="badge bg-dark">
+    {books.length} Books
+  </span>
+</div>
 
  <div className="table-responsive">
   <table className="table table-hover align-middle">
        
-          <thead>
+       <thead
+  style={{
+    backgroundColor: '#6f4e37',
+    color: 'white'
+  }}
+>
             <tr>
               <th>Name</th>
               <th>Author</th>
