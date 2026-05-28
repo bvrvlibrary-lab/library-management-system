@@ -489,7 +489,7 @@ const handleApproveRequest = async (
                 )
               }
             >
-              Registration Approval
+             Approve New Student
             </button>
 <button
   className={`list-group-item list-group-item-action ${
