@@ -1,5 +1,5 @@
 'use client';
-
+import Navbar from '../../../components/Navbar';
 import { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 
@@ -439,7 +439,16 @@ const handleApproveRequest = async (
           deleteStudentSearch
         )
   );
-  return (
+ return (
+  <>
+    <Navbar
+      isAdmin={true}
+      user={{
+        email: 'bvrvlibrary@gmail.com'
+      }}
+    />
+
+    <div className="container mt-4">
     <div className="container mt-4">
 
       <h3 className="mb-4">
@@ -1447,5 +1456,6 @@ const handleApproveRequest = async (
         </div>
       </div>
     </div>
+  </>
   );
 }
