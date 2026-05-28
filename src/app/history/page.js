@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase';
 
 import {
+  onAuthStateChanged
+} from 'firebase/auth';
+
+import {
   collection,
   onSnapshot
 } from 'firebase/firestore';
@@ -19,13 +23,15 @@ export default function HistoryPage() {
     useState(null);
 
   useEffect(() => {
-    const currentUser =
-      auth.currentUser;
-
-    if (currentUser) {
-      setUser(currentUser);
+  const unsubscribeAuth =
+  onAuthStateChanged(
+    auth,
+    (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      }
     }
-
+  );
     const unsubscribe =
       onSnapshot(
         collection(
@@ -43,8 +49,10 @@ export default function HistoryPage() {
           );
         }
       );
-
-    return () => unsubscribe();
+return () => {
+  unsubscribe();
+  unsubscribeAuth();
+};
   }, []);
 
   const issuedBooks =
