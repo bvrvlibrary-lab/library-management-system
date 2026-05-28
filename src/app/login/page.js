@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
+} from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../firebase';
 import { useRouter } from 'next/navigation';
@@ -13,6 +16,29 @@ export default function LoginPage() {
   const [message, setMessage] = useState('');
 
   const router = useRouter();
+  const handleForgotPassword =
+  async () => {
+
+    if (!email) {
+      setMessage(
+        'Please enter your email first.'
+      );
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(
+        auth,
+        email
+      );
+
+      setMessage(
+        'Password reset email sent successfully.'
+      );
+    } catch (error) {
+      setMessage(error.message);
+    }
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -83,16 +109,50 @@ export default function LoginPage() {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: '500px',
-        margin: '50px auto',
-        padding: '30px',
-        border: '1px solid #ddd',
-        borderRadius: '10px'
-      }}
-    >
-      <h1>Sign In</h1>
+  <div
+    style={{
+      minHeight: '100vh',
+      background:
+        'linear-gradient(135deg,#f8f6f2,#eef2f7)',
+      paddingTop: '20px'
+    }}
+  >
+<div
+  style={{
+    maxWidth: '500px',
+    margin: '80px auto',
+    padding: '35px',
+    background: 'white',
+    borderRadius: '20px',
+    boxShadow:
+      '0 10px 30px rgba(0,0,0,0.1)'
+  }}
+>
+     <div
+  style={{
+    textAlign: 'center',
+    marginBottom: '25px'
+  }}
+>
+  <h1
+    style={{
+      color: '#6f4e37',
+      fontWeight: 'bold',
+      marginBottom: '10px'
+    }}
+  >
+    📚 BVRV Library
+  </h1>
+
+  <p
+    style={{
+      color: '#666',
+      margin: 0
+    }}
+  >
+    Welcome Back
+  </p>
+</div>
 
       <form onSubmit={handleLogin}>
         <input
@@ -122,17 +182,37 @@ export default function LoginPage() {
           style={{
             width: '100%',
             padding: '14px',
-            background: 'blue',
+            background: '#6f4e37',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
-            fontSize: '18px'
+            fontSize: '18px',
+            fontWeight: 'bold',
           }}
         >
           Sign In
         </button>
       </form>
-
+<div
+  style={{
+    textAlign: 'center',
+    marginTop: '15px'
+  }}
+>
+  <button
+    type="button"
+    onClick={handleForgotPassword}
+    style={{
+      border: 'none',
+      background: 'none',
+      color: '#6f4e37',
+      fontWeight: 'bold',
+      cursor: 'pointer'
+    }}
+  >
+    Forgot Password?
+  </button>
+</div>
       <p style={{ marginTop: '20px' }}>
         New Student?{' '}
         <a href="/signup">
@@ -146,6 +226,7 @@ export default function LoginPage() {
         </p>
       )}
     </div>
+</div>
   );
 }
 
