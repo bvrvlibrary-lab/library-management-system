@@ -28,6 +28,7 @@ export default function AdminHistoryPage() {
   const [requests, setRequests] =
     useState([]);
 
+  
   const [searchTerm, setSearchTerm] =
     useState('');
 
@@ -469,7 +470,93 @@ const handleApproveRequest = async (
     </p>
   </div>
 </div>
+<div className="row g-4 mb-4">
 
+  <div className="col-lg-3 col-md-6">
+    <div
+      className="card border-0 shadow-lg text-white"
+      style={{
+        background:
+          "linear-gradient(135deg,#2F80ED,#56CCF2)",
+        borderRadius: "20px"
+      }}
+    >
+      <div className="card-body">
+        <h5>📚 Pending</h5>
+        <h1 className="fw-bold">
+          {
+            requests.filter(
+              r => r.status === "Pending"
+            ).length
+          }
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-lg-3 col-md-6">
+    <div
+      className="card border-0 shadow-lg text-white"
+      style={{
+        background:
+          "linear-gradient(135deg,#11998E,#38EF7D)",
+        borderRadius: "20px"
+      }}
+    >
+      <div className="card-body">
+        <h5>📖 Issued</h5>
+        <h1 className="fw-bold">
+          {
+            requests.filter(
+              r => r.status === "Issued"
+            ).length
+          }
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-lg-3 col-md-6">
+    <div
+      className="card border-0 shadow-lg text-white"
+      style={{
+        background:
+          "linear-gradient(135deg,#F7971E,#FFD200)",
+        borderRadius: "20px"
+      }}
+    >
+      <div className="card-body">
+        <h5>👨‍🎓 Students</h5>
+        <h1 className="fw-bold">
+          {students.length}
+        </h1>
+      </div>
+    </div>
+  </div>
+
+  <div className="col-lg-3 col-md-6">
+    <div
+      className="card border-0 shadow-lg text-white"
+      style={{
+        background:
+          "linear-gradient(135deg,#EB3349,#F45C43)",
+        borderRadius: "20px"
+      }}
+    >
+      <div className="card-body">
+        <h5>✅ Returned</h5>
+        <h1 className="fw-bold">
+          {
+            requests.filter(
+              r => r.status === "Returned"
+            ).length
+          }
+        </h1>
+      </div>
+    </div>
+  </div>
+
+</div>
       <div className="row">
 
         <div className="col-md-3">
