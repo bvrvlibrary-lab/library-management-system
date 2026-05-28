@@ -9,6 +9,7 @@ import {
   onSnapshot,
   addDoc,
   deleteDoc,
+  updateDoc,
   doc
 } from 'firebase/firestore';
 
@@ -27,7 +28,26 @@ const [quantity, setQuantity] =
   useState(null);
   const [searchTerm, setSearchTerm] =
   useState('');
+const [editingBook, setEditingBook] =
+  useState(null);
 
+const [editName, setEditName] =
+  useState('');
+
+const [editAuthor, setEditAuthor] =
+  useState('');
+
+const [editLanguage,
+    setEditLanguage] =
+  useState('');
+
+const [editPosition,
+    setEditPosition] =
+  useState('');
+
+const [editQuantity,
+    setEditQuantity] =
+  useState('');
 const [languageFilter,
   setLanguageFilter] =
   useState('');
@@ -258,7 +278,51 @@ if (fileInput) {
     );
   }
 };
+const handleUpdateBook =
+  async () => {
 
+    try {
+
+      await updateDoc(
+        doc(
+          db,
+          'books',
+          editingBook.id
+        ),
+        {
+          name: editName,
+          author: editAuthor,
+          language:
+            editLanguage,
+          position:
+            editPosition,
+          quantity:
+            Number(
+              editQuantity
+            )
+        }
+      );
+
+      alert(
+        'Book updated successfully'
+      );
+
+      setEditingBook(
+        null
+      );
+
+    } catch (error) {
+
+      console.error(
+        error
+      );
+
+      alert(
+        'Failed to update book'
+      );
+
+    }
+  };
 const filteredBooks =
   books.filter((book) => {
 
@@ -637,17 +701,52 @@ const filteredBooks =
                   </td>
 
                   <td>
-                    <button
-                      onClick={() =>
-                        handleDeleteBook(
-                          book.id
-                        )
-                      }
-                      className="btn btn-danger btn-sm"
-                    >
-                      Delete
-                    </button>
-                  </td>
+
+  <div className="d-flex gap-2">
+
+    <button
+      onClick={() => {
+        setEditingBook(book);
+
+        setEditName(
+          book.name
+        );
+
+        setEditAuthor(
+          book.author
+        );
+
+        setEditLanguage(
+          book.language
+        );
+
+        setEditPosition(
+          book.position
+        );
+
+        setEditQuantity(
+          book.quantity
+        );
+      }}
+      className="btn btn-primary btn-sm"
+    >
+      Edit
+    </button>
+
+    <button
+      onClick={() =>
+        handleDeleteBook(
+          book.id
+        )
+      }
+      className="btn btn-danger btn-sm"
+    >
+      Delete
+    </button>
+
+  </div>
+
+</td>
 
                 </tr>
               )
@@ -662,6 +761,119 @@ const filteredBooks =
     </div>
 
   </div>
+)}
+  {editingBook && (
+
+  <div
+    className="modal d-block"
+    style={{
+      background:
+        'rgba(0,0,0,0.5)'
+    }}
+  >
+
+    <div className="modal-dialog">
+
+      <div className="modal-content">
+
+        <div className="modal-header">
+
+          <h5>
+            Edit Book
+          </h5>
+
+        </div>
+
+        <div className="modal-body">
+
+          <input
+            className="form-control mb-2"
+            value={editName}
+            onChange={(e) =>
+              setEditName(
+                e.target.value
+              )
+            }
+            placeholder="Book Name"
+          />
+
+          <input
+            className="form-control mb-2"
+            value={editAuthor}
+            onChange={(e) =>
+              setEditAuthor(
+                e.target.value
+              )
+            }
+            placeholder="Author"
+          />
+
+          <input
+            className="form-control mb-2"
+            value={editLanguage}
+            onChange={(e) =>
+              setEditLanguage(
+                e.target.value
+              )
+            }
+            placeholder="Language"
+          />
+
+          <input
+            className="form-control mb-2"
+            value={editPosition}
+            onChange={(e) =>
+              setEditPosition(
+                e.target.value
+              )
+            }
+            placeholder="Position"
+          />
+
+          <input
+            type="number"
+            className="form-control"
+            value={editQuantity}
+            onChange={(e) =>
+              setEditQuantity(
+                e.target.value
+              )
+            }
+            placeholder="Quantity"
+          />
+
+        </div>
+
+        <div className="modal-footer">
+
+          <button
+            className="btn btn-secondary"
+            onClick={() =>
+              setEditingBook(
+                null
+              )
+            }
+          >
+            Cancel
+          </button>
+
+          <button
+            className="btn btn-success"
+            onClick={
+              handleUpdateBook
+            }
+          >
+            Save Changes
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 )}
         </div>
 
