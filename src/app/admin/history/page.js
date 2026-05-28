@@ -698,7 +698,7 @@ const handleApproveRequest = async (
 
                 <div className="table-responsive">
 
-                  <table className="table table-bordered">
+                  <table className="table table-bordered table-striped table-hover">
 
                     <thead>
   <tr
@@ -841,7 +841,7 @@ const handleApproveRequest = async (
 
                 <div className="table-responsive">
 
-                  <table className="table table-bordered">
+                 <table className="table table-bordered table-striped table-hover">
 
                     <thead>
                       <tr>
@@ -957,7 +957,7 @@ const handleApproveRequest = async (
 
       <div className="table-responsive">
 
-        <table className="table table-bordered">
+       <table className="table table-bordered table-striped table-hover">
 
           <thead>
             <tr>
@@ -1096,7 +1096,7 @@ const handleApproveRequest = async (
 
       <div className="table-responsive">
 
-        <table className="table table-bordered">
+        <table className="table table-bordered table-striped table-hover">
 
           <thead>
             <tr>
@@ -1191,7 +1191,7 @@ const handleApproveRequest = async (
 
       <div className="table-responsive">
 
-        <table className="table table-bordered">
+        <table className="table table-bordered table-striped table-hover">
 
           <thead>
             <tr>
