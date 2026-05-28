@@ -409,7 +409,7 @@ const filteredBooks = books.filter((book) => {
 >
   <div className="card-body p-4">
     <h2 className="mb-2">
-      Hare Krishna! {user?.email ? '👋' : ''}
+      Hare Krishna! {user?.email ? '🙏' : ''}
     </h2>
 
     <p className="mb-0">
