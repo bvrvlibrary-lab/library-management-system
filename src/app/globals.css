@@ -1,0 +1,10 @@
+/* Library Table Styling */
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #fff3cd;
+  transition: 0.2s;
+}
