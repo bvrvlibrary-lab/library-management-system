@@ -1200,7 +1200,12 @@ const handleApproveRequest = async (
         <table className="table table-bordered table-striped table-hover">
 
           <thead>
-            <tr>
+  <tr
+    style={{
+      backgroundColor: "#6f4e37",
+      color: "white"
+    }}
+  >
               <th>Student</th>
               <th>Mobile</th>
               <th>Book</th>
