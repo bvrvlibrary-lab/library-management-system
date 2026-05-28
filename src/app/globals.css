@@ -33,3 +33,8 @@ body {
   transform: translateX(4px);
   transition: 0.2s;
 }
+// for admin history
+.admin-table thead th {
+  background-color: #6f4e37 !important;
+  color: white !important;
+}
