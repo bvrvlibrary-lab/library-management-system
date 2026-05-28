@@ -62,12 +62,15 @@ export default function Navbar({ isAdmin, user }) {
           {/* Left Side */}
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-         {/* Public / Student Home */}
+         {/* Public / Student  */}
 {!isAdmin && (
   <li className="nav-item">
-    <Link href="/" className="nav-link">
-      Home
-    </Link>
+    <Link
+  href="/"
+  className="nav-link text-light fw-semibold"
+>
+  Home
+</Link>
   </li>
 )}
 
