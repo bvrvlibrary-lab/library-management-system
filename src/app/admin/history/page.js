@@ -450,9 +450,25 @@ const handleApproveRequest = async (
 
      <div className="container mt-4">
 
-      <h3 className="mb-4">
-        Admin History
-      </h3>
+     <div
+  className="card border-0 shadow-lg mb-4"
+  style={{
+    background:
+      "linear-gradient(135deg,#6f4e37,#8b5e3c)",
+    color: "white"
+  }}
+>
+  <div className="card-body p-4">
+    <h2 className="mb-2">
+      Library Administration Panel 📚
+    </h2>
+
+    <p className="mb-0">
+      Manage book requests, student approvals,
+      renewals and circulation records.
+    </p>
+  </div>
+</div>
 
       <div className="row">
 
