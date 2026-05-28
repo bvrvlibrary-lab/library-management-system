@@ -28,7 +28,7 @@ export default function Navbar({ isAdmin, user }) {
 >
 
   <Image
-    src="/logo1.png"
+    src="/logo.png"
     alt="BVRV Library"
     width={50}
     height={50}
