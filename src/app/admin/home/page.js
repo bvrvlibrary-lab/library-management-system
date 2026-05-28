@@ -573,7 +573,14 @@ const filteredBooks =
   'librarybooks' && (
   <div>
 
-    <div className="card p-3 mb-3">
+    <div
+  className="card border-0 shadow-sm p-3 mb-3"
+  style={{
+    borderRadius: '15px',
+    background:
+      'linear-gradient(135deg,#f8fbff,#eef5ff)'
+  }}
+>
 
       <div className="row">
 
@@ -635,7 +642,21 @@ const filteredBooks =
 
     </div>
 
-    <div className="card p-3">
+   <div
+  className="card border-0 shadow-sm p-4"
+  style={{
+    borderRadius: '15px'
+  }}
+>
+  <div
+  style={{
+    height: '5px',
+    background:
+      'linear-gradient(90deg,#0d6efd,#20c997)',
+    borderRadius: '10px',
+    marginBottom: '15px'
+  }}
+></div>
 
       <h4 className="mb-3">
         Library Books
@@ -643,9 +664,9 @@ const filteredBooks =
 
       <div className="table-responsive">
 
-        <table className="table table-bordered">
+        <table className="table table-hover align-middle">
 
-          <thead>
+         <thead className="table-dark">
             <tr>
               <th>
                 Book Name
