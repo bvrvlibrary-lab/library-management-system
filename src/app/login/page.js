@@ -33,8 +33,8 @@ export default function LoginPage() {
       );
 
       setMessage(
-        'Password reset email sent successfully.'
-      );
+  'Password reset link sent. Please check your Inbox or Spam folder.'
+);
     } catch (error) {
       setMessage(error.message);
     }
