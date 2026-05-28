@@ -473,7 +473,7 @@ const handleApproveRequest = async (
                 )
               }
             >
-              Approval Books
+              Approve Book Request
             </button>
 
             <button
