@@ -552,7 +552,14 @@ const filteredBooks =
 
         <div className="col-md-3">
 
-          <div className="list-group">
+          <div
+  className="list-group shadow"
+  style={{
+    borderRadius: '18px',
+    overflow: 'hidden',
+    background: '#fff'
+  }}
+>
 
             <button
               className={`list-group-item list-group-item-action ${
@@ -566,7 +573,7 @@ const filteredBooks =
                 )
               }
             >
-              Add Book
+              📚 Add Book
             </button>
 
             <button
@@ -582,7 +589,7 @@ const filteredBooks =
                 )
               }
             >
-              Bulk Upload
+              📂 Bulk Upload
             </button>
 
             <button
@@ -598,7 +605,7 @@ const filteredBooks =
                 )
               }
             >
-              Library Books
+             📖 Library Books
             </button>
 
           </div>
