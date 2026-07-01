@@ -194,17 +194,20 @@ mobileNumber,
       });
 await sendAdminEmail({
   to_email: 'bvrvlibrary@gmail.com',
-  subject: 'New Book Request',
-message: `
+  subject: '📚 New Book Request',
+  message: `
 A new book request was submitted.
 
-Book: ${book.name}
+📖 Book: ${book.name}
+✍️ Author: ${book.author}
+🌐 Language: ${book.language}
+📍 Location: ${book.position}
 
-Student Name: ${studentName}
+👤 Student Details
 
-Mobile Number: ${mobileNumber}
-
-Student Email: ${user.email}
+Name: ${studentName}
+Mobile: ${mobileNumber}
+Email: ${user.email}
 `,
 });
       alert('Book request submitted');
