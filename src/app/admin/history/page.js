@@ -303,7 +303,73 @@ const handleApproveRequest = async (
     );
   }
 };
+const handleRenewBook = async (
+  request,
+  days
+) => {
+  try {
 
+    const currentDueDate =
+      new Date(
+        request.dueDate.seconds *
+        1000
+      );
+
+    const newDueDate =
+      new Date(currentDueDate);
+
+    newDueDate.setDate(
+      currentDueDate.getDate() +
+      Number(days || 15)
+    );
+
+    await updateDoc(
+      doc(
+        db,
+        'bookRequests',
+        request.id
+      ),
+      {
+        dueDate: newDueDate,
+        renewalCount:
+          (request.renewalCount || 0) + 1
+      }
+    );
+
+    await sendStudentEmail({
+      to_email:
+        request.studentEmail,
+      subject:
+        'Book Renewal Approved',
+      message: `
+Your book has been renewed successfully.
+
+Book:
+${request.bookName}
+
+New Due Date:
+${newDueDate.toLocaleDateString()}
+
+Happy Reading!
+      `
+    });
+
+    alert(
+      `Book renewed for ${
+        days || 15
+      } days.`
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      'Renewal failed.'
+    );
+
+  }
+};
   const handleReturnBook = async (request) => {
   try {
 
