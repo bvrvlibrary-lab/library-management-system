@@ -281,24 +281,15 @@ Email: ${user.email}
       });
 await sendStudentEmail({
   to_email: request.studentEmail,
-  subject: 'Book Issued Successfully',
-  message: `
-Your requested book has been issued.
-
-Book: ${request.bookName}
-
-Issue Days: ${days}
-
-Due Date:
-${dueDate.toLocaleDateString()}
-  `,
+  subject: "Test Email",
+  message: "This is a test email from the Library System."
 });
       alert(`Book issued for ${days} days`);
     } catch (err) {
       console.error(err);
       alert('Issue failed');
     }
-  };
+  };  
 
   // ---------------- RETURN BOOK ----------------
   const handleReturnBook = async (
