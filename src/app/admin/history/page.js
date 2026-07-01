@@ -692,9 +692,31 @@ const handleApproveRequest = async (
 
               <div className="card p-3">
 
-                <h4 className="mb-3">
-                  Approval Pending
-                </h4>
+               <div className="d-flex justify-content-between align-items-center mb-3">
+
+  <div>
+
+    <h3
+      className="mb-1"
+      style={{
+        color: "#6f4e37",
+        fontWeight: "700"
+      }}
+    >
+      📚 Book Request Approval
+    </h3>
+
+    <small className="text-muted">
+      Review and issue pending book requests.
+    </small>
+
+  </div>
+
+  <span className="badge bg-dark fs-6">
+    {pendingRequests.length} Pending
+  </span>
+
+</div>
 
                 <div className="table-responsive">
 
@@ -709,7 +731,7 @@ const handleApproveRequest = async (
   >
                         <th>Student</th>
                         <th>Mobile</th>
-                        <th>Book</th>
+                      <th>Requested Book</th>
                         <th>Status</th>
                       </tr>
                     </thead>
@@ -790,7 +812,7 @@ const handleApproveRequest = async (
       }
       className="btn btn-success btn-sm"
     >
-      Issue
+      📖 Issue Book
     </button>
 
   </div>
