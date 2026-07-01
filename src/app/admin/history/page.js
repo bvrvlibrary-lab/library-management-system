@@ -289,7 +289,26 @@ const handleApproveRequest = async (
           increment(-1)
       }
     );
+await sendStudentEmail({
+  to_email: request.studentEmail,
+  subject: '📚 Book Issued Successfully',
+  message: `
+Your requested book has been issued successfully. Kindly collect the book from BVRV Office.
 
+📖 Book: ${request.bookName}
+
+📅 Issue Date:
+${issueDate.toLocaleDateString('en-GB')}
+
+📅 Due Date:
+${dueDate.toLocaleDateString('en-GB')}
+
+Please return the book on or before the due date.
+
+Thank you,
+BVRV Library
+`
+});
     alert(
       `Book issued for ${
         days || 15
