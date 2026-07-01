@@ -454,10 +454,10 @@ const handleApproveRequest = async (
      <div
   className="card border-0 shadow-lg mb-4"
   style={{
-    background:
-      "linear-gradient(135deg,#6f4e37,#8b5e3c)",
-    color: "white"
-  }}
+  background: "red",
+  color: "white",
+  padding: "20px 25px"
+}}
 >
   <div className="card-body p-4">
     <h2 className="mb-2">
