@@ -485,10 +485,4 @@ const buttonStyle = {
   boxShadow:
     "0 6px 18px rgba(111,78,55,0.25)"
 };
-const inputStyle = {
-  width: '100%',
-  padding: '12px',
-  marginBottom: '15px',
-  borderRadius: '8px',
-  border: '1px solid #ccc'
-};
+
