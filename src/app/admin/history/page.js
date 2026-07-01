@@ -454,7 +454,7 @@ const handleApproveRequest = async (
      <div
   className="card border-0 shadow-lg mb-4"
   style={{
-  background: "red",
+  background: "linear-gradient(135deg,#6f4e37,#8b5e3c)",
   color: "white",
   padding: "20px 25px"
 }}
@@ -855,7 +855,88 @@ const handleApproveRequest = async (
 
               </div>
 
-       <div className="card p-3"> <h4 className="mb-3"> Registration Approval </h4> <div className="table-responsive"> <table className="table table-bordered table-striped table-hover"> <thead> <tr> <th>Name</th> <th>Email</th> <th>Mobile</th> <th>Temple</th> <th>Action</th> </tr> </thead> <tbody> {pendingStudents.length === 0 ? ( <tr> <td colSpan="5" className="text-center" > No pending students </td> </tr> ) : ( pendingStudents.map( (student) => ( <tr key={ student.id } > <td> { student.fullName } </td> <td> { student.email } </td> <td> { student.mobile } </td> <td> { student.temple } </td> <td> <button onClick={() => handleApproveStudent( student ) } className="btn btn-success btn-sm" > Approve </button> </td> </tr> ) ) )} </tbody> </table> </div> this code i need to chagne
+       <div className="card border-0 shadow-lg">
+
+  <div
+    style={{
+      background: "linear-gradient(135deg,#6f4e37,#8b5e3c)",
+      color: "white",
+      padding: "18px 25px"
+    }}
+  >
+    <h4 className="mb-1 fw-bold">
+      👨‍🎓 Registration Approval
+    </h4>
+
+    <small>
+      Review and approve newly registered library members.
+    </small>
+  </div>
+
+  <div className="card-body">
+
+    <div className="table-responsive">
+
+      <table className="table table-bordered table-striped table-hover">
+
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Temple</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {pendingStudents.length === 0 ? (
+
+            <tr>
+              <td colSpan="5" className="text-center py-4">
+                🎉 No pending students.
+              </td>
+            </tr>
+
+          ) : (
+
+            pendingStudents.map((student) => (
+
+              <tr key={student.id}>
+
+                <td>{student.fullName}</td>
+
+                <td>{student.email}</td>
+
+                <td>{student.mobile}</td>
+
+                <td>{student.temple}</td>
+
+                <td className="text-center">
+                  <button
+                    onClick={() => handleApproveStudent(student)}
+                    className="btn btn-success btn-sm px-4"
+                  >
+                    ✓ Approve
+                  </button>
+                </td>
+
+              </tr>
+
+            ))
+
+          )}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
 
   </div>
 
