@@ -857,13 +857,7 @@ const handleApproveRequest = async (
 
        <div className="card border-0 shadow-lg">
 
-  <div
-    style={{
-      background: "linear-gradient(135deg,#6f4e37,#8b5e3c)",
-      color: "white",
-      padding: "18px 25px"
-    }}
-  >
+<div className="card-body">    
     <h4 className="mb-1 fw-bold">
       👨‍🎓 Registration Approval
     </h4>
@@ -879,13 +873,17 @@ const handleApproveRequest = async (
 
       <table className="table table-bordered table-striped table-hover">
 
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Temple</th>
-            <th>Action</th>
+         <thead
+  style={{
+    backgroundColor: "#6f4e37"
+  }}
+>
+  <tr>
+           <th style={{ color: "white" }}>Name</th>
+<th style={{ color: "white" }}>Email</th>
+<th style={{ color: "white" }}>Mobile</th>
+<th style={{ color: "white" }}>Temple</th>
+<th style={{ color: "white" }}>Action</th>
           </tr>
         </thead>
 
