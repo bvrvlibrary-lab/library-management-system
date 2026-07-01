@@ -720,7 +720,7 @@ const handleApproveRequest = async (
 
                 <div className="table-responsive">
 
-                  <table className="table table-bordered table-striped table-hover">
+                  <table className="table admin-table">
 
     <thead>
   <tr
@@ -729,10 +729,10 @@ const handleApproveRequest = async (
       color: "white"
     }}
   >
-    <th style={{ color: "white" }}>👤 Student</th>
-    <th style={{ color: "white" }}>📞 Mobile</th>
-    <th style={{ color: "white" }}>📚 Requested Book</th>
-    <th style={{ color: "white" }}>⚙️ Action</th>
+    <th style={{ color: "white" }}>Student</th>
+    <th style={{ color: "white" }}>Mobile</th>
+    <th style={{ color: "white" }}>Requested Book</th>
+    <th style={{ color: "white" }}>Action</th>
   </tr>
 </thead>
 
