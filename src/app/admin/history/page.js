@@ -348,7 +348,7 @@ Book:
 ${request.bookName}
 
 New Due Date:
-${newDueDate..toLocaleDateString('en-GB')}
+${newDueDate.toLocaleDateString('en-GB')}
 
 Happy Reading!
       `
