@@ -1289,19 +1289,24 @@ Thank you.
 </td>
 
 <td>
-  <button
-    className="btn btn-warning btn-sm"
-    onClick={() =>
-      handleRenewBook(
-        request,
-        Number(
-          renewDays[request.id] || 15
-        )
-      )
-    }
-  >
-    Renew Book
-  </button>
+ <button
+  onClick={() =>
+    handleRenewBook(
+      request,
+      Number(renewDays[request.id] || 15)
+    )
+  }
+  className="btn btn-success btn-sm px-3 fw-bold"
+  style={{
+    borderRadius: "10px",
+    background:
+      "linear-gradient(135deg,#28a745,#1f8a38)",
+    border: "none",
+    boxShadow: "0 4px 12px rgba(40,167,69,.35)"
+  }}
+>
+  🔄 Renew Book
+</button>
 </td>
 
                 </tr>
