@@ -173,7 +173,20 @@ if (userSnap.exists()) {
           data.status === 'Issued'
         );
       });
+// Check how many pending requests already exist for this book
+const pendingQuery = query(
+  collection(db, 'bookRequests'),
+  where('bookId', '==', book.id),
+  where('status', '==', 'Pending')
+);
 
+const pendingSnap = await getDocs(pendingQuery);
+
+if (pendingSnap.size >= (book.quantity ?? 0)) {
+  return alert(
+    'This book is already requested by another Devotee. Please wait until it becomes available.'
+  );
+}
       if (alreadyExists) {
         return alert(
           'You already requested this book'
