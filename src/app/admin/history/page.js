@@ -722,7 +722,7 @@ const handleApproveRequest = async (
 
                   <table className="table table-bordered table-striped table-hover">
 
-                   <thead
+    <thead
   style={{
     background: "#6f4e37",
     color: "white"
