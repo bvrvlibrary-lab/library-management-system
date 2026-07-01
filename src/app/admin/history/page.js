@@ -975,7 +975,7 @@ const handleApproveRequest = async (
   </div>
 
 </div>
-          )}
+         
 {activeTab ===
   'issuedbooks' && (
   <div>
