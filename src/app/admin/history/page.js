@@ -1140,7 +1140,7 @@ Thank you.
                       ? new Date(
                           request.issueDate.seconds *
                             1000
-                        )..toLocaleDateString('en-GB')
+                        ).toLocaleDateString('en-GB')
                       : '-'}
                   </td>
 
@@ -1149,7 +1149,7 @@ Thank you.
                       ? new Date(
                           request.dueDate.seconds *
                             1000
-                        )..toLocaleDateString('en-GB')
+                        ).toLocaleDateString('en-GB')
                       : '-'}
                   </td>
 
@@ -1264,7 +1264,7 @@ Thank you.
                       {new Date(
                         request.dueDate.seconds *
                           1000
-                      )..toLocaleDateString('en-GB')}
+                      ).toLocaleDateString('en-GB')}
                     </span>
                   </td>
 
@@ -1410,7 +1410,7 @@ Thank you.
                       ? new Date(
                           request.returnDate.seconds *
                             1000
-                        )..toLocaleDateString('en-GB')
+                        ).toLocaleDateString('en-GB')
                       : '-'}
                   </td>
                 </tr>
