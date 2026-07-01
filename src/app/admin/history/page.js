@@ -722,17 +722,17 @@ const handleApproveRequest = async (
 
                   <table className="table table-bordered table-striped table-hover">
 
-    <thead
-  style={{
-    background: "#6f4e37",
-    color: "white"
-  }}
->
-  <tr>
-    <th>👤 Student</th>
-    <th>📞 Mobile</th>
-    <th>📚 Requested Book</th>
-    <th>⚙️ Action</th>
+    <thead>
+  <tr
+    style={{
+      background: "#6f4e37",
+      color: "white"
+    }}
+  >
+    <th style={{ color: "white" }}>👤 Student</th>
+    <th style={{ color: "white" }}>📞 Mobile</th>
+    <th style={{ color: "white" }}>📚 Requested Book</th>
+    <th style={{ color: "white" }}>⚙️ Action</th>
   </tr>
 </thead>
 
