@@ -1274,18 +1274,19 @@ Thank you.
 
 <td>
   <input
-    type="number"
-    min="1"
-    className="form-control form-control-sm"
-    style={{ width: "80px" }}
-    value={renewDays[request.id] || 15}
-    onChange={(e) =>
-      setRenewDays({
-        ...renewDays,
-        [request.id]: e.target.value
-      })
-    }
-  />
+  type="number"
+  min="1"
+  className="form-control form-control-sm"
+  style={{ width: "80px" }}
+  placeholder="Days"
+  value={renewDays[request.id] || ""}
+  onChange={(e) =>
+    setRenewDays({
+      ...renewDays,
+      [request.id]: e.target.value
+    })
+  }
+/>
 </td>
 
 <td>
@@ -1293,8 +1294,8 @@ Thank you.
   onClick={() =>
     handleRenewBook(
       request,
-      Number(renewDays[request.id] || 15)
-    )
+      Number(renewDays[request.id])
+    )  
   }
   className="btn btn-success btn-sm px-3 fw-bold"
   style={{
