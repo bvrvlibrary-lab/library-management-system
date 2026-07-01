@@ -31,6 +31,7 @@ export default function AdminHistoryPage() {
   
   const [searchTerm, setSearchTerm] =
     useState('');
+  const [renewDays, setRenewDays] = useState({});
 
   const [requestSearch,
     setRequestSearch] =
@@ -1160,6 +1161,8 @@ Thank you.
     <th style={{ color: "white" }}>Book</th>
     <th style={{ color: "white" }}>Due Date</th>
     <th style={{ color: "white" }}>Renewals</th>
+    <th style={{ color: "white" }}>Days</th>
+    <th style={{ color: "white" }}>Action</th>
   </tr>
 </thead>
 
@@ -1199,10 +1202,41 @@ Thank you.
                     </span>
                   </td>
 
-                  <td>
-                    {request.renewalCount ||
-                      0}
-                  </td>
+               <td>
+  {request.renewalCount || 0}
+</td>
+
+<td>
+  <input
+    type="number"
+    min="1"
+    className="form-control form-control-sm"
+    style={{ width: "80px" }}
+    value={renewDays[request.id] || 15}
+    onChange={(e) =>
+      setRenewDays({
+        ...renewDays,
+        [request.id]: e.target.value
+      })
+    }
+  />
+</td>
+
+<td>
+  <button
+    className="btn btn-warning btn-sm"
+    onClick={() =>
+      handleRenewBook(
+        request,
+        Number(
+          renewDays[request.id] || 15
+        )
+      )
+    }
+  >
+    Renew Book
+  </button>
+</td>
 
                 </tr>
               )
