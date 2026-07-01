@@ -871,7 +871,7 @@ const handleApproveRequest = async (
 
     <div className="table-responsive">
 
-      <table className="table table-bordered table-striped table-hover">
+      <table className="table table-bordered table-striped table-hover admin-table">
 
          <thead
   style={{
