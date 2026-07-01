@@ -971,39 +971,23 @@ const handleApproveRequest = async (
 
       <div className="table-responsive">
 
-       <table className="table table-bordered table-striped table-hover">
+      <table className="table table-bordered table-striped table-hover admin-table">
 
-          <thead>
-            <tr>
-              <th>
-                Student
-              </th>
-
-              <th>
-                Mobile
-              </th>
-
-              <th>
-                Book
-              </th>
-
-              <th>
-                Issue Date
-              </th>
-
-              <th>
-                Due Date
-              </th>
-
-              <th>
-                Renewals
-              </th>
-          <th>
-  Action
-</th>
-            </tr>
-          </thead>
-
+          <thead
+  style={{
+    backgroundColor: "#6f4e37"
+  }}
+>
+  <tr>
+    <th style={{ color: "white" }}>Student</th>
+    <th style={{ color: "white" }}>Mobile</th>
+    <th style={{ color: "white" }}>Book</th>
+    <th style={{ color: "white" }}>Issue Date</th>
+    <th style={{ color: "white" }}>Due Date</th>
+    <th style={{ color: "white" }}>Renewals</th>
+    <th style={{ color: "white" }}>Action</th>
+  </tr>
+</thead>
           <tbody>
 
             {issuedBooks.map(
