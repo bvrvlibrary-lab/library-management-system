@@ -302,6 +302,59 @@ const handleApproveRequest = async (
     );
   }
 };
+
+  const handleReturnBook = async (request) => {
+  try {
+
+    // Update request
+    await updateDoc(
+      doc(
+        db,
+        'bookRequests',
+        request.id
+      ),
+      {
+        status: 'Returned',
+        returnDate: new Date()
+      }
+    );
+
+    // Increase stock
+    await updateDoc(
+      doc(
+        db,
+        'books',
+        request.bookId
+      ),
+      {
+        quantity: increment(1)
+      }
+    );
+
+    // Send email
+    await sendStudentEmail({
+      to_email: request.studentEmail,
+      subject: 'Book Returned',
+      message: `
+Your returned book has been received.
+
+Book:
+${request.bookName}
+
+Thank you.
+`
+    });
+
+    alert('Book returned successfully.');
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert('Failed to return book.');
+  }
+};
+  
   const issuedBooks =
   requests.filter(
     (request) =>
