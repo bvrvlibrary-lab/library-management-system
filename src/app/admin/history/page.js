@@ -1089,22 +1089,26 @@ const handleApproveRequest = async (
     <div className="card p-3">
 
       <h4 className="mb-3">
-        Overdue Books
+        Pending Books for renewal
       </h4>
 
       <div className="table-responsive">
 
-        <table className="table table-bordered table-striped table-hover">
+       <table className="table table-bordered table-striped table-hover admin-table">
 
-          <thead>
-            <tr>
-              <th>Student</th>
-              <th>Mobile</th>
-              <th>Book</th>
-              <th>Due Date</th>
-              <th>Renewals</th>
-            </tr>
-          </thead>
+       <thead
+  style={{
+    backgroundColor: "#6f4e37"
+  }}
+>
+  <tr>
+    <th style={{ color: "white" }}>Student</th>
+    <th style={{ color: "white" }}>Mobile</th>
+    <th style={{ color: "white" }}>Book</th>
+    <th style={{ color: "white" }}>Due Date</th>
+    <th style={{ color: "white" }}>Renewals</th>
+  </tr>
+</thead>
 
           <tbody>
 
