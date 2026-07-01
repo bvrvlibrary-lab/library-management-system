@@ -855,96 +855,126 @@ const handleApproveRequest = async (
 
               </div>
 
-              <div className="card p-3">
+             <div className="card border-0 shadow-lg">
 
-                <h4 className="mb-3">
-                  Registration Approval
-                </h4>
+  <div
+    style={{
+      background:
+        "linear-gradient(135deg,#6f4e37,#8b5e3c)",
+      color: "white",
+      padding: "20px 25px"
+    }}
+  >
 
-                <div className="table-responsive">
+    <div className="d-flex justify-content-between align-items-center">
 
-                 <table className="table table-bordered table-striped table-hover">
+      <div>
 
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Mobile</th>
-                        <th>Temple</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
+        <h3 className="mb-1 fw-bold">
+          👨‍🎓 Student Registration Approval
+        </h3>
 
-                    <tbody>
+        <small>
+          Review and approve newly registered library members.
+        </small>
 
-                      {pendingStudents.length === 0 ? (
-                        <tr>
-                          <td
-                            colSpan="5"
-                            className="text-center"
-                          >
-                            No pending students
-                          </td>
-                        </tr>
-                      ) : (
-                        pendingStudents.map(
-                          (student) => (
-                            <tr
-                              key={
-                                student.id
-                              }
-                            >
-                              <td>
-                                {
-                                  student.fullName
-                                }
-                              </td>
+      </div>
 
-                              <td>
-                                {
-                                  student.email
-                                }
-                              </td>
+      <span
+        className="badge bg-light text-dark fs-6"
+        style={{
+          padding: "10px 16px",
+          borderRadius: "30px"
+        }}
+      >
+        {pendingStudents.length} Pending
+      </span>
 
-                              <td>
-                                {
-                                  student.mobile
-                                }
-                              </td>
+    </div>
 
-                              <td>
-                                {
-                                  student.temple
-                                }
-                              </td>
+  </div>
 
-                              <td>
-                                <button
-                                  onClick={() =>
-                                    handleApproveStudent(
-                                      student
-                                    )
-                                  }
-                                  className="btn btn-success btn-sm"
-                                >
-                                  Approve
-                                </button>
-                              </td>
+  <div className="card-body">
 
-                            </tr>
-                          )
-                        )
-                      )}
+    <div className="table-responsive">
 
-                    </tbody>
+      <table className="table admin-table">
 
-                  </table>
+        <thead>
+          <tr>
+            <th>Student Name</th>
+            <th>Email Address</th>
+            <th>Mobile Number</th>
+            <th>Temple</th>
+            <th className="text-center">
+              Action
+            </th>
+          </tr>
+        </thead>
 
-                </div>
+        <tbody>
 
-              </div>
+          {pendingStudents.length === 0 ? (
 
-            </div>
+            <tr>
+              <td
+                colSpan="5"
+                className="text-center py-5"
+              >
+                🎉 All student registrations have been approved.
+              </td>
+            </tr>
+
+          ) : (
+
+            pendingStudents.map((student) => (
+
+              <tr key={student.id}>
+
+                <td className="fw-semibold">
+                  {student.fullName}
+                </td>
+
+                <td>
+                  {student.email}
+                </td>
+
+                <td>
+                  {student.mobile}
+                </td>
+
+                <td>
+                  {student.temple}
+                </td>
+
+                <td className="text-center">
+
+                  <button
+                    onClick={() =>
+                      handleApproveStudent(student)
+                    }
+                    className="btn btn-success px-4"
+                  >
+                    ✓ Approve
+                  </button>
+
+                </td>
+
+              </tr>
+
+            ))
+
+          )}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
           )}
 {activeTab ===
   'issuedbooks' && (
