@@ -47,3 +47,32 @@ body {
   border-radius: 12px;
   overflow: hidden;
 }
+/* ===== Professional Admin Tables ===== */
+
+.admin-table{
+    border-radius:16px;
+    overflow:hidden;
+    border:1px solid #ddd;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.admin-table thead th{
+    background:#6f4e37 !important;
+    color:#fff !important;
+    font-weight:600;
+    padding:14px;
+    border:none;
+}
+
+.admin-table tbody td{
+    padding:14px;
+    vertical-align:middle;
+}
+
+.admin-table tbody tr:nth-child(even){
+    background:#f8f9fa;
+}
+
+.admin-table tbody tr:hover{
+    background:#f1ebe6;
+}
