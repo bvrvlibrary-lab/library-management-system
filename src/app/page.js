@@ -77,19 +77,22 @@ const [languageFilter, setLanguageFilter] = useState('');
     });
 const loadLibraryStats = async () => {
   try {
+
     const booksSnap = await getDocs(
-      collection(db, 'books')
+      collection(db, "books")
     );
 
     const studentsSnap = await getDocs(
-      collection(db, 'users')
+      collection(db, "users")
     );
 
     let copies = 0;
+
     const languages = new Set();
 
-    booksSnap.forEach((doc) => {
-      const book = doc.data();
+    booksSnap.forEach((bookDoc) => {
+
+      const book = bookDoc.data();
 
       copies += Number(book.quantity || 0);
 
@@ -98,6 +101,7 @@ const loadLibraryStats = async () => {
           book.language.trim().toLowerCase()
         );
       }
+
     });
 
     setLibraryStats({
@@ -106,8 +110,14 @@ const loadLibraryStats = async () => {
       languages: languages.size,
       copies
     });
+
   } catch (error) {
-    console.error(error);
+
+    console.error(
+      "Library statistics error:",
+      error
+    );
+
   }
 };
 
