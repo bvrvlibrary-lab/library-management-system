@@ -16,7 +16,11 @@ import {
 import {
   sendStudentEmail
 } from '../../../lib/sendEmail';
-import { issueBookTemplate } from "../../../lib/emailTemplates";
+import {
+  issueBookTemplate,
+  renewBookTemplate,
+  returnBookTemplate,
+} from "../../../lib/emailTemplates";
 export default function AdminHistoryPage() {
 
   const [activeTab, setActiveTab] =
@@ -351,17 +355,12 @@ const handleRenewBook = async (
       to_email:
         request.studentEmail,
       subject:
-        'Book Renewal Approved',
-      message: `
-Your book has been renewed successfully.
-
-Book:
-${request.bookName}
-
-New Due Date:
-${newDueDate.toLocaleDateString('en-GB')}
-
-Happy Reading!
+        subject:
+"📚 BVRV Library | Book Renewed Successfully",
+message: renewBookTemplate(
+  request,
+  newDueDate
+),
       `
     });
 
@@ -412,14 +411,11 @@ Happy Reading!
     // Send email
     await sendStudentEmail({
       to_email: request.studentEmail,
-      subject: 'Book Returned',
-      message: `
-Your returned book has been received.
-
-Book:
-${request.bookName}
-
-Thank you.
+      subject:
+"📚 BVRV Library | Book Renewed Successfully",
+message: returnBookTemplate(
+  request
+),
 `
     });
 
