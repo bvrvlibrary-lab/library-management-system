@@ -109,17 +109,15 @@ const [issueDays, setIssueDays] =
           }
         );
 
-        await sendStudentEmail({
-          to_email:
-            student.email,
-          subject:
-            'Library Account Approved',
-          message: `
-Your library account has been approved.
+   await sendStudentEmail({
+  to_email: student.email,
 
-You can now login and request books.
-          `
-        });
+  subject: "🎉 Welcome to BVRV Library | Registration Approved",
+
+  message: registrationApprovedTemplate(
+    student.fullName
+  ),
+});
 
         alert(
           'Student approved successfully'
