@@ -414,7 +414,6 @@ message: renewBookTemplate(
 message: returnBookTemplate(
   request
 ),
-`
     });
 
     alert('Book returned successfully.');
