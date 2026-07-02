@@ -16,7 +16,7 @@ import {
 import {
   sendStudentEmail
 } from '../../../lib/sendEmail';
-
+import { issueBookTemplate } from "../../../lib/emailTemplates";
 export default function AdminHistoryPage() {
 
   const [activeTab, setActiveTab] =
@@ -294,23 +294,12 @@ const handleApproveRequest = async (
 console.log("Student Email:", request.studentEmail);
 await sendStudentEmail({
   to_email: request.studentEmail,
-  subject: '📚 Book Issued Successfully',
-  message: `
-Your requested book has been issued successfully. Kindly collect the book from BVRV Office.
-
-📖 Book: ${request.bookName}
-
-📅 Issue Date:
-${issueDate.toLocaleDateString('en-GB')}
-
-📅 Due Date:
-${dueDate.toLocaleDateString('en-GB')}
-
-Please return the book on or before the due date.
-
-Thank you,
-BVRV Library
-`
+  subject: "📚 BVRV Library | Book Issued Successfully",
+  message: issueBookTemplate(
+    request,
+    issueDate,
+    dueDate
+  ),
 });
     alert(
       `Book issued for ${
