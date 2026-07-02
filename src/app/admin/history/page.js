@@ -215,7 +215,14 @@ const handleDeleteStudent =
             )
         )
     );
+console.log("Total Requests:", requests.length);
 
+console.log(
+  requests.map((r) => ({
+    id: r.id,
+    status: r.status
+  }))
+);
   const pendingRequests =
     requests.filter(
       (request) =>
@@ -435,7 +442,14 @@ message: returnBookTemplate(
     alert('Failed to return book.');
   }
 };
-  
+  console.log("Total Requests:", requests.length);
+
+console.log(
+  requests.map((r) => ({
+    id: r.id,
+    status: r.status
+  }))
+);
   const issuedBooks =
   requests.filter(
     (request) =>
@@ -510,6 +524,14 @@ message: returnBookTemplate(
       );
     }
   );
+  console.log("Total Requests:", requests.length);
+
+console.log(
+  requests.map((r) => ({
+    id: r.id,
+    status: r.status
+  }))
+);
   const returnedBooks =
   requests.filter(
     (request) =>
