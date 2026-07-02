@@ -289,6 +289,9 @@ const handleApproveRequest = async (
           increment(-1)
       }
     );
+    console.log("Request Data:", request);
+
+console.log("Student Email:", request.studentEmail);
 await sendStudentEmail({
   to_email: request.studentEmail,
   subject: '📚 Book Issued Successfully',
