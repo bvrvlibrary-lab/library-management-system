@@ -21,6 +21,7 @@ import {
   renewBookTemplate,
   returnBookTemplate,
 } from "../../../lib/emailTemplates";
+import { registrationApprovedTemplate } from "../../../lib/emailTemplates";
 export default function AdminHistoryPage() {
 
   const [activeTab, setActiveTab] =
