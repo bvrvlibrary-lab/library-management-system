@@ -201,6 +201,8 @@ mobileNumber,
         bookId: book.id,
         bookName: book.name,  
         author: book.author,
+        language: book.language,
+position: book.position,
         status: 'Pending',
         requestDate: new Date()
         
