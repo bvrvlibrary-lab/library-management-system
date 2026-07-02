@@ -40,14 +40,18 @@ const [languageFilter, setLanguageFilter] = useState('');
 
   // ---------------- LOAD DATA ----------------
   useEffect(() => {
-    const unsubBooks = onSnapshot(collection(db, 'books'), (snap) => {
-      setBooks(
-        snap.docs.map((d) => ({
-          id: d.id,
-          ...d.data()
-        }))
-      );
-    });
+  const unsubBooks = onSnapshot(collection(db, 'books'), (snap) => {
+
+  console.log("Books loaded:", snap.size);
+  console.log(snap.docs.map(doc => doc.data()));
+
+  setBooks(
+    snap.docs.map((d) => ({
+      id: d.id,
+      ...d.data()
+    }))
+  );
+});
 
     const unsubRequests = onSnapshot(
       collection(db, 'bookRequests'),
