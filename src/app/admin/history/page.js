@@ -360,7 +360,6 @@ message: renewBookTemplate(
   request,
   newDueDate
 ),
-      `
     });
 
     alert(
