@@ -60,35 +60,40 @@ const [issueDays, setIssueDays] =
   useState('');
   useEffect(() => {
 
-    const unsubscribeStudents =
-      onSnapshot(
-        collection(db, 'users'),
-        (snapshot) => {
-          setStudents(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data()
-            }))
-          );
-        }
+const unsubscribeStudents =
+  onSnapshot(
+    collection(db, 'users'),
+    (snapshot) => {
+      console.log("Users:", snapshot.size);
+
+      setStudents(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }))
       );
+    },
+    (error) => {
+      console.error("Users Listener:", error);
+    }
+  );
 
 const unsubscribeRequests =
   onSnapshot(
     collection(db, 'bookRequests'),
     (snapshot) => {
 
-      console.log("Total Requests:", snapshot.size);
+      console.log("Requests:", snapshot.size);
 
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-
-      console.log("Request Data:", data);
-
-      setRequests(data);
-
+      setRequests(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+      );
+    },
+    (error) => {
+      console.error("Requests Listener:", error);
     }
   );
 
