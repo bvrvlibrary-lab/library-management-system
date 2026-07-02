@@ -73,18 +73,24 @@ const [issueDays, setIssueDays] =
         }
       );
 
-    const unsubscribeRequests =
-      onSnapshot(
-        collection(db, 'bookRequests'),
-        (snapshot) => {
-          setRequests(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data()
-            }))
-          );
-        }
-      );
+const unsubscribeRequests =
+  onSnapshot(
+    collection(db, 'bookRequests'),
+    (snapshot) => {
+
+      console.log("Total Requests:", snapshot.size);
+
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      console.log("Request Data:", data);
+
+      setRequests(data);
+
+    }
+  );
 
     return () => {
       unsubscribeStudents();
