@@ -591,31 +591,46 @@ const filteredBooks = books.filter((book) => {
                 <td>{book.quantity}</td>
 
                 <td>
-                  {isAdmin ? (
-                    <button
-                      onClick={() =>
-                        handleDeleteBook(book.id)
-                      }
-                      className="btn btn-danger btn-sm"
-                    >
-                      Delete
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        handleRequestBook(book)
-                      }
-                      className="btn btn-primary btn-sm"
-                      disabled={
-                        book.quantity <= 0
-                      }
-                    >
-                      {book.quantity <= 0
-                        ? 'Out of Stock'
-                        : 'Request'}
-                    </button>
-                  )}
-                </td>
+
+  {isAdmin ? (
+
+    <button
+      onClick={() =>
+        handleDeleteBook(book.id)
+      }
+      className="btn btn-danger btn-sm"
+    >
+      🗑 Delete
+    </button>
+
+  ) : !user ? (
+
+    <button
+      onClick={() =>
+        window.location.href = "/login"
+      }
+      className="btn btn-warning btn-sm"
+    >
+      🔑 Login to Request
+    </button>
+
+  ) : (
+
+    <button
+      onClick={() =>
+        handleRequestBook(book)
+      }
+      className="btn btn-primary btn-sm"
+      disabled={book.quantity <= 0}
+    >
+      {book.quantity <= 0
+        ? "Out of Stock"
+        : "📚 Request"}
+    </button>
+
+  )}
+
+</td>
               </tr>
             ))}
           </tbody>
