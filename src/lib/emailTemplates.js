@@ -574,7 +574,7 @@ padding:18px;
 
 <br><br>
 
-Monday – Saturday
+Monday – Sunday
 
 <br>
 
@@ -620,7 +620,7 @@ border-radius:10px;
 ">
 
 <h2 style="color:#6f4e37;">
-Happy Reading!
+Hare Krishna!
 📚✨
 </h2>
 
@@ -640,7 +640,7 @@ and spiritual inspiration.
 
 <p>
 
-Warm Regards,
+Your Servant,
 
 <br><br>
 
