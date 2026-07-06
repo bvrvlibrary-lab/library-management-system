@@ -100,7 +100,7 @@ const handleAddBook = async (e) => {
     );
   }
 
-  // Check duplicate Book Name + Author + Language
+  // Check duplicate Book Name + Author + Languages
   const duplicateBook = books.find(
   (book) =>
     book.name
