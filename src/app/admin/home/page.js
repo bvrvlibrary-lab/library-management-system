@@ -100,32 +100,27 @@ const handleAddBook = async (e) => {
     );
   }
 
-  const duplicateBook =
-    books.find(
-      (book) =>
-        book.name
-          ?.trim()
-          .toLowerCase() ===
-          name
-            .trim()
-            .toLowerCase() &&
-        book.author
-          ?.trim()
-          .toLowerCase() ===
-          author
-            .trim()
-            .toLowerCase() &&
-        book.language
-          ?.trim()
-          .toLowerCase() ===
-          language
-            .trim()
-            .toLowerCase()
-    );
+  // Check duplicate Book Name + Author
+  const duplicateBook = books.find(
+    (book) =>
+      book.name
+        ?.trim()
+        .toLowerCase() ===
+        name
+          .trim()
+          .toLowerCase() &&
+
+      book.author
+        ?.trim()
+        .toLowerCase() ===
+        author
+          .trim()
+          .toLowerCase()
+  );
 
   if (duplicateBook) {
     return alert(
-      'Book already exists in library'
+      'This book by the same author already exists.\n\nIf it is a different language, edit the existing book instead.'
     );
   }
 
