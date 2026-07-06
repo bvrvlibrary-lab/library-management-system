@@ -27,14 +27,10 @@ export default function LoginPage() {
     }
 
     try {
-     await sendPasswordResetEmail(
+await sendPasswordResetEmail(
   auth,
-  email,
-  {
-    url: "https://library-management-system-mocha-one.vercel.app/reset-password",
-    handleCodeInApp: false
-  }
-);
+  email
+);;
 
       setMessage(
   'Password reset link sent. Please check your Inbox or Spam folder.'
