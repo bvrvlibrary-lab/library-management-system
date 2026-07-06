@@ -100,24 +100,30 @@ const handleAddBook = async (e) => {
     );
   }
 
-  // Check duplicate Book Name + Author
+  // Check duplicate Book Name + Author + Language
   const duplicateBook = books.find(
-    (book) =>
-      book.name
-        ?.trim()
-        .toLowerCase() ===
-        name
-          .trim()
-          .toLowerCase() &&
+  (book) =>
+    book.name
+      ?.trim()
+      .toLowerCase() ===
+      name
+        .trim()
+        .toLowerCase() &&
 
-      book.author
-        ?.trim()
-        .toLowerCase() ===
-        author
-          .trim()
-          .toLowerCase()
-  );
+    book.author
+      ?.trim()
+      .toLowerCase() ===
+      author
+        .trim()
+        .toLowerCase() &&
 
+    book.language
+      ?.trim()
+      .toLowerCase() ===
+      language
+        .trim()
+        .toLowerCase()
+);
   if (duplicateBook) {
     return alert(
       'This book is already exists.\n\nIf required you can increase the quantity.'
