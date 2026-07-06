@@ -120,7 +120,7 @@ const handleAddBook = async (e) => {
 
   if (duplicateBook) {
     return alert(
-      'This book by the same author already exists.\n\nIf it is a different language, edit the existing book instead.'
+      'This book is already exists.\n\nIf required you can increase the quantity.'
     );
   }
 
