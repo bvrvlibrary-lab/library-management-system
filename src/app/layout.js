@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: "BVRV Library",
+  title: "Bhaktivedanta Rajavidyalaya Library",
   description:
     "Bhaktivedanta Rajavidyalaya Library Management System",
 
