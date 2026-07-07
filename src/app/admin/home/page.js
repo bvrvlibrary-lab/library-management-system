@@ -16,7 +16,7 @@ import {
   formatText,
   formatLanguage,
   formatPosition
-} from "../../lib/formatBookData";
+} from "../../../lib/formatBookData";
 export default function AdminHomePage() {
   const [activeTab, setActiveTab] =
     useState('addbook');
