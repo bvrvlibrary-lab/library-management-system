@@ -1,10 +1,14 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'BVRV Library',
-  description: 'Bhaktivedanta Rajavidyalaya Library Management System',
-};
+  title: "BVRV Library",
+  description:
+    "Bhaktivedanta Rajavidyalaya Library Management System",
 
+  icons: {
+    icon: "/logo.png",
+  },
+};
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
