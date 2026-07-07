@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Library Management System',
-  description: 'PRD Cloud Native LMS App',
+  title: 'BVRV Library',
+  description: 'Bhaktivedanta Rajavidyalaya Library Management System',
 };
 
 export default function RootLayout({ children }) {
