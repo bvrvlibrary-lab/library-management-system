@@ -212,7 +212,7 @@ const position = formatPosition(cols[3]);
         language
   ) ||
   processedBooks.has(uniqueKey);
-        );
+        
 
       if (
         duplicateBook
