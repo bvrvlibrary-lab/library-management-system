@@ -98,60 +98,55 @@ useEffect(() => {
 const handleAddBook = async (e) => {
   e.preventDefault();
 
-  if (!name || !author) {
+  // Format values
+  const formattedName = formatText(name);
+  const formattedAuthor = formatText(author);
+  const formattedLanguage = formatLanguage(language);
+  const formattedPosition = formatPosition(position);
+
+  if (!formattedName || !formattedAuthor) {
     return alert(
-      'Book Name and Author are required.'
+      "Book Name and Author are required."
     );
   }
 
-  // Check duplicate Book Name + Author + Languages
+  // Duplicate Check (Book + Author + Language)
   const duplicateBook = books.find(
-  (book) =>
-    book.name
-      ?.trim()
-      .toLowerCase() ===
-      name
-        .trim()
-        .toLowerCase() &&
+    (book) =>
+      formatText(book.name) ===
+        formattedName &&
 
-    book.author
-      ?.trim()
-      .toLowerCase() ===
-      author
-        .trim()
-        .toLowerCase() &&
+      formatText(book.author) ===
+        formattedAuthor &&
 
-    book.language
-      ?.trim()
-      .toLowerCase() ===
-      language
-        .trim()
-        .toLowerCase()
-);
+      formatLanguage(book.language) ===
+        formattedLanguage
+  );
+
   if (duplicateBook) {
     return alert(
-      'This book is already exists.\n\nIf required you can increase the quantity.'
+      "This book already exists.\n\nIf required you can increase the quantity."
     );
   }
 
   await addDoc(
-    collection(db, 'books'),
+    collection(db, "books"),
     {
-      name,
-      author,
-      language,
-      position,
+      name: formattedName,
+      author: formattedAuthor,
+      language: formattedLanguage,
+      position: formattedPosition,
       quantity: Number(quantity)
     }
   );
 
-  setName('');
-  setAuthor('');
-  setLanguage('');
-  setPosition('');
+  setName("");
+  setAuthor("");
+  setLanguage("");
+  setPosition("");
   setQuantity(1);
 
-  alert('Book added successfully');
+  alert("Book added successfully");
 };
   const handleBulkUpload = async () => {
   if (!csvFile) {
