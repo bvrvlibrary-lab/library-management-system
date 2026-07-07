@@ -620,14 +620,14 @@ const filteredBooks = books.filter((book) => {
   ) : !user ? (
 
     <button
-      onClick={() =>
-        window.location.href = "/login"
-      }
-      className="btn btn-warning btn-sm"
-    >
-      🔑 Login to Request
-    </button>
-
+  onClick={() => {
+    alert("Please login to issue books.");
+    window.location.href = "/login";
+  }}
+  className="btn btn-warning btn-sm"
+>
+  📚 Issue
+</button>
   ) : (
 
     <button
