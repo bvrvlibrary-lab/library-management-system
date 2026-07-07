@@ -282,15 +282,11 @@ const handleUpdateBook =
           editingBook.id
         ),
         {
-          name: editName,
-          author: editAuthor,
-          language:
-            editLanguage,
-          position:
-            editPosition,
-          quantity:
-            Number(
-              editQuantity
+         name: formatText(editName),
+author: formatText(editAuthor),
+language: formatLanguage(editLanguage),
+position: formatPosition(editPosition),
+quantity: Number(editQuantity)
             )
         }
       );
