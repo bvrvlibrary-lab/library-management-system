@@ -276,6 +276,19 @@ const handleUpdateBook =
     try {
 
       await updateDoc(
+  doc(
+    db,
+    "books",
+    editingBook.id
+  ),
+  {
+    name: formatText(editName),
+    author: formatText(editAuthor),
+    language: formatLanguage(editLanguage),
+    position: formatPosition(editPosition),
+    quantity: Number(editQuantity)
+  }
+);
         doc(
           db,
           'books',
