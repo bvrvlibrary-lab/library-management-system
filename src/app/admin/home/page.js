@@ -311,8 +311,8 @@ const handleUpdateBook =
 
     }
   };
-const filteredBooks =
-  books.filter((book) => {
+  const filteredBooks = books
+  .filter((book) => {
 
     const matchesSearch =
       book.name
@@ -320,6 +320,7 @@ const filteredBooks =
         .includes(
           searchTerm.toLowerCase()
         ) ||
+
       book.author
         ?.toLowerCase()
         .includes(
@@ -328,6 +329,7 @@ const filteredBooks =
 
     const matchesLanguage =
       languageFilter === '' ||
+
       book.language
         ?.trim()
         .toLowerCase() ===
@@ -339,7 +341,17 @@ const filteredBooks =
       matchesSearch &&
       matchesLanguage
     );
-  });
+
+  })
+  .sort((a, b) =>
+    a.name.localeCompare(
+      b.name,
+      undefined,
+      {
+        sensitivity: 'base'
+      }
+    )
+  );
   return (
     <>
 <Navbar
