@@ -41,7 +41,7 @@ export default function Navbar({ isAdmin, user }) {
       fontSize: '1.4rem'
     }}
   >
-    BVRV Library
+    Bhaktivedanta Rajavidyalaya Library
   </span>
 
 </Link>
