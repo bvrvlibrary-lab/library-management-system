@@ -188,52 +188,30 @@ const handleAddBook = async (e) => {
       )
         continue;
 
-      const bookName =
-        cols[0]
-          ?.trim()
-          .split(' ')
-          .map(
-            word =>
-              word.charAt(
-                0
-              ) +
-              word
-                .slice(1)
-                .toLowerCase()
-          )
-          .join(' ');
+      const bookName = formatText(cols[0]);
+
+const author = formatText(cols[1]);
+
+const language = formatLanguage(cols[2]);
+
+const position = formatPosition(cols[3]);
 
       const uniqueKey =
-        `${bookName}|${cols[1]
-          ?.trim()
-          .toLowerCase()}|${cols[2]
-          ?.trim()
-          .toLowerCase()}`;
+  `${bookName}|${author}|${language}`;  
 
       const duplicateBook =
-        books.find(
-          (book) =>
-            book.name
-              ?.trim()
-              .toLowerCase() ===
-              bookName
-                .trim()
-                .toLowerCase() &&
-            book.author
-              ?.trim()
-              .toLowerCase() ===
-              cols[1]
-                ?.trim()
-                .toLowerCase() &&
-            book.language
-              ?.trim()
-              .toLowerCase() ===
-              cols[2]
-                ?.trim()
-                .toLowerCase()
-        ) ||
-        processedBooks.has(
-          uniqueKey
+  books.find(
+    (book) =>
+      formatText(book.name) ===
+        bookName &&
+
+      formatText(book.author) ===
+        author &&
+
+      formatLanguage(book.language) ===
+        language
+  ) ||
+  processedBooks.has(uniqueKey);
         );
 
       if (
@@ -247,25 +225,16 @@ const handleAddBook = async (e) => {
         uniqueKey
       );
 
-      await addDoc(
-        collection(
-          db,
-          'books'
-        ),
-        {
-          name: bookName,
-          author:
-            cols[1]?.trim(),
-          language:
-            cols[2]?.trim(),
-          position:
-            cols[3]?.trim(),
-          quantity: Number(
-            cols[4]?.trim()
-          )
-        }
-      );
-
+   await addDoc(
+  collection(db, "books"),
+  {
+    name: bookName,
+    author: author,
+    language: language,
+    position: position,
+    quantity: Number(cols[4]?.trim())
+  }
+);
       successCount++;
     }
 
