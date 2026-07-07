@@ -12,7 +12,11 @@ import {
   updateDoc,
   doc
 } from 'firebase/firestore';
-
+import {
+  formatText,
+  formatLanguage,
+  formatPosition
+} from "../../lib/formatBookData";
 export default function AdminHomePage() {
   const [activeTab, setActiveTab] =
     useState('addbook');
