@@ -30,12 +30,12 @@ export default function Navbar({ isAdmin, user }) {
   <Image
     src="/logo.png"
     alt="BVRV Library"
-    width={50}
-    height={50}
+    width={60}
+    height={60}
   />
 
   <span
-    className="ms-2 fw-bold"
+    className="ms-3 fw-bold"
     style={{
       color: '#F4E4BC',
       fontSize: '1.4rem'
