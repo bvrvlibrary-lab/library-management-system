@@ -586,7 +586,7 @@ const filteredBooks = books.filter((book) => {
   }}
 >
             <tr>
-              <th>Name</th>
+              <th>Book Name</th>
               <th>Author</th>
               <th>Language</th>
               <th>Position</th>
