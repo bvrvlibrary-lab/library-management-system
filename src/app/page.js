@@ -393,26 +393,36 @@ ${currentDueDate.toLocaleDateString()}
       alert('Renew failed');
     }
   };
-const filteredBooks = books.filter((book) => {
-  const matchesSearch =
-    book.name
-      ?.toLowerCase()
-      .includes(searchTerm.toLowerCase()) ||
-    book.author
-      ?.toLowerCase()
-      .includes(searchTerm.toLowerCase());
+const filteredBooks = books
+  .filter((book) => {
+    const matchesSearch =
+      book.name
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      book.author
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-  const matchesLanguage =
-    languageFilter === '' ||
-    book.language
-      ?.trim()
-      .toLowerCase() ===
-      languageFilter
-        .trim()
-        .toLowerCase();
+    const matchesLanguage =
+      languageFilter === '' ||
+      book.language
+        ?.trim()
+        .toLowerCase() ===
+        languageFilter
+          .trim()
+          .toLowerCase();
 
-  return matchesSearch && matchesLanguage;
-});
+    return matchesSearch && matchesLanguage;
+  })
+  .sort((a, b) =>
+    a.name.localeCompare(
+      b.name,
+      undefined,
+      {
+        sensitivity: 'base',
+      }
+    )
+  );
   return (
   <>
     <Navbar
