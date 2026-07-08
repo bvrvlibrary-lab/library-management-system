@@ -32,7 +32,8 @@ export default function AdminHistoryPage() {
 
   const [requests, setRequests] =
     useState([]);
-
+const [books, setBooks] =
+  useState([]);
   
   const [searchTerm, setSearchTerm] =
     useState('');
@@ -77,7 +78,26 @@ const unsubscribeStudents =
       console.error("Users Listener:", error);
     }
   );
+const unsubscribeBooks =
+  onSnapshot(
+    collection(db, "books"),
+    (snapshot) => {
 
+      setBooks(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+      );
+
+    },
+    (error) => {
+      console.error(
+        "Books Listener:",
+        error
+      );
+    }
+  );
 const unsubscribeRequests =
   onSnapshot(
     collection(db, 'bookRequests'),
@@ -99,6 +119,7 @@ const unsubscribeRequests =
 
     return () => {
       unsubscribeStudents();
+        unsubscribeBooks();
       unsubscribeRequests();
     };
 
