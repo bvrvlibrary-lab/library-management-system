@@ -532,6 +532,10 @@ console.log(
     status: r.status
   }))
 );
+  const outOfStockBooks = books.filter(
+  (book) =>
+    Number(book.quantity) === 0
+);
   const returnedBooks =
   requests.filter(
     (request) =>
@@ -792,6 +796,20 @@ console.log(
 >
   ✅ Returned Books
 </button>
+
+    <button
+  className={`list-group-item list-group-item-action fw-semibold ${
+    activeTab === 'outofstock'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab('outofstock')
+  }
+>
+  ⚠️ Out of Stock Books
+</button>
+    
     <button
   className={`list-group-item list-group-item-action fw-semibold ${
     activeTab === 'studentdetails'
@@ -1462,6 +1480,99 @@ console.log(
     </div>
 
   </div>
+)}
+
+{activeTab === 'outofstock' && (
+
+<div className="card p-3">
+
+  <div className="d-flex justify-content-between align-items-center mb-3">
+
+    <div>
+      <h3
+        className="mb-1"
+        style={{
+          color: "#6f4e37",
+          fontWeight: "700"
+        }}
+      >
+        ⚠️ Out of Stock Books
+      </h3>
+
+      <small className="text-muted">
+        Books that currently have zero copies available.
+      </small>
+    </div>
+
+    <span className="badge bg-danger fs-6">
+      {outOfStockBooks.length} Books
+    </span>
+
+  </div>
+
+  <div className="table-responsive">
+
+    <table className="table admin-table">
+
+      <thead>
+        <tr
+          style={{
+            background: "#6f4e37",
+            color: "white"
+          }}
+        >
+          <th style={{color:"white"}}>Book</th>
+          <th style={{color:"white"}}>Author</th>
+          <th style={{color:"white"}}>Language</th>
+          <th style={{color:"white"}}>Position</th>
+          <th style={{color:"white"}}>Quantity</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {outOfStockBooks.length === 0 ? (
+
+          <tr>
+            <td
+              colSpan="5"
+              className="text-center"
+            >
+              🎉 No books are out of stock.
+            </td>
+          </tr>
+
+        ) : (
+
+          outOfStockBooks.map((book) => (
+
+            <tr key={book.id}>
+
+              <td>{book.name}</td>
+              <td>{book.author}</td>
+              <td>{book.language}</td>
+              <td>{book.position}</td>
+
+              <td>
+                <span className="badge bg-danger">
+                  {book.quantity}
+                </span>
+              </td>
+
+            </tr>
+
+          ))
+
+        )}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
 )}
   {activeTab ===
   'studentdetails' && (
