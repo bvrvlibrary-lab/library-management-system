@@ -654,6 +654,9 @@ console.log(
           deleteStudentSearch
         )
   );
+  if (checkingAuth) {
+  return null;
+}
  return (
   <>
     <Navbar
@@ -1882,9 +1885,7 @@ console.log(
                   r.studentId === student.id &&
                   r.status === 'Returned'
               ).length;
-if (checkingAuth) {
-  return null;
-}
+  
             return (
               <div
                 key={student.id}
