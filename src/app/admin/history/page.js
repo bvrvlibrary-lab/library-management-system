@@ -2,7 +2,9 @@
 import Navbar from '../../../components/Navbar';
 import { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
-
+import { auth } from '../../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 import {
   collection,
   onSnapshot,
@@ -23,7 +25,10 @@ import {
 } from "../../../lib/emailTemplates";
 import { registrationApprovedTemplate } from "../../../lib/emailTemplates";
 export default function AdminHistoryPage() {
+const router = useRouter();
 
+const [checkingAuth, setCheckingAuth] =
+  useState(true);
   const [activeTab, setActiveTab] =
     useState('approvalpending');
 
@@ -59,6 +64,34 @@ const [issueDays, setIssueDays] =
   const [deleteStudentSearch,
   setDeleteStudentSearch] =
   useState('');
+  useEffect(() => {
+
+  const unsubscribe =
+    onAuthStateChanged(
+      auth,
+      (user) => {
+
+        if (!user) {
+          router.replace('/login');
+          return;
+        }
+
+        if (
+          user.email?.toLowerCase() !==
+          'bvrvlibrary@gmail.com'
+        ) {
+          router.replace('/');
+          return;
+        }
+
+        setCheckingAuth(false);
+
+      }
+    );
+
+  return () => unsubscribe();
+
+}, [router]);
   useEffect(() => {
 
 const unsubscribeStudents =
@@ -1849,7 +1882,9 @@ console.log(
                   r.studentId === student.id &&
                   r.status === 'Returned'
               ).length;
-
+if (checkingAuth) {
+  return null;
+}
             return (
               <div
                 key={student.id}
