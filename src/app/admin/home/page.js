@@ -1,8 +1,11 @@
-'use client';
+  'use client';
 
 import Navbar from '../../../components/Navbar';
 import { db } from '../../../firebase';
 import { useState, useEffect } from 'react';
+import { auth } from '../../../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 import {
   collection,
@@ -20,6 +23,9 @@ import {
 export default function AdminHomePage() {
   const [activeTab, setActiveTab] =
     useState('addbook');
+  const router = useRouter();
+  const [checkingAuth, setCheckingAuth] =
+  useState(true);
 const [books, setBooks] = useState([]);
 
 const [name, setName] = useState('');
@@ -57,6 +63,34 @@ const [editQuantity,
 const [languageFilter,
   setLanguageFilter] =
   useState('');
+  useEffect(() => {
+
+  const unsubscribe =
+    onAuthStateChanged(
+      auth,
+      (user) => {
+
+        if (!user) {
+          router.replace('/login');
+          return;
+        }
+
+        if (
+          user.email?.toLowerCase() !==
+          'bvrvlibrary@gmail.com'
+        ) {
+          router.replace('/');
+          return;
+        }
+
+        setCheckingAuth(false);
+
+      }
+    );
+
+  return () => unsubscribe();
+
+}, [router]);
   useEffect(() => {
   const unsubscribe =
     onSnapshot(
@@ -352,6 +386,9 @@ const handleUpdateBook =
       }
     )
   );
+if (checkingAuth) {
+  return null;
+}
   return (
     <>
 <Navbar
