@@ -1189,7 +1189,7 @@ if (checkingAuth) {
     className="btn btn-success btn-lg"
     onClick={handleExportBooks}
   >
-    ⬇️ Download Books CSV
+    ⬇️ Download All The Books
   </button>
 
 </div>
