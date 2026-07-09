@@ -678,7 +678,18 @@ if (checkingAuth) {
             >
              📖 Library Books
             </button>
-
+<button
+  className={`list-group-item list-group-item-action ${
+    activeTab === 'exportbooks'
+      ? 'active'
+      : ''
+  }`}
+  onClick={() =>
+    setActiveTab('exportbooks')
+  }
+>
+  💾 Export Books
+</button>
           </div>
 
         </div>
@@ -773,15 +784,7 @@ if (checkingAuth) {
         </div>
 
       </div>
-<div className="mb-3">
-  <button
-    type="button"
-    className="btn btn-primary"
-    onClick={handleExportBooks}
-  >
-    ⬇️ Export Books (CSV)
-  </button>
-</div>
+
       <button
         type="submit"
         className="btn btn-success"
@@ -1160,6 +1163,36 @@ if (checkingAuth) {
     </div>
 
   </div>
+
+)}
+  {activeTab === 'exportbooks' && (
+
+<div className="card shadow-sm p-4">
+
+  <h2
+    className="mb-3"
+    style={{
+      color: "#6f4e37",
+      fontWeight: "700"
+    }}
+  >
+    💾 Export Books
+  </h2>
+
+  <p className="text-muted">
+    Download a complete backup of all library books in CSV format.
+    This file can be opened in Microsoft Excel and is compatible
+    with the Bulk Upload feature.
+  </p>
+
+  <button
+    className="btn btn-success btn-lg"
+    onClick={handleExportBooks}
+  >
+    ⬇️ Download Books CSV
+  </button>
+
+</div>
 
 )}
         </div>
