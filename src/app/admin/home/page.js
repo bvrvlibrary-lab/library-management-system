@@ -291,6 +291,63 @@ if (fileInput) {
     csvFile
   );
 };
+  
+  const handleExportBooks = () => {
+
+  const headers = [
+    "Book Name",
+    "Author",
+    "Language",
+    "Position",
+    "Quantity"
+  ];
+
+  const rows = books.map((book) => [
+    book.name,
+    book.author,
+    book.language,
+    book.position,
+    book.quantity
+  ]);
+
+  const csvContent = [
+    headers,
+    ...rows
+  ]
+    .map((row) =>
+      row.join(",")
+    )
+    .join("\n");
+
+  const blob = new Blob(
+    [csvContent],
+    {
+      type: "text/csv;charset=utf-8;"
+    }
+  );
+
+  const link =
+    document.createElement("a");
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const today =
+    new Date()
+      .toISOString()
+      .split("T")[0];
+
+  link.href = url;
+
+  link.download =
+    `books_backup_${today}.csv`;
+
+  link.click();
+
+  URL.revokeObjectURL(url);
+
+};
+  
   const handleDeleteBook = async (
   id
 ) => {
@@ -716,7 +773,15 @@ if (checkingAuth) {
         </div>
 
       </div>
-
+<div className="mb-3">
+  <button
+    type="button"
+    className="btn btn-primary"
+    onClick={handleExportBooks}
+  >
+    ⬇️ Export Books (CSV)
+  </button>
+</div>
       <button
         type="submit"
         className="btn btn-success"
