@@ -28,6 +28,9 @@ export default function AdminHomePage() {
   useState(true);
 const [books, setBooks] = useState([]);
 
+const [selectedBooks, setSelectedBooks] =
+  useState([]);
+  
 const [name, setName] = useState('');
 const [author, setAuthor] = useState('');
 const [language, setLanguage] = useState('');
@@ -361,6 +364,47 @@ if (fileInput) {
     );
   }
 };
+
+  const handleDeleteSelectedBooks = async () => {
+
+  if (selectedBooks.length === 0) {
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `Delete ${selectedBooks.length} selected book(s)?\n\nThis action cannot be undone.`
+  );
+
+  if (!confirmed) return;
+
+  try {
+
+    for (const id of selectedBooks) {
+
+      await deleteDoc(
+        doc(db, "books", id)
+      );
+
+    }
+
+    setSelectedBooks([]);
+
+    alert(
+      "Selected books deleted successfully."
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Failed to delete selected books."
+    );
+
+  }
+
+};
+  
 const handleUpdateBook =
   async () => {
 
@@ -931,114 +975,175 @@ if (checkingAuth) {
         Library Books
       </h4>
 
+  <div className="d-flex justify-content-between align-items-center mb-3">
+
+  <div>
+
+    <strong>
+      Selected: {selectedBooks.length} Book(s)
+    </strong>
+
+  </div>
+
+  <button
+    className="btn btn-danger"
+    disabled={selectedBooks.length === 0}
+    onClick={handleDeleteSelectedBooks}
+  >
+    🗑 Delete Selected
+  </button>
+
+</div>
+
       <div className="table-responsive">
 
         <table className="table table-hover align-middle">
 
-         <thead className="table-dark">
-            <tr>
-              <th>
-                Book Name
-              </th>
+        <thead className="table-dark">
+  <tr>
 
-              <th>
-                Author
-              </th>
+    <th style={{ width: "50px" }}>
+      <input
+        type="checkbox"
+        checked={
+          books.length > 0 &&
+          selectedBooks.length === books.length
+        }
+        onChange={(e) => {
 
-              <th>
-                Language
-              </th>
+          if (e.target.checked) {
 
-              <th>
-                Position
-              </th>
+            setSelectedBooks(
+              books.map(book => book.id)
+            );
 
-              <th>
-                Quantity
-              </th>
+          } else {
 
-              <th>
-                Action
-              </th>
-            </tr>
-          </thead>
+            setSelectedBooks([]);
+
+          }
+
+        }}
+      />
+    </th>
+
+    <th>
+      Book Name
+    </th>
+
+    <th>
+      Author
+    </th>
+
+    <th>
+      Language
+    </th>
+
+    <th>
+      Position
+    </th>
+
+    <th>
+      Quantity
+    </th>
+
+    <th>
+      Action
+    </th>
+
+  </tr>
+</thead>
 
           <tbody>
 
             {filteredBooks.map(
               (book) => (
-                <tr
-                  key={book.id}
-                >
-                  <td>
-                    {book.name}
-                  </td>
+               <tr key={book.id}>
 
-                  <td>
-                    {book.author}
-                  </td>
+  <td>
+    <input
+      type="checkbox"
+      checked={selectedBooks.includes(book.id)}
+      onChange={(e) => {
 
-                  <td>
-                    {book.language}
-                  </td>
+        if (e.target.checked) {
 
-                  <td>
-                    {book.position}
-                  </td>
+          setSelectedBooks([
+            ...selectedBooks,
+            book.id
+          ]);
 
-                  <td>
-                    {book.quantity}
-                  </td>
+        } else {
 
-                  <td>
+          setSelectedBooks(
+            selectedBooks.filter(
+              (id) => id !== book.id
+            )
+          );
 
-  <div className="d-flex gap-2">
+        }
 
-    <button
-      onClick={() => {
-        setEditingBook(book);
-
-        setEditName(
-          book.name
-        );
-
-        setEditAuthor(
-          book.author
-        );
-
-        setEditLanguage(
-          book.language
-        );
-
-        setEditPosition(
-          book.position
-        );
-
-        setEditQuantity(
-          book.quantity
-        );
       }}
-      className="btn btn-primary btn-sm"
-    >
-      Edit
-    </button>
+    />
+  </td>
 
-    <button
-      onClick={() =>
-        handleDeleteBook(
-          book.id
-        )
-      }
-      className="btn btn-danger btn-sm"
-    >
-      Delete
-    </button>
+  <td>
+    {book.name}
+  </td>
 
-  </div>
+  <td>
+    {book.author}
+  </td>
 
-</td>
+  <td>
+    {book.language}
+  </td>
 
-                </tr>
+  <td>
+    {book.position}
+  </td>
+
+  <td>
+    {book.quantity}
+  </td>
+
+  <td>
+
+    <div className="d-flex gap-2">
+
+      <button
+        onClick={() => {
+          setEditingBook(book);
+
+          setEditName(book.name);
+
+          setEditAuthor(book.author);
+
+          setEditLanguage(book.language);
+
+          setEditPosition(book.position);
+
+          setEditQuantity(book.quantity);
+        }}
+        className="btn btn-primary btn-sm"
+      >
+        Edit
+      </button>
+
+      <button
+        onClick={() =>
+          handleDeleteBook(book.id)
+        }
+        className="btn btn-danger btn-sm"
+      >
+        Delete
+      </button>
+
+    </div>
+
+  </td>
+
+</tr>
               )
             )}
 
