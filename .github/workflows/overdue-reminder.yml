@@ -21,7 +21,10 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm install
+  run: npm install
+
+- name: Show Node Version
+  run: node -v
 
       - name: Run Reminder Script
         run: node scripts/overdueReminder.js
