@@ -1,1 +1,27 @@
+name: Library Overdue Reminder
 
+on:
+  schedule:
+    # Runs every day at 2:30 UTC (8:00 AM IST)
+    - cron: '30 2 * * *'
+
+  workflow_dispatch:
+
+jobs:
+  reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Reminder Script
+        run: node scripts/overdueReminder.js
