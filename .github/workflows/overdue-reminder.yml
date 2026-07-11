@@ -2,7 +2,7 @@ name: Library Overdue Reminder
 
 on:
   schedule:
-    # Runs every day at 2:30 UTC (8:00 AM IST)
+    # Daily reminder at 8:00 AM IST
     - cron: '30 2 * * *'
 
   workflow_dispatch:
