@@ -467,6 +467,47 @@ please contact the BVRV Office.
 `;
 }
 
+export const overdueReminderTemplate = (
+  studentName,
+  bookName,
+  dueDate
+) => ({
+  subject:
+    "Library Book Overdue Reminder",
+
+  message: `
+Hare Krishna ${studentName},
+
+This is a friendly reminder from the
+Bhaktivedanta Rajavidyalaya Library.
+
+Our records indicate that the following
+library book is overdue.
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+📚 Book
+${bookName}
+
+📅 Due Date
+${dueDate}
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+Please return the book or renew it
+as soon as possible.
+
+If you have already returned or renewed
+the book, kindly ignore this email.
+
+Thank you.
+
+Hare Krishna
+
+Bhaktivedanta Rajavidyalaya Library
+ISKCON NVCC Pune
+`
+});
 
 export function registrationApprovedTemplate(studentName) {
   return `
