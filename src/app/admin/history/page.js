@@ -344,18 +344,22 @@ const handleApproveRequest = async (
     );
 
     await updateDoc(
-      doc(
-        db,
-        'bookRequests',
-        request.id
-      ),
-      {
-        status: 'Issued',
-        issueDate,
-        dueDate,
-        renewalCount: 0
-      }
-    );
+  doc(
+    db,
+    'bookRequests',
+    request.id
+  ),
+  {
+    status: 'Issued',
+    issueDate,
+    dueDate,
+    renewalCount: 0,
+
+    // Reminder System
+    remindersSent: [],
+    lastReminderDate: null
+  }
+);
 
     await updateDoc(
       bookRef,
@@ -409,18 +413,23 @@ const handleRenewBook = async (
       Number(days || 15)
     );
 
-    await updateDoc(
-      doc(
-        db,
-        'bookRequests',
-        request.id
-      ),
-      {
-        dueDate: newDueDate,
-        renewalCount:
-          (request.renewalCount || 0) + 1
-      }
-    );
+   await updateDoc(
+  doc(
+    db,
+    'bookRequests',
+    request.id
+  ),
+  {
+    dueDate: newDueDate,
+
+    renewalCount:
+      (request.renewalCount || 0) + 1,
+
+    // Reset reminder system
+    remindersSent: [],
+    lastReminderDate: null
+  }
+);
 
     await sendStudentEmail({
       to_email:
