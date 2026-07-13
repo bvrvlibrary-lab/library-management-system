@@ -26,8 +26,8 @@ for (const doc of snapshot.docs) {
  const lastStudentReminderDate =
   data.lastStudentReminderDate || null;
 
-const lastAdminReminderDay =
-  data.lastAdminReminderDay || 0;
+const adminReminderHistory =
+  data.adminReminderHistory || [];
 
   // Skip invalid test records
   if (!data.bookName || !data.studentEmail || !data.dueDate) {
@@ -69,7 +69,7 @@ const studentReminderAlreadySent =
   lastStudentReminderDate === todayString;
 
 const adminReminderAlreadySent =
-  lastAdminReminderDay === daysOverdue;
+  adminReminderHistory.includes(daysOverdue);
 if (reminder && !studentReminderAlreadySent) {
 
   const subject =
@@ -78,7 +78,14 @@ if (reminder && !studentReminderAlreadySent) {
       : "BVRV Library - Overdue Book Reminder";
 
   console.log("Student Reminder :", reminder.studentReminder);
-  console.log("Notify Admin     :", reminder.notifyAdmin);
+  if (
+  reminder.notifyAdmin &&
+  !adminReminderAlreadySent
+) {
+  console.log(
+    `Admin Summary: Add ${data.studentName} (${daysOverdue} days overdue)`
+  );
+}
 
   const html = getStudentReminderTemplate(
     data,
