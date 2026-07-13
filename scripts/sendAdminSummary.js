@@ -4,10 +4,13 @@ async function sendAdminSummary(html) {
 
   try {
 
+    const subject =
+      `BVRV Library - Overdue Books Summary (${new Date().toLocaleDateString("en-IN")})`;
+
     const response = await resend.emails.send({
       from: process.env.FROM_EMAIL,
       to: "bvrvlibrary@gmail.com",
-      subject: "BVRV Library - Overdue Books Summary",
+      subject,
       html,
     });
 
