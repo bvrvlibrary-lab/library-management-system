@@ -23,6 +23,8 @@ async function checkFirestore() {
 for (const doc of snapshot.docs) {
 
   const data = doc.data();
+  const remindersSent = data.remindersSent || [];
+const adminRemindersSent = data.adminRemindersSent || [];
 
   // Skip invalid test records
   if (!data.bookName || !data.studentEmail || !data.dueDate) {
@@ -58,12 +60,22 @@ for (const doc of snapshot.docs) {
   daysRemaining,
   daysOverdue
 );
-if (reminder) {
+  const todayString = today.toISOString().split("T")[0];
+
+const studentReminderAlreadySent =
+  remindersSent.includes(todayString);
+
+const adminReminderAlreadySent =
+  adminRemindersSent.includes(daysOverdue);
+if (reminder && !studentReminderAlreadySent) {
 
   const subject =
     reminder.studentReminder === "dueToday"
       ? "BVRV Library - Book Due Today"
       : "BVRV Library - Overdue Book Reminder";
+
+  console.log("Student Reminder :", reminder.studentReminder);
+  console.log("Notify Admin     :", reminder.notifyAdmin);
 
   const html = getStudentReminderTemplate(
     data,
@@ -76,6 +88,15 @@ if (reminder) {
     subject,
     html
   );
+
+} else if (studentReminderAlreadySent) {
+
+  console.log("Today's reminder already sent.");
+
+} else {
+
+  console.log("No Reminder Required");
+
 }
   
   console.log("---------------------------------");
@@ -84,21 +105,7 @@ if (reminder) {
   console.log("Due Date:", dueDate.toDateString());
   console.log("Days Remaining :", daysRemaining);
   console.log("Days Overdue   :", daysOverdue);
-  if (reminder) {
-  console.log(
-    "Student Reminder :",
-    reminder.studentReminder
-  );
-
-  console.log(
-    "Notify Admin     :",
-    reminder.notifyAdmin
-  );
-} else {
-  console.log("No Reminder Required");
-}
-
-}
+ 
 
     console.log("---------------------------------");
     console.log("Firestore Connected Successfully");
