@@ -118,6 +118,17 @@ await doc.ref.update({
   lastStudentReminderDate: todayString,
   lastStudentReminderType: reminder.studentReminder,
 });
+  if (
+  reminder.notifyAdmin &&
+  !adminReminderAlreadySent
+) {
+  await doc.ref.update({
+    adminReminderHistory: [
+      ...adminReminderHistory,
+      daysOverdue,
+    ],
+  });
+}
   
 } else if (studentReminderAlreadySent) {
 
@@ -137,6 +148,9 @@ await doc.ref.update({
   console.log("Days Overdue   :", daysOverdue);
  
 }
+  console.log(
+  `Admin Summary Count : ${adminSummary.length}`
+);
   if (adminSummary.length > 0) {
 
   const html =
