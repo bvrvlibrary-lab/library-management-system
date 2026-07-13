@@ -98,7 +98,7 @@ style="border-collapse:collapse;border:1px solid #ddd;">
 </table>
 
 <p style="margin-top:25px;">
-Please visit the library counter if you wish to renew this book.
+Please visit the BVRV Office, if you wish to renew this book or send Whatsapp Message or Call to +91-9175295571
 </p>
 
 <p>
