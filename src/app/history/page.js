@@ -205,9 +205,9 @@ return () => {
               {returnedBooks.length >
                 0 && (
                 <div className="table-responsive">
-                  <table className="table table-bordered">
+                  <table className="table table-bordered history-table">
 
-                    <thead>
+<thead className="history-header">
                       <tr>
                         <th>
                           Book
@@ -215,9 +215,9 @@ return () => {
                         <th>
                           Author
                         </th>
-                        <th>
-                          Return Date
-                        </th>
+                        <th className="text-center">
+  Return Date
+</th>
                       </tr>
                     </thead>
 
@@ -241,14 +241,17 @@ return () => {
                               }
                             </td>
 
-                            <td>
-                              {book.returnDate
-                                ? new Date(
-                                    book.returnDate.seconds *
-                                      1000
-                                  ).toLocaleDateString()
-                                : '-'}
-                            </td>
+                         <td className="text-center">
+  {book.returnDate
+    ? new Date(
+        book.returnDate.seconds * 1000
+      ).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "-"}
+</td>
                           </tr>
                         )
                       )}
