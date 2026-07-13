@@ -23,8 +23,11 @@ async function checkFirestore() {
 for (const doc of snapshot.docs) {
 
   const data = doc.data();
- const lastStudentReminderDate =
+const lastStudentReminderDate =
   data.lastStudentReminderDate || null;
+
+const lastStudentReminderType =
+  data.lastStudentReminderType || null;
 
 const adminReminderHistory =
   data.adminReminderHistory || [];
@@ -101,6 +104,7 @@ if (reminder && !studentReminderAlreadySent) {
 
 await doc.ref.update({
   lastStudentReminderDate: todayString,
+  lastStudentReminderType: reminder.studentReminder,
 });
   
 } else if (studentReminderAlreadySent) {
