@@ -4,6 +4,7 @@ async function checkFirestore() {
   try {
 
     console.log("=================================");
+    console.log("VERSION 2 - Issued Filter Enabled");
     console.log("BVRV Library Reminder System");
     console.log("=================================");
 
