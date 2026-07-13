@@ -25,9 +25,25 @@ async function checkFirestore() {
 
       const data = doc.data();
 
-      const lastStudentReminderDate = data.lastStudentReminderDate
-        ? data.lastStudentReminderDate.toDate().toISOString().split("T")[0]
-        : null;
+      let lastStudentReminderDate = null;
+
+if (data.lastStudentReminderDate) {
+
+  if (typeof data.lastStudentReminderDate === "string") {
+
+    lastStudentReminderDate = data.lastStudentReminderDate;
+
+  } else {
+
+    lastStudentReminderDate =
+      data.lastStudentReminderDate
+        .toDate()
+        .toISOString()
+        .split("T")[0];
+
+  }
+
+}
 
       const adminReminderHistory =
         data.adminReminderHistory || [];
