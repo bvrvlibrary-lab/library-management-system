@@ -16,16 +16,15 @@ async function checkFirestore() {
       `Total Book Requests: ${snapshot.size}`
     );
 
-    snapshot.forEach((doc) => {
+snapshot.forEach((doc) => {
+  const data = doc.data();
 
-      const data = doc.data();
-
-      console.log("---------------------------------");
-      console.log("Student :", data.studentName);
-      console.log("Book    :", data.bookName);
-      console.log("Status  :", data.status);
-
-    });
+  console.log("---------------------------------");
+  console.log("Document ID :", doc.id);
+  console.log("Raw Status  :", JSON.stringify(data.status));
+  console.log("Student     :", data.studentName);
+  console.log("Book        :", data.bookName);
+});
 
     console.log("---------------------------------");
     console.log("Firestore Connected Successfully");
