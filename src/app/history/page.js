@@ -138,9 +138,9 @@ return () => {
                 </p>
               ) : (
                 <div className="table-responsive">
-                  <table className="table table-bordered">
+                 <table className="table table-bordered history-table">
 
-                    <thead>
+                   <thead className="history-header">
                       <tr>
                         <th>
                           Book
@@ -177,19 +177,17 @@ return () => {
                               }
                             </td>
 
-                            <td>
-                              {book.dueDate
-                                ? new Date(
-                                    book.dueDate.seconds *
-                                      1000
-                                  ).toLocaleDateString()
-                                : '-'}
-                            </td>
+                           <td className="text-center">
+  {book.dueDate
+    ? new Date(
+        book.dueDate.seconds * 1000
+      ).toLocaleDateString()
+    : '-'}
+</td>
 
-                            <td>
-                              {book.renewalCount ||
-                                0}
-                            </td>
+<td className="text-center">
+  {book.renewalCount || 0}
+</td>
                           </tr>
                         )
                       )}
