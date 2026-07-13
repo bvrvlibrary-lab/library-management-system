@@ -1,4 +1,5 @@
 const { db } = require("./firebaseAdmin");
+const { getReminderType } = require("./reminderLogic");
 
 async function checkFirestore() {
   try {
@@ -51,6 +52,10 @@ snapshot.forEach((doc) => {
     daysRemaining < 0
       ? Math.abs(daysRemaining)
       : 0;
+  const reminder = getReminderType(
+  daysRemaining,
+  daysOverdue
+);
 
   console.log("---------------------------------");
   console.log("Student :", data.studentName);
@@ -58,6 +63,19 @@ snapshot.forEach((doc) => {
   console.log("Due Date:", dueDate.toDateString());
   console.log("Days Remaining :", daysRemaining);
   console.log("Days Overdue   :", daysOverdue);
+  if (reminder) {
+  console.log(
+    "Student Reminder :",
+    reminder.studentReminder
+  );
+
+  console.log(
+    "Notify Admin     :",
+    reminder.notifyAdmin
+  );
+} else {
+  console.log("No Reminder Required");
+}
 
 });
 
