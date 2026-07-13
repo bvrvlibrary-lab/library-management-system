@@ -23,8 +23,11 @@ async function checkFirestore() {
 for (const doc of snapshot.docs) {
 
   const data = doc.data();
-  const remindersSent = data.remindersSent || [];
-const adminRemindersSent = data.adminRemindersSent || [];
+ const lastStudentReminderDate =
+  data.lastStudentReminderDate || null;
+
+const lastAdminReminderDay =
+  data.lastAdminReminderDay || 0;
 
   // Skip invalid test records
   if (!data.bookName || !data.studentEmail || !data.dueDate) {
@@ -60,13 +63,13 @@ const adminRemindersSent = data.adminRemindersSent || [];
   daysRemaining,
   daysOverdue
 );
-  const todayString = today.toISOString().split("T")[0];
+ const todayString = today.toISOString().split("T")[0];
 
 const studentReminderAlreadySent =
-  remindersSent.includes(todayString);
+  lastStudentReminderDate === todayString;
 
 const adminReminderAlreadySent =
-  adminRemindersSent.includes(daysOverdue);
+  lastAdminReminderDay === daysOverdue;
 if (reminder && !studentReminderAlreadySent) {
 
   const subject =
@@ -89,6 +92,10 @@ if (reminder && !studentReminderAlreadySent) {
     html
   );
 
+await doc.ref.update({
+  lastStudentReminderDate: todayString,
+});
+  
 } else if (studentReminderAlreadySent) {
 
   console.log("Today's reminder already sent.");
