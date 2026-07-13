@@ -89,3 +89,36 @@ body {
 .admin-table thead th:last-child{
     border-top-right-radius:15px;
 }
+
+/* ==========================
+   Book History Table
+========================== */
+
+.history-table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.history-header th {
+  background: #6f4e37 !important;
+  color: #fff !important;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 15px;
+}
+
+.history-table td {
+  vertical-align: middle;
+  padding: 14px;
+}
+
+.history-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+
+.history-table tbody tr:hover {
+  background: #f5efe9;
+  transition: 0.2s;
+}
