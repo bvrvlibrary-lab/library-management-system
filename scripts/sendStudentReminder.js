@@ -1,7 +1,9 @@
 const { resend } = require("./resendClient");
 
 async function sendStudentReminder(student, subject, html) {
+
   try {
+
     const response = await resend.emails.send({
       from: process.env.FROM_EMAIL,
       to: student.studentEmail,
@@ -10,7 +12,7 @@ async function sendStudentReminder(student, subject, html) {
     });
 
     console.log(
-      `✓ Reminder email sent to ${student.studentEmail}`
+      `✓ Student reminder sent to ${student.studentEmail}`
     );
 
     return response;
@@ -18,13 +20,15 @@ async function sendStudentReminder(student, subject, html) {
   } catch (error) {
 
     console.error(
-      `✗ Failed to send email to ${student.studentEmail}`
+      `✗ Failed to send reminder to ${student.studentEmail}`
     );
 
     console.error(error);
 
-    throw error;
+    return null;
+
   }
+
 }
 
 module.exports = {
