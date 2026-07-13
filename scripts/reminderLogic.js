@@ -5,7 +5,6 @@ const REMINDER_TYPES = {
 
 function getReminderType(daysRemaining, daysOverdue) {
 
-  // Due today
   if (daysRemaining === 0) {
     return {
       studentReminder: REMINDER_TYPES.DUE_TODAY,
@@ -13,15 +12,17 @@ function getReminderType(daysRemaining, daysOverdue) {
     };
   }
 
-  // Overdue
   if (daysOverdue > 0) {
     return {
       studentReminder: REMINDER_TYPES.OVERDUE,
-      notifyAdmin: daysOverdue % 5 === 0,
+
+      // Notify admin only on every 5th overdue day
+      notifyAdmin:
+        daysOverdue > 0 &&
+        daysOverdue % 5 === 0,
     };
   }
 
-  // Nothing to do
   return null;
 }
 
