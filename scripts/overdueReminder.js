@@ -7,165 +7,149 @@ const { getStudentReminderTemplate } = require("./reminderTemplates");
 
 async function checkFirestore() {
   try {
-
     console.log("=================================");
     console.log("VERSION 2 - Issued Filter Enabled");
     console.log("BVRV Library Reminder System");
     console.log("=================================");
-const adminSummary = [];
- const snapshot = await db
-  .collection("bookRequests")
-  .where("status", "==", "Issued")
-  .get();
 
-    console.log(
-      `Total Book Requests: ${snapshot.size}`
-    );
+    const adminSummary = [];
 
-for (const doc of snapshot.docs) {
+    const snapshot = await db
+      .collection("bookRequests")
+      .where("status", "==", "Issued")
+      .get();
 
-  const data = doc.data();
-const lastStudentReminderDate =
-  data.lastStudentReminderDate || null;
+    console.log(`Total Book Requests: ${snapshot.size}`);
 
-const lastStudentReminderType =
-  data.lastStudentReminderType || null;
+    for (const doc of snapshot.docs) {
 
-const adminReminderHistory =
-  data.adminReminderHistory || [];
+      const data = doc.data();
 
-  // Skip invalid test records
-  if (!data.bookName || !data.studentEmail || !data.dueDate) {
-    console.log("---------------------------------");
-    console.log(`Skipping invalid record (${doc.id})`);
-    return;
-  }
+      const lastStudentReminderDate = data.lastStudentReminderDate
+        ? data.lastStudentReminderDate.toDate().toISOString().split("T")[0]
+        : null;
 
-  // Today's date
-  const today = new Date();
+      const adminReminderHistory =
+        data.adminReminderHistory || [];
 
-  // Remove time portion (00:00:00)
-  today.setHours(0, 0, 0, 0);
+      if (!data.bookName || !data.studentEmail || !data.dueDate) {
+        console.log("---------------------------------");
+        console.log(`Skipping invalid record (${doc.id})`);
+        continue;
+      }
 
-  // Due date
-  const dueDate = data.dueDate.toDate();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
-  // Remove time portion
-  dueDate.setHours(0, 0, 0, 0);
+      const dueDate = data.dueDate.toDate();
+      dueDate.setHours(0, 0, 0, 0);
 
-  // Difference in days
-  const diffTime = dueDate.getTime() - today.getTime();
+      const diffTime = dueDate.getTime() - today.getTime();
 
-  const daysRemaining = Math.floor(
-    diffTime / (1000 * 60 * 60 * 24)
-  );
+      const daysRemaining = Math.floor(
+        diffTime / (1000 * 60 * 60 * 24)
+      );
 
-  const daysOverdue =
-    daysRemaining < 0
-      ? Math.abs(daysRemaining)
-      : 0;
-  const reminder = getReminderType(
-  daysRemaining,
-  daysOverdue
-);
- const todayString = today.toISOString().split("T")[0];
+      const daysOverdue =
+        daysRemaining < 0
+          ? Math.abs(daysRemaining)
+          : 0;
 
-const studentReminderAlreadySent =
-  lastStudentReminderDate === todayString;
+      const reminder = getReminderType(
+        daysRemaining,
+        daysOverdue
+      );
 
-const adminReminderAlreadySent =
-  adminReminderHistory.includes(daysOverdue);
-if (reminder && !studentReminderAlreadySent) {
+      const todayString =
+        new Date().toISOString().split("T")[0];
 
-  const subject =
-    reminder.studentReminder === "dueToday"
-      ? "BVRV Library - Book Due Today"
-      : "BVRV Library - Overdue Book Reminder";
+      const studentReminderAlreadySent =
+        lastStudentReminderDate === todayString;
 
-  console.log("Student Reminder :", reminder.studentReminder);
- if (
-  reminder.notifyAdmin &&
-  !adminReminderAlreadySent
-) {
+      const adminReminderAlreadySent =
+        adminReminderHistory.includes(daysOverdue);
 
-  adminSummary.push({
-    studentName: data.studentName,
-    bookName: data.bookName,
-    author: data.author,
-    daysOverdue,
-    docId: doc.id,
-  });
+      if (reminder && !studentReminderAlreadySent) {
 
-}
-  console.log(
-    `Admin Summary: Add ${data.studentName} (${daysOverdue} days overdue)`
-  );
-}
+        const subject =
+          reminder.studentReminder === "dueToday"
+            ? "BVRV Library - Book Due Today"
+            : "BVRV Library - Overdue Book Reminder";
 
-  const html = getStudentReminderTemplate(
-    data,
-    reminder.studentReminder,
-    daysOverdue
-  );
+        const html = getStudentReminderTemplate(
+          data,
+          reminder.studentReminder,
+          daysOverdue
+        );
 
-  await sendStudentReminder(
-    data,
-    subject,
-    html
-  );
+        await sendStudentReminder(
+          data,
+          subject,
+          html
+        );
 
-await doc.ref.update({
-  lastStudentReminderDate: todayString,
-  lastStudentReminderType: reminder.studentReminder,
-});
-  if (
-  reminder.notifyAdmin &&
-  !adminReminderAlreadySent
-) {
-  await doc.ref.update({
-    adminReminderHistory: [
-      ...adminReminderHistory,
-      daysOverdue,
-    ],
-  });
-}
-  
-} else if (studentReminderAlreadySent) {
+        await doc.ref.update({
+          lastStudentReminderDate: new Date(),
+          lastStudentReminderType: reminder.studentReminder,
+        });
 
-  console.log("Today's reminder already sent.");
+        if (
+          reminder.notifyAdmin &&
+          !adminReminderAlreadySent
+        ) {
 
-} else {
+          adminSummary.push({
+            studentName: data.studentName,
+            bookName: data.bookName,
+            author: data.author,
+            daysOverdue,
+          });
 
-  console.log("No Reminder Required");
+          await doc.ref.update({
+            adminReminderHistory: [
+              ...adminReminderHistory,
+              daysOverdue,
+            ],
+          });
 
-}
-  
-  console.log("---------------------------------");
-  console.log("Student :", data.studentName);
-  console.log("Book    :", data.bookName);
-  console.log("Due Date:", dueDate.toDateString());
-  console.log("Days Remaining :", daysRemaining);
-  console.log("Days Overdue   :", daysOverdue);
- 
-}
-  console.log(
-  `Admin Summary Count : ${adminSummary.length}`
-);
-  if (adminSummary.length > 0) {
+        }
 
-  const html =
-    getAdminSummaryTemplate(adminSummary);
+      } else if (studentReminderAlreadySent) {
 
-  await sendAdminSummary(html);
+        console.log("Today's reminder already sent.");
 
-}
+      } else {
+
+        console.log("No Reminder Required");
+
+      }
+
+      console.log("---------------------------------");
+      console.log("Student :", data.studentName);
+      console.log("Book    :", data.bookName);
+      console.log("Due Date:", dueDate.toDateString());
+      console.log("Days Remaining :", daysRemaining);
+      console.log("Days Overdue   :", daysOverdue);
+
+    }
+
+    console.log(`Admin Summary Count : ${adminSummary.length}`);
+
+    if (adminSummary.length > 0) {
+
+      const html =
+        getAdminSummaryTemplate(adminSummary);
+
+      await sendAdminSummary(html);
+
+    }
+
     console.log("---------------------------------");
     console.log("Firestore Connected Successfully");
 
   } catch (error) {
 
     console.error(error);
-
     process.exit(1);
 
   }
