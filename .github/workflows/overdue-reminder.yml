@@ -26,6 +26,8 @@ jobs:
         run: node -v
 
       - name: Run Reminder Script
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      env:
+        FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
         run: node scripts/overdueReminder.js
