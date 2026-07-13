@@ -1,5 +1,7 @@
 const { db } = require("./firebaseAdmin");
 const { getReminderType } = require("./reminderLogic");
+const { sendStudentReminder } = require("./sendStudentReminder");
+const { getStudentReminderTemplate } = require("./reminderTemplates");
 
 async function checkFirestore() {
   try {
@@ -18,7 +20,7 @@ async function checkFirestore() {
       `Total Book Requests: ${snapshot.size}`
     );
 
-snapshot.forEach((doc) => {
+for (const doc of snapshot.docs) {
 
   const data = doc.data();
 
@@ -56,7 +58,26 @@ snapshot.forEach((doc) => {
   daysRemaining,
   daysOverdue
 );
+if (reminder) {
 
+  const subject =
+    reminder.studentReminder === "dueToday"
+      ? "BVRV Library - Book Due Today"
+      : "BVRV Library - Overdue Book Reminder";
+
+  const html = getStudentReminderTemplate(
+    data,
+    reminder.studentReminder,
+    daysOverdue
+  );
+
+  await sendStudentReminder(
+    data,
+    subject,
+    html
+  );
+}
+  
   console.log("---------------------------------");
   console.log("Student :", data.studentName);
   console.log("Book    :", data.bookName);
@@ -77,7 +98,7 @@ snapshot.forEach((doc) => {
   console.log("No Reminder Required");
 }
 
-});
+}
 
     console.log("---------------------------------");
     console.log("Firestore Connected Successfully");
