@@ -1,78 +1,136 @@
 function getStudentReminderTemplate(student, reminderType, daysOverdue = 0) {
 
-  let title = "";
+  const dueDate = student.dueDate.toDate().toDateString();
+
+  let heading = "";
   let message = "";
+  let color = "#2E7D32";
 
   if (reminderType === "dueToday") {
-    title = "Book Due Today";
-    message = "This is a friendly reminder that your library book is due today. Please return or renew it to avoid overdue reminders.";
+
+    heading = "📚 Book Due Today";
+
+    message = `
+      This is a friendly reminder that the following library book is due today.
+      Kindly return or renew the book to avoid overdue reminders.
+    `;
+
+    color = "#F57C00";
+
   } else {
-    title = "Book Overdue";
-    message = `Your library book is overdue by <strong>${daysOverdue} day(s)</strong>. Please return or renew it as soon as possible.`;
+
+    heading = "⚠️ Overdue Book Reminder";
+
+    message = `
+      The following library book is overdue by
+      <strong>${daysOverdue} day(s)</strong>.
+      Kindly return or renew the book immediately.
+    `;
+
+    color = "#C62828";
+
   }
 
   return `
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <meta charset="UTF-8">
-  </head>
-  <body style="font-family: Arial, sans-serif; background:#f5f5f5; padding:20px;">
-    <div style="max-width:700px;margin:auto;background:#ffffff;border-radius:8px;padding:30px;">
+<!DOCTYPE html>
+<html>
 
-      <h2 style="color:#6f4e37;text-align:center;">
-        Bhaktivedanta Rajavidyalaya
-      </h2>
+<head>
+<meta charset="UTF-8">
+</head>
 
-      <h3 style="text-align:center;">
-        Library Management System
-      </h3>
+<body style="margin:0;padding:30px;background:#f4f4f4;font-family:Arial,Helvetica,sans-serif;">
 
-      <hr>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td align="center">
 
-      <p>Dear <strong>${student.studentName}</strong>,</p>
+<table width="700" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;">
 
-      <p>${message}</p>
+<tr>
+<td style="background:#6f4e37;color:#ffffff;padding:20px;text-align:center;">
+<h2 style="margin:0;">Bhaktivedanta Rajavidyalaya</h2>
+<div>Library Management System</div>
+</td>
+</tr>
 
-      <table cellpadding="8" cellspacing="0" border="1" style="border-collapse:collapse;width:100%;">
-        <tr>
-          <td><strong>Book</strong></td>
-          <td>${student.bookName}</td>
-        </tr>
+<tr>
+<td style="padding:30px;">
 
-        <tr>
-          <td><strong>Author</strong></td>
-          <td>${student.author}</td>
-        </tr>
+<h2 style="color:${color};margin-top:0;">
+${heading}
+</h2>
 
-        <tr>
-          <td><strong>Language</strong></td>
-          <td>${student.language}</td>
-        </tr>
+<p>
+Dear <strong>${student.studentName}</strong>,
+</p>
 
-        <tr>
-          <td><strong>Due Date</strong></td>
-          <td>${student.dueDate.toDate().toDateString()}</td>
-        </tr>
-      </table>
+<p>
+${message}
+</p>
 
-      <br>
+<table
+width="100%"
+cellpadding="10"
+cellspacing="0"
+style="border-collapse:collapse;border:1px solid #ddd;">
 
-      <p>
-        Kindly return or renew the book at the earliest.
-      </p>
+<tr>
+<td style="background:#f5f5f5;"><strong>Book</strong></td>
+<td>${student.bookName}</td>
+</tr>
 
-      <br>
+<tr>
+<td style="background:#f5f5f5;"><strong>Author</strong></td>
+<td>${student.author}</td>
+</tr>
 
-      <p>
-        Regards,<br>
-        <strong>BVRV Library</strong>
-      </p>
+<tr>
+<td style="background:#f5f5f5;"><strong>Language</strong></td>
+<td>${student.language}</td>
+</tr>
 
-    </div>
-  </body>
-  </html>
-  `;
+<tr>
+<td style="background:#f5f5f5;"><strong>Due Date</strong></td>
+<td>${dueDate}</td>
+</tr>
+
+</table>
+
+<p style="margin-top:25px;">
+Please visit the library counter if you wish to renew this book.
+</p>
+
+<p>
+Thank you.
+</p>
+
+<br>
+
+<p>
+Regards,<br>
+<strong>BVRV Library</strong><br>
+Bhaktivedanta Rajavidyalaya
+</p>
+
+</td>
+</tr>
+
+<tr>
+<td style="background:#eeeeee;padding:15px;text-align:center;font-size:12px;color:#666;">
+This is an automated email from the BVRV Library Management System.
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+`;
 }
 
 module.exports = {
