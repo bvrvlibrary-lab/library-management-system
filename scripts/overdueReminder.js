@@ -7,9 +7,10 @@ async function checkFirestore() {
     console.log("BVRV Library Reminder System");
     console.log("=================================");
 
-    const snapshot = await db
-      .collection("bookRequests")
-      .get();
+ const snapshot = await db
+  .collection("bookRequests")
+  .where("status", "==", "Issued")
+  .get();
 
     console.log(
       `Total Book Requests: ${snapshot.size}`
