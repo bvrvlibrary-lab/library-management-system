@@ -120,7 +120,7 @@ await doc.ref.update({
   console.log("Days Remaining :", daysRemaining);
   console.log("Days Overdue   :", daysOverdue);
  
-
+}
     console.log("---------------------------------");
     console.log("Firestore Connected Successfully");
 
