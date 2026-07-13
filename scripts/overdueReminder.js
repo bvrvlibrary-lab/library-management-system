@@ -1,3 +1,5 @@
+const { sendAdminSummary } = require("./sendAdminSummary");
+const { getAdminSummaryTemplate } = require("./adminSummaryTemplate");
 const { db } = require("./firebaseAdmin");
 const { getReminderType } = require("./reminderLogic");
 const { sendStudentReminder } = require("./sendStudentReminder");
@@ -10,7 +12,7 @@ async function checkFirestore() {
     console.log("VERSION 2 - Issued Filter Enabled");
     console.log("BVRV Library Reminder System");
     console.log("=================================");
-
+const adminSummary = [];
  const snapshot = await db
   .collection("bookRequests")
   .where("status", "==", "Issued")
@@ -81,10 +83,20 @@ if (reminder && !studentReminderAlreadySent) {
       : "BVRV Library - Overdue Book Reminder";
 
   console.log("Student Reminder :", reminder.studentReminder);
-  if (
+ if (
   reminder.notifyAdmin &&
   !adminReminderAlreadySent
 ) {
+
+  adminSummary.push({
+    studentName: data.studentName,
+    bookName: data.bookName,
+    author: data.author,
+    daysOverdue,
+    docId: doc.id,
+  });
+
+}
   console.log(
     `Admin Summary: Add ${data.studentName} (${daysOverdue} days overdue)`
   );
@@ -124,6 +136,14 @@ await doc.ref.update({
   console.log("Days Remaining :", daysRemaining);
   console.log("Days Overdue   :", daysOverdue);
  
+}
+  if (adminSummary.length > 0) {
+
+  const html =
+    getAdminSummaryTemplate(adminSummary);
+
+  await sendAdminSummary(html);
+
 }
     console.log("---------------------------------");
     console.log("Firestore Connected Successfully");
