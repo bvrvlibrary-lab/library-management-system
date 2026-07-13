@@ -1,11 +1,11 @@
-export const REMINDER_TYPES = {
+const REMINDER_TYPES = {
   DUE_TODAY: "dueToday",
   OVERDUE: "overdue",
 };
 
-export function getReminderType(daysRemaining, daysOverdue) {
+function getReminderType(daysRemaining, daysOverdue) {
 
-  // Book is due today
+  // Due today
   if (daysRemaining === 0) {
     return {
       studentReminder: REMINDER_TYPES.DUE_TODAY,
@@ -13,7 +13,7 @@ export function getReminderType(daysRemaining, daysOverdue) {
     };
   }
 
-  // Book is overdue
+  // Overdue
   if (daysOverdue > 0) {
     return {
       studentReminder: REMINDER_TYPES.OVERDUE,
@@ -21,6 +21,11 @@ export function getReminderType(daysRemaining, daysOverdue) {
     };
   }
 
-  // No reminder required
+  // Nothing to do
   return null;
 }
+
+module.exports = {
+  REMINDER_TYPES,
+  getReminderType,
+};
