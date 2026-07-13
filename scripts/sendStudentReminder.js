@@ -6,7 +6,7 @@ async function sendStudentReminder(student, subject, html) {
 
    const response = await resend.emails.send({
   from: process.env.FROM_EMAIL,
-  to: "bvrvlibrary@gmail.com",
+  to: student.studentEmail,
   subject,
   html,
 });
