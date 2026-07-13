@@ -419,16 +419,17 @@ const handleRenewBook = async (
     'bookRequests',
     request.id
   ),
-  {
-    dueDate: newDueDate,
+ {
+  dueDate: newDueDate,
 
-    renewalCount:
-      (request.renewalCount || 0) + 1,
+  renewalCount:
+    (request.renewalCount || 0) + 1,
 
-    // Reset reminder system
-    remindersSent: [],
-    lastReminderDate: null
-  }
+  // Reset reminder system
+  lastStudentReminderDate: null,
+  lastStudentReminderType: null,
+  adminReminderHistory: [],
+}
 );
 
     await sendStudentEmail({
