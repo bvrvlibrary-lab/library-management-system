@@ -4,12 +4,16 @@ async function sendStudentReminder(student, subject, html) {
 
   try {
 
-    const response = await resend.emails.send({
-      from: process.env.FROM_EMAIL,
-      to: student.studentEmail,
-      subject,
-      html,
-    });
+   const response = await resend.emails.send({
+  from: process.env.FROM_EMAIL,
+  to: student.studentEmail,
+  subject,
+  html,
+});
+
+console.log("========== RESEND RESPONSE ==========");
+console.log(JSON.stringify(response, null, 2));
+console.log("=====================================");
 
     console.log(
       `✓ Student reminder sent to ${student.studentEmail}`
