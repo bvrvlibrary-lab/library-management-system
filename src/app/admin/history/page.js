@@ -469,10 +469,15 @@ message: renewBookTemplate(
         'bookRequests',
         request.id
       ),
-      {
-        status: 'Returned',
-        returnDate: new Date()
-      }
+     {
+  status: 'Returned',
+  returnDate: new Date(),
+
+  // Reset reminder system
+  lastStudentReminderDate: null,
+  lastStudentReminderType: null,
+  adminReminderHistory: [],
+}
     );
 
     // Increase stock
@@ -491,7 +496,7 @@ message: renewBookTemplate(
     await sendStudentEmail({
       to_email: request.studentEmail,
       subject:
-"📚 BVRV Library | Book Renewed Successfully",
+"📚 BVRV Library | Book Returned Successfully",
 message: returnBookTemplate(
   request
 ),
