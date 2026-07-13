@@ -114,8 +114,16 @@ body {
   padding: 14px;
 }
 
-.history-table tbody tr:nth-child(even) {
-  background: #fafafa;
+.history-table tbody tr:nth-child(odd) td {
+  background-color: #ffffff !important;
+}
+
+.history-table tbody tr:nth-child(even) td {
+  background-color: #f8f6f3 !important;
+}
+
+.history-table tbody tr:hover td {
+  background-color: #efe7df !important;
 }
 
 .history-table tbody tr:hover {
