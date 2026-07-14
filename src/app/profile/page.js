@@ -1,5 +1,6 @@
 'use client';
 import Navbar from '../../components/Navbar';
+import LoadingSpinner from "../../components/LoadingSpinner";
 import { useEffect, useState } from 'react';
 
 import {
@@ -157,13 +158,13 @@ const [showConfirmPassword, setShowConfirmPassword] =
     }
   };
 
-  if (loading) {
-    return (
-      <div className="container mt-4">
-        Loading...
-      </div>
-    );
-  }
+if (loading) {
+  return (
+    <LoadingSpinner
+      text="Loading Profile..."
+    />
+  );
+}
 
  return (
   <>
