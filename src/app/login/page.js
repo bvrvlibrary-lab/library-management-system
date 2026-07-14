@@ -5,8 +5,13 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail
 } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  updateDoc
+} from 'firebase/firestore';
 import { auth, db } from '../../firebase';
+import { sendAdminEmail } from '../../lib/sendEmail';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 
@@ -52,7 +57,16 @@ await sendPasswordResetEmail(
         );
 
       const user = userCredential.user;
+if (!user.emailVerified) {
 
+  await signOut(auth);
+
+  setMessage(
+    'Please verify your email before logging in.'
+  );
+
+  return;
+}
       // YOUR ADMIN EMAIL
       const adminEmail =
         'bvrvlibrary@gmail.com';
@@ -88,7 +102,41 @@ await sendPasswordResetEmail(
 
       const userData =
         userSnap.data();
+if (!userData.adminNotified) {
 
+  await sendAdminEmail({
+
+    to_email: 'bvrvlibrary@gmail.com',
+
+    subject: 'New Student Registration',
+
+    message: `
+
+A new student has verified their email and is waiting for approval.
+
+Full Name: ${userData.fullName}
+
+Initiated Name: ${userData.initiatedName}
+
+Mobile: ${userData.mobile}
+
+Email: ${userData.email}
+
+Counselor Name: ${userData.counselorName}
+
+Counselor Mobile: ${userData.counselorMobile}
+
+Temple: ${userData.temple}
+
+`
+
+  });
+
+  await updateDoc(userRef, {
+    adminNotified: true
+  });
+
+}
       if (!userData.approved) {
         setMessage(
           'Waiting for admin approval.'
