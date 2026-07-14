@@ -33,10 +33,20 @@ export default function ProfilePage() {
   const [confirmPassword, setConfirmPassword] =
     useState('');
 
+const [showCurrentPassword, setShowCurrentPassword] =
+  useState(false);
+
+const [showNewPassword, setShowNewPassword] =
+  useState(false);
+
+const [showConfirmPassword, setShowConfirmPassword] =
+  useState(false);
+  
   useEffect(() => {
     loadProfile();
   }, []);
 
+  
   const loadProfile = async () => {
     try {
       const user = auth.currentUser;
@@ -246,16 +256,26 @@ export default function ProfilePage() {
             Current Password
           </label>
 
-          <input
-            type="password"
-            className="form-control"
-            value={currentPassword}
-            onChange={(e) =>
-              setCurrentPassword(
-                e.target.value
-              )
-            }
-          />
+         <div className="input-group">
+  <input
+    type={showCurrentPassword ? "text" : "password"}
+    className="form-control"
+    value={currentPassword}
+    onChange={(e) =>
+      setCurrentPassword(e.target.value)
+    }
+  />
+
+  <button
+    type="button"
+    className="btn btn-outline-secondary"
+    onClick={() =>
+      setShowCurrentPassword(!showCurrentPassword)
+    }
+  >
+    {showCurrentPassword ? "🙈" : "👁"}
+  </button>
+</div>
         </div>
 
         <div className="mb-3">
@@ -263,16 +283,26 @@ export default function ProfilePage() {
             New Password
           </label>
 
-          <input
-            type="password"
-            className="form-control"
-            value={newPassword}
-            onChange={(e) =>
-              setNewPassword(
-                e.target.value
-              )
-            }
-          />
+          <div className="input-group">
+  <input
+    type={showNewPassword ? "text" : "password"}
+    className="form-control"
+    value={newPassword}
+    onChange={(e) =>
+      setNewPassword(e.target.value)
+    }
+  />
+
+  <button
+    type="button"
+    className="btn btn-outline-secondary"
+    onClick={() =>
+      setShowNewPassword(!showNewPassword)
+    }
+  >
+    {showNewPassword ? "🙈" : "👁"}
+  </button>
+</div>
         </div>
 
         <div className="mb-3">
@@ -280,16 +310,26 @@ export default function ProfilePage() {
             Confirm Password
           </label>
 
-          <input
-            type="password"
-            className="form-control"
-            value={confirmPassword}
-            onChange={(e) =>
-              setConfirmPassword(
-                e.target.value
-              )
-            }
-          />
+         <div className="input-group">
+  <input
+    type={showConfirmPassword ? "text" : "password"}
+    className="form-control"
+    value={confirmPassword}
+    onChange={(e) =>
+      setConfirmPassword(e.target.value)
+    }
+  />
+
+  <button
+    type="button"
+    className="btn btn-outline-secondary"
+    onClick={() =>
+      setShowConfirmPassword(!showConfirmPassword)
+    }
+  >
+    {showConfirmPassword ? "🙈" : "👁"}
+  </button>
+</div>
         </div>
 
         <button
