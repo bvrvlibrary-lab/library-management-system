@@ -121,16 +121,18 @@ return () => {
             >
               Returned Books
             </button>
-<a
-  href="/feedback"
-  className="list-group-item list-group-item-action text-decoration-none"
-  style={{
-    color: "#6f4e37",
-    fontWeight: "600"
-  }}
+<button
+  className={`list-group-item list-group-item-action ${
+    activeTab === "feedback"
+      ? "active"
+      : ""
+  }`}
+  onClick={() =>
+    setActiveTab("feedback")
+  }
 >
-  💬 Send Feedback
-</a>
+  💬 Feedback
+</button>
           </div>
         </div>
 
@@ -288,7 +290,83 @@ return () => {
               )}
             </>
           )}
+{activeTab === "feedback" && (
 
+  <div className="card shadow-sm">
+
+    <div className="card-header history-header">
+      💬 Feedback, Suggestions & Book Recommendations
+    </div>
+
+    <div className="card-body">
+
+      <div className="mb-3">
+
+        <label className="form-label">
+          Subject
+        </label>
+
+        <input
+          type="text"
+          className="form-control"
+        />
+
+      </div>
+
+      <div className="mb-3">
+
+        <label className="form-label">
+          Category
+        </label>
+
+        <select className="form-select">
+
+          <option>
+            General Feedback
+          </option>
+
+          <option>
+            Library Service
+          </option>
+
+          <option>
+            Website Issue
+          </option>
+
+          <option>
+            Book Recommendation
+          </option>
+
+          <option>
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+      <div className="mb-3">
+
+        <label className="form-label">
+          Feedback
+        </label>
+
+        <textarea
+          rows="6"
+          className="form-control"
+        />
+
+      </div>
+
+      <button className="btn btn-bvrv">
+        Submit Feedback
+      </button>
+
+    </div>
+
+  </div>
+
+)}
                </div>
 
        
