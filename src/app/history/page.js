@@ -140,22 +140,31 @@ return () => {
                 <div className="table-responsive">
                  <table className="table table-bordered history-table">
 
-                   <thead className="history-header">
-                      <tr>
-                        <th>
-                          Book
-                        </th>
-                        <th>
-                          Author
-                        </th>
-                        <th>
-                          Due Date
-                        </th>
-                        <th>
-                          Renewals
-                        </th>
-                      </tr>
-                    </thead>
+                  <thead className="history-header">
+  <tr>
+    <th style={{ width: "45%" }}>
+      Book
+    </th>
+
+    <th style={{ width: "35%" }}>
+      Author
+    </th>
+
+    <th
+      className="text-center"
+      style={{ width: "130px" }}
+    >
+      Due Date
+    </th>
+
+    <th
+      className="text-center"
+      style={{ width: "100px" }}
+    >
+      Renewals
+    </th>
+  </tr>
+</thead>
 
                     <tbody>
                       {issuedBooks.map(
@@ -177,7 +186,10 @@ return () => {
                               }
                             </td>
 
-                           <td className="text-center">
+      <td
+  className="text-center"
+  style={{ width: "130px" }}
+>
   {book.dueDate
     ? new Date(
         book.dueDate.seconds * 1000
@@ -185,6 +197,13 @@ return () => {
     : '-'}
 </td>
 
+<td
+  className="text-center"
+  style={{ width: "100px" }}
+>
+  {book.renewalCount || 0}
+</td>
+  
 <td className="text-center">
   {book.renewalCount || 0}
 </td>
