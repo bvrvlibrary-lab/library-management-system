@@ -280,6 +280,39 @@ return () => {
             </>
           )}
 
+               </div>
+
+        {/* Feedback Section */}
+
+        <div className="card shadow-sm mt-4">
+
+          <div className="card-header history-header">
+            💬 Feedback, Suggestions & Book Recommendations
+          </div>
+
+          <div className="card-body">
+
+            <p>
+              We value your suggestions and feedback to improve the
+              BVRV Library.
+            </p>
+
+            <ul>
+              <li>📚 Recommend new books</li>
+              <li>💡 Suggest improvements</li>
+              <li>🐞 Report website issues</li>
+              <li>😊 Share your library experience</li>
+            </ul>
+
+            <a
+              href="/feedback"
+              className="btn btn-bvrv"
+            >
+              Send Feedback
+            </a>
+
+          </div>
+
         </div>
 
       </div>
