@@ -11,7 +11,8 @@ import {
 import {
   updatePassword,
   EmailAuthProvider,
-  reauthenticateWithCredential
+  reauthenticateWithCredential,
+  onAuthStateChanged
 } from 'firebase/auth';
 
 import { db, auth } from '../../firebase';
@@ -42,16 +43,29 @@ const [showNewPassword, setShowNewPassword] =
 const [showConfirmPassword, setShowConfirmPassword] =
   useState(false);
   
-  useEffect(() => {
-    loadProfile();
-  }, []);
+ useEffect(() => {
+
+  const unsubscribe = onAuthStateChanged(
+    auth,
+    (user) => {
+
+      if (user) {
+        loadProfile(user);
+      } else {
+        setLoading(false);
+      }
+
+    }
+  );
+
+  return () => unsubscribe();
+
+}, []);
 
   
-  const loadProfile = async () => {
+ const loadProfile = async (user) => {
     try {
-      const user = auth.currentUser;
-
-      if (!user) return;
+      
 
       const docRef = doc(
         db,
