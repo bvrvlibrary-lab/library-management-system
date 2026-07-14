@@ -135,17 +135,6 @@ export default function Navbar({ isAdmin, user }) {
     </span>
   )}
 
-  {/* Logout */}
-  {user && (
-    <button
-      onClick={handleLogout}
-      className="btn btn-warning fw-semibold"
-    >
-      Logout
-    </button>
-  )}
-
-</div>
 
             {/* Logout */}
             {user && (
