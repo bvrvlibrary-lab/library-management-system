@@ -49,8 +49,9 @@ export default function SignupPage() {
         );
 
       const user = userCredential.user;
+      
       await sendEmailVerification(user);
-
+      
       await setDoc(doc(db, 'users', user.uid), {
 
         fullName,
@@ -96,7 +97,7 @@ Temple: ${temple}
 `
 
       });
-
+await auth.signOut();
       setMessage(
   "✅ Registration successful. A verification email has been sent to your email address. Please verify your email first. After verification, your account will be reviewed by the library administrator."
 );
