@@ -115,15 +115,37 @@ export default function Navbar({ isAdmin, user }) {
 )}
           </ul>
 
-          {/* Right Side */}
-          <div className="d-flex align-items-center gap-3">
+   {/* Right Side */}
+<div className="d-flex align-items-center gap-3">
 
-            {/* User Email */}
-            {user && (
-              <span className="text-warning small fw-semibold">
-                {user.email}
-              </span>
-            )}
+  {/* Public User - Sign In / Sign Up */}
+  {!user && (
+    <Link
+      href="/login"
+      className="btn btn-warning fw-semibold"
+    >
+      Sign In / Sign Up
+    </Link>
+  )}
+
+  {/* Logged-in User Email */}
+  {user && (
+    <span className="text-warning small fw-semibold">
+      {user.email}
+    </span>
+  )}
+
+  {/* Logout */}
+  {user && (
+    <button
+      onClick={handleLogout}
+      className="btn btn-warning fw-semibold"
+    >
+      Logout
+    </button>
+  )}
+
+</div>
 
             {/* Logout */}
             {user && (
