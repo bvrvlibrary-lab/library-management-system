@@ -227,7 +227,7 @@ export default function ProfilePage() {
 
         <button
           onClick={handleSaveProfile}
-          className="btn btn-bvrv w-100"
+           className="btn btn-bvrv"
         >
           Save Profile
         </button>
@@ -294,7 +294,7 @@ export default function ProfilePage() {
 
         <button
           onClick={handleChangePassword}
-          className="btn btn-bvrv w-100"
+          className="btn btn-bvrv"
         >
           Change Password
         </button>
