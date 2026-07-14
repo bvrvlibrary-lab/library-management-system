@@ -151,28 +151,32 @@ export default function ProfilePage() {
     <div className="container mt-4">
   
 
-      <h3 className="mb-4">
-        Profile
-      </h3>
+    <h2 className="mb-4 fw-bold">
+  My Profile
+</h2>
 
-      <div className="card p-4 mb-4">
+     <div className="card shadow profile-card mb-4">
 
-        <div className="mb-3">
-          <label className="form-label">
-            Full Name
-          </label>
+  <div className="card-header profile-header">
+    👤 My Profile
+  </div>
 
-          <input
-            type="text"
-            className="form-control"
-            value={fullName}
-            onChange={(e) =>
-              setFullName(
-                e.target.value
-              )
-            }
-          />
-        </div>
+  <div className="card-body">
+
+    <div className="mb-3">
+      <label className="form-label">
+        Full Name
+      </label>
+
+      <input
+        type="text"
+        className="form-control"
+        value={fullName}
+        onChange={(e) =>
+          setFullName(e.target.value)
+        }
+      />
+    </div>
 
         <div className="mb-3">
           <label className="form-label">
@@ -223,17 +227,19 @@ export default function ProfilePage() {
 
         <button
           onClick={handleSaveProfile}
-          className="btn btn-primary"
+          className="btn btn-bvrv w-100"
         >
           Save Profile
         </button>
       </div>
+</div>
+      <div className="card shadow profile-card">
 
-      <div className="card p-4">
+       <div className="card-header profile-header">
+  🔑 Change Password
+</div>
 
-        <h4 className="mb-3">
-          Change Password
-        </h4>
+<div className="card-body">
 
         <div className="mb-3">
           <label className="form-label">
@@ -288,11 +294,11 @@ export default function ProfilePage() {
 
         <button
           onClick={handleChangePassword}
-          className="btn btn-warning"
+          className="btn btn-bvrv w-100"
         >
           Change Password
         </button>
-
+</div>
       </div>
       </div>
           </>
