@@ -121,7 +121,16 @@ return () => {
             >
               Returned Books
             </button>
-
+<a
+  href="/feedback"
+  className="list-group-item list-group-item-action text-decoration-none"
+  style={{
+    color: "#6f4e37",
+    fontWeight: "600"
+  }}
+>
+  💬 Send Feedback
+</a>
           </div>
         </div>
 
