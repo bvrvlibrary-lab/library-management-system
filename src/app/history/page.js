@@ -2,14 +2,16 @@
 import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase';
-
+import { sendAdminEmail } from '../../lib/sendEmail';
 import {
   onAuthStateChanged
 } from 'firebase/auth';
 
 import {
   collection,
-  onSnapshot
+  onSnapshot,
+  addDoc,
+  serverTimestamp
 } from 'firebase/firestore';
 
 export default function HistoryPage() {
@@ -71,7 +73,65 @@ return () => {
           user?.uid &&
         req.status === 'Issued'
     );
+const handleSubmitFeedback = async () => {
 
+  if (!subject.trim() || !feedback.trim()) {
+    alert("Please fill all required fields.");
+    return;
+  }
+
+  try {
+
+    await addDoc(
+      collection(db, "feedback"),
+      {
+        studentId: user.uid,
+        studentName: user.displayName || "",
+        studentEmail: user.email,
+        subject,
+        category,
+        feedback,
+        createdAt: serverTimestamp()
+      }
+    );
+
+    await sendAdminEmail({
+
+      to_email: "hod.bvrvpune@gmail.com",
+
+      subject: "New Student Feedback - BVRV Library",
+
+      message: `
+
+Student Email : ${user.email}
+
+Subject : ${subject}
+
+Category : ${category}
+
+Feedback :
+
+${feedback}
+
+      `
+
+    });
+
+    alert("Thank you! Your feedback has been submitted successfully.");
+
+    setSubject("");
+    setCategory("General Feedback");
+    setFeedback("");
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Failed to submit feedback.");
+
+  }
+
+};
   const returnedBooks =
     requests.filter(
       (req) =>
@@ -381,9 +441,12 @@ return () => {
 
       </div>
 
-      <button className="btn btn-bvrv">
-        Submit Feedback
-      </button>
+      <button
+  className="btn btn-bvrv"
+  onClick={handleSubmitFeedback}
+>
+  Submit Feedback
+</button>
 
     </div>
 
