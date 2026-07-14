@@ -204,9 +204,7 @@ return () => {
   {book.renewalCount || 0}
 </td>
   
-<td className="text-center">
-  {book.renewalCount || 0}
-</td>
+
                           </tr>
                         )
                       )}
