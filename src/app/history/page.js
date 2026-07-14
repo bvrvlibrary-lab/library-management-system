@@ -365,9 +365,18 @@ ${feedback}
 
   <div className="card shadow-sm">
 
-    <div className="card-header history-header">
-      💬 Feedback, Suggestions & Book Recommendations
-    </div>
+    <div
+  className="card-header"
+  style={{
+    background: "#6f4e37",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "20px",
+    textAlign: "center"
+  }}
+>
+  💬 Feedback, Suggestions & Book Recommendations
+</div>
 
     <div className="card-body">
 
