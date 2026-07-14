@@ -167,7 +167,7 @@ await sendPasswordResetEmail(
       margin: 0
     }}
   >
-    Welcome Back
+    Hare Krishna🙏
   </p>
 </div>
 
