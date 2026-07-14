@@ -130,3 +130,48 @@ body {
   background: #f5efe9;
   transition: 0.2s;
 }
+
+
+/* ==========================================
+   Profile Page
+========================================== */
+
+.profile-card{
+    border:none;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.profile-header{
+    background:#6f4e37;
+    color:white;
+    font-size:22px;
+    font-weight:600;
+    padding:15px 20px;
+}
+
+.profile-card .card-body{
+    padding:30px;
+}
+
+.btn-bvrv{
+    background:#6f4e37;
+    color:white;
+    border:none;
+    border-radius:8px;
+    padding:12px;
+    font-weight:600;
+}
+
+.btn-bvrv:hover{
+    background:#5b3d2d;
+    color:white;
+}
+
+.form-control{
+    border-radius:8px;
+}
+
+.form-label{
+    font-weight:600;
+}
