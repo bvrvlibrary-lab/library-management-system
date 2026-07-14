@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification
+} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { auth, db } from '../../firebase';
@@ -46,6 +49,7 @@ export default function SignupPage() {
         );
 
       const user = userCredential.user;
+      await sendEmailVerification(user);
 
       await setDoc(doc(db, 'users', user.uid), {
 
@@ -94,8 +98,8 @@ Temple: ${temple}
       });
 
       setMessage(
-        "✅ Registration submitted successfully. Your account is awaiting administrator approval."
-      );
+  "✅ Registration successful. A verification email has been sent to your email address. Please verify your email first. After verification, your account will be reviewed by the library administrator."
+);
 
       setFullName('');
       setInitiatedName('');
