@@ -315,10 +315,14 @@ return () => {
           Subject
         </label>
 
-        <input
-          type="text"
-          className="form-control"
-        />
+      <input
+  type="text"
+  className="form-control"
+  value={subject}
+  onChange={(e) =>
+    setSubject(e.target.value)
+  }
+/>
 
       </div>
 
@@ -328,7 +332,13 @@ return () => {
           Category
         </label>
 
-        <select className="form-select">
+      <select
+  className="form-select"
+  value={category}
+  onChange={(e) =>
+    setCategory(e.target.value)
+  }
+>
 
           <option>
             General Feedback
@@ -360,10 +370,14 @@ return () => {
           Feedback
         </label>
 
-        <textarea
-          rows="6"
-          className="form-control"
-        />
+      <textarea
+  rows="6"
+  className="form-control"
+  value={feedback}
+  onChange={(e) =>
+    setFeedback(e.target.value)
+  }
+/>
 
       </div>
 
