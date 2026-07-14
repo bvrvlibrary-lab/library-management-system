@@ -65,38 +65,12 @@ export default function SignupPage() {
         role: 'student',
 
         approved: false,
-
+        adminNotified: false,
         createdAt: new Date()
 
       });
 
-      await sendAdminEmail({
-
-        to_email: 'bvrvlibrary@gmail.com',
-
-        subject: 'New Student Registration',
-
-        message: `
-
-A new student registered and is waiting for approval.
-
-Full Name: ${fullName}
-
-Initiated Name: ${initiatedName}
-
-Mobile: ${mobile}
-
-Email: ${email}
-
-Counselor Name: ${counselorName}
-
-Counselor Mobile: ${counselorMobile}
-
-Temple: ${temple}
-
-`
-
-      });
+     
 await auth.signOut();
       setMessage(
   "✅ Registration successful. A verification email has been sent to your email address. Please verify your email first. After verification, your account will be reviewed by the library administrator."
