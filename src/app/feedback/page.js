@@ -78,7 +78,7 @@ export default function FeedbackPage() {
         </select>
 
         <textarea
-          placeholder="Write your feedback..."
+          placeholder="Write your Message..."
           rows="8"
           style={{
             ...inputStyle,
