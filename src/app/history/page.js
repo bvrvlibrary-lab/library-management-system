@@ -123,13 +123,15 @@ ${feedback}
     setCategory("General Feedback");
     setFeedback("");
 
-  } catch (error) {
+  } 
 
-    console.error(error);
+  catch (error) {
 
-    alert("Failed to submit feedback.");
+  console.error(error);
 
-  }
+  alert(error.message);
+
+}
 
 };
   const returnedBooks =
