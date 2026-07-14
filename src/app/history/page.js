@@ -22,6 +22,15 @@ export default function HistoryPage() {
   const [user, setUser] =
     useState(null);
 
+const [subject, setSubject] =
+  useState("");
+
+const [category, setCategory] =
+  useState("General Feedback");
+
+const [feedback, setFeedback] =
+  useState("");
+  
   useEffect(() => {
   const unsubscribeAuth =
   onAuthStateChanged(
