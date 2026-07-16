@@ -187,3 +187,16 @@ body {
     padding: 6px 4px;
   }
 }
+
+.navbar-brand-text {
+  font-size: 1.4rem;
+}
+
+@media (max-width: 767px) {
+  .navbar-brand-text {
+    font-size: 0.85rem;
+    white-space: normal;
+    line-height: 1.2;
+    max-width: 180px;
+  }
+}
