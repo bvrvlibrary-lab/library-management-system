@@ -587,7 +587,7 @@ const filteredBooks = books
 </div>
 
  <div className="table-responsive">
-  <table className="table table-striped table-hover align-middle">
+  <table className="table table-striped table-hover align-middle book-table">
        
        <thead
   style={{
