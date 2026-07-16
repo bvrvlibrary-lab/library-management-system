@@ -158,7 +158,7 @@ const unsubscribeRequests =
 
   }, []);
 
-  const handleApproveStudent =
+const handleApproveStudent =
     async (student) => {
 
       try {
@@ -174,15 +174,15 @@ const unsubscribeRequests =
           }
         );
 
-   await sendStudentEmail({
-  to_email: student.email,
+        await sendStudentEmail({
+          to_email: student.email,
 
-  subject: "🎉 Welcome to BVRV Library | Registration Approved",
+          subject: "🎉 Welcome to BVRV Library | Registration Approved",
 
-  message: registrationApprovedTemplate(
-    student.initiatedName?.trim() || student.fullName
-  ),
-});
+          message: registrationApprovedTemplate(
+            student.initiatedName?.trim() || student.fullName
+          ),
+        });
 
         alert(
           'Student approved successfully'
