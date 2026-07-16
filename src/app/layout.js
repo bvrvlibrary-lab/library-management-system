@@ -1,5 +1,5 @@
 import './globals.css';
-
+import ServiceWorkerRegister from '../components/ServiceWorkerRegister';
 export const metadata = {
   title: "Bhaktivedanta Rajavidyalaya Library",
   description:
@@ -38,6 +38,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body style={{ backgroundColor: '#f8f9fa' }}>
+   <ServiceWorkerRegister />
         <main className="container-fluid p-0">
           {children}
         </main>
