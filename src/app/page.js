@@ -159,10 +159,14 @@ loadLibraryStats();
       if (!user) {
   return alert('Please login first');
 }
-const userRef = doc(db, 'users', user.uid);
-const userSnap = await getDoc(userRef);
 
-if (!userSnap.exists()) {
+      if ((book.quantity ?? 0) <= 0) {
+        return alert('Book out of stock');
+      }
+const userRef = doc(db, 'users', user.uid);
+
+const userSnap = await getDoc(userRef);
+      if (!userSnap.exists()) {
   await signOut(auth);
 
   setCustomAlert(
@@ -171,12 +175,6 @@ if (!userSnap.exists()) {
 
   return;
 }
-      if ((book.quantity ?? 0) <= 0) {
-        return alert('Book out of stock');
-      }
-const userRef = doc(db, 'users', user.uid);
-
-const userSnap = await getDoc(userRef);
 
 let studentName = '';
 let mobileNumber = '';
