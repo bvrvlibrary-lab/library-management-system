@@ -24,7 +24,7 @@ const [customAlert, setCustomAlert] = useState('');
 
   const [user, setUser] =
     useState(null);
-
+const [submitting, setSubmitting] = useState(false);
 const [subject, setSubject] =
   useState("");
 
@@ -75,12 +75,12 @@ return () => {
         req.status === 'Issued'
     );
 const handleSubmitFeedback = async () => {
-
+ if (submitting) return;
   if (!subject.trim() || !feedback.trim()) {
     alert("Please fill all required fields.");
     return;
   }
-
+  setSubmitting(true);
   try {
 
     await addDoc(
@@ -127,11 +127,10 @@ ${feedback}
   } 
 
   catch (error) {
-
   console.error(error);
-
   alert(error.message);
-
+} finally {
+  setSubmitting(false);
 }
 
 };
@@ -456,8 +455,9 @@ ${feedback}
       <button
   className="btn btn-bvrv"
   onClick={handleSubmitFeedback}
+    disabled={submitting}
 >
-  Submit Feedback
+  {submitting ? "Submitting..." : "Submit Feedback"}
 </button>
 
     </div>
