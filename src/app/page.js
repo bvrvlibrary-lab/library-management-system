@@ -664,6 +664,66 @@ const filteredBooks = books
           </tbody>
         </table>
       </div> 
+               {/* Mobile Book Cards */}
+<div className="d-md-none">
+
+  {filteredBooks.map((book) => (
+    <div
+      key={book.id}
+      className="card mb-2 shadow-sm"
+    >
+      <div className="card-body p-3">
+
+        <div className="fw-bold mb-1">
+          📖 {book.name}
+        </div>
+
+        <div className="small text-muted mb-2">
+          ✍️ Author: {book.author}
+        </div>
+
+        <div className="d-flex align-items-center justify-content-between gap-2">
+
+          <span className="small">
+            🌐 {book.language}
+          </span>
+
+          <span className="small">
+            📚 Stock: {book.quantity}
+          </span>
+
+          {!user ? (
+            <button
+              onClick={() => {
+                alert("Please login to issue books.");
+                window.location.href = "/login";
+              }}
+              className="btn btn-warning btn-sm"
+            >
+              Issue
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                handleRequestBook(book)
+              }
+              className="btn btn-primary btn-sm"
+              disabled={book.quantity <= 0}
+            >
+              {book.quantity <= 0
+                ? "Out of Stock"
+                : "Request"}
+            </button>
+          )}
+
+        </div>
+
+      </div>
+    </div>
+  ))}
+
+</div>
+
 </div>
 
       {/* ADMIN REQUESTS */}
@@ -795,66 +855,7 @@ const filteredBooks = books
           </table>
         </div>
 
-                {/* Mobile Book Cards */}
-<div className="d-md-none">
-
-  {filteredBooks.map((book) => (
-    <div
-      key={book.id}
-      className="card mb-2 shadow-sm"
-    >
-      <div className="card-body p-3">
-
-        <div className="fw-bold mb-1">
-          📖 {book.name}
-        </div>
-
-        <div className="small text-muted mb-2">
-          ✍️ Author: {book.author}
-        </div>
-
-        <div className="d-flex align-items-center justify-content-between gap-2">
-
-          <span className="small">
-            🌐 {book.language}
-          </span>
-
-          <span className="small">
-            📚 Stock: {book.quantity}
-          </span>
-
-          {!user ? (
-            <button
-              onClick={() => {
-                alert("Please login to issue books.");
-                window.location.href = "/login";
-              }}
-              className="btn btn-warning btn-sm"
-            >
-              Issue
-            </button>
-          ) : (
-            <button
-              onClick={() =>
-                handleRequestBook(book)
-              }
-              className="btn btn-primary btn-sm"
-              disabled={book.quantity <= 0}
-            >
-              {book.quantity <= 0
-                ? "Out of Stock"
-                : "Request"}
-            </button>
-          )}
-
-        </div>
-
-      </div>
-    </div>
-  ))}
-
-</div>
-</div>
+               </div>
       )}
 
          </div>
