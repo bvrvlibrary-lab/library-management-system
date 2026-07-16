@@ -599,7 +599,9 @@ const filteredBooks = books
               <th>Book Name</th>
               <th>Author</th>
               <th>Language</th>
-              <th>Position</th>
+              <th className="d-none d-md-table-cell">
+  Position
+</th>
               <th>Stock</th>
               <th>Action</th>
             </tr>
@@ -611,7 +613,9 @@ const filteredBooks = books
                 <td>{book.name}</td>
                 <td>{book.author}</td>
                 <td>{book.language}</td>
-                <td>{book.position}</td>
+                <td className="d-none d-md-table-cell">
+  {book.position}
+</td>
                 <td>{book.quantity}</td>
 
                 <td>
