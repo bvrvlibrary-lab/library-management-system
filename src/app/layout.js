@@ -13,6 +13,12 @@ export const metadata = {
     icon: "/logo.png",
     apple: "/logo.png",
   },
+
+  appleWebApp: {
+    capable: true,
+    title: "BVRV Library",
+    statusBarStyle: "default",
+  },
 };
 export default function RootLayout({ children }) {
   return (
