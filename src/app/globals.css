@@ -176,3 +176,14 @@ body {
 .form-label{
     font-weight:600;
 }
+
+@media (max-width: 767px) {
+  .book-table {
+    font-size: 12px;
+  }
+
+  .book-table th,
+  .book-table td {
+    padding: 6px 4px;
+  }
+}
