@@ -37,7 +37,7 @@ export default function CustomAlert({
             marginBottom: '20px'
           }}
         >
-          Hare Krishna!
+          Hare Krishna🙏
         </h3>
 
         <p
