@@ -34,15 +34,14 @@ export default function Navbar({ isAdmin, user }) {
     height={70}
   />
 
-  <span
-    className="ms-3 fw-bold"
-    style={{
-      color: '#F4E4BC',
-      fontSize: '1.4rem'
-    }}
-  >
-    Bhaktivedanta Rajavidyalaya Library
-  </span>
+<span
+  className="ms-2 fw-bold navbar-brand-text"
+  style={{
+    color: '#F4E4BC'
+  }}
+>
+  Bhaktivedanta Rajavidyalaya Library
+</span>
 
 </Link>
 
