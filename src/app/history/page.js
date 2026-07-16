@@ -1,4 +1,5 @@
 'use client';
+import CustomAlert from '../../../components/CustomAlert';
 import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase';
@@ -17,7 +18,7 @@ import {
 export default function HistoryPage() {
   const [activeTab, setActiveTab] =
     useState('issued');
-
+const [customAlert, setCustomAlert] = useState('');
   const [requests, setRequests] =
     useState([]);
 
@@ -117,7 +118,7 @@ ${feedback}
 
     });
 
-    alert("Thank you! Your feedback has been submitted successfully.");
+    setCustomAlert("Book returned successfully.");
 
     setSubject("");
     setCategory("General Feedback");
@@ -469,6 +470,10 @@ ${feedback}
        
       </div>
     </div>
+  <CustomAlert
+  message={customAlert}
+  onClose={() => setCustomAlert('')}
+/>
             </>
   );
 }
