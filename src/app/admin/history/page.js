@@ -180,7 +180,7 @@ const unsubscribeRequests =
   subject: "🎉 Welcome to BVRV Library | Registration Approved",
 
   message: registrationApprovedTemplate(
-    student.fullName
+    student.initiatedName?.trim() || student.fullName
   ),
 });
 
