@@ -569,7 +569,8 @@ margin:25px 0;
 ✅ Your Library Account is Now Active
 </h3>
 
-You can now log in to the Library Portal and enjoy all library services.
+You can now log in to the Library Portal and enrich your spiritual journey through transcendental knowledge.
+
 
 </div>
 
