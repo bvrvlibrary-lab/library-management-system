@@ -671,6 +671,10 @@ const filteredBooks = books
     <div
       key={book.id}
       className="card mb-2 shadow-sm"
+style={{
+  backgroundColor: "#fffaf3",
+  border: "1px solid #e2d5c8"
+}}
     >
       <div className="card-body p-3">
 
@@ -678,9 +682,12 @@ const filteredBooks = books
           📖 {book.name}
         </div>
 
-        <div className="small text-muted mb-2">
-          ✍️ Author: {book.author}
-        </div>
+       <div
+  className="small mb-2"
+  style={{ color: "#5d4037" }}
+>
+  ✍️ Author: {book.author}
+</div>
 
         <div className="d-flex align-items-center justify-content-between gap-2">
 
