@@ -58,16 +58,7 @@ await sendPasswordResetEmail(
         );
 
       const user = userCredential.user;
-if (!user.emailVerified) {
 
-  await signOut(auth);
-
-  setMessage(
-    'Please verify your email before logging in.'
-  );
-
-  return;
-}
       // YOUR ADMIN EMAIL
       const adminEmail =
         'bvrvlibrary@gmail.com';
@@ -82,6 +73,17 @@ if (!user.emailVerified) {
   );
 
   router.push('/admin/home');
+  return;
+}
+      // STUDENT EMAIL VERIFICATION CHECK
+if (!user.emailVerified) {
+
+  await signOut(auth);
+
+  setMessage(
+    'Please verify your email before logging in.'
+  );
+
   return;
 }
       // STUDENT CHECK
