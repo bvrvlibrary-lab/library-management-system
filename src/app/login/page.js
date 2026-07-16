@@ -18,6 +18,7 @@ import { signOut } from 'firebase/auth';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState('');
 
   const router = useRouter();
@@ -231,16 +232,43 @@ Temple: ${userData.temple}
           style={inputStyle}
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-          style={inputStyle}
-        />
+      <div
+  style={{
+    position: "relative",
+    marginBottom: "15px"
+  }}
+>
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Password"
+    required
+    value={password}
+    onChange={(e) =>
+      setPassword(e.target.value)
+    }
+    style={{
+      ...inputStyle,
+      marginBottom: "0",
+      paddingRight: "45px"
+    }}
+  />
+
+  <span
+    onClick={() =>
+      setShowPassword(!showPassword)
+    }
+    style={{
+      position: "absolute",
+      right: "15px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      cursor: "pointer",
+      fontSize: "18px"
+    }}
+  >
+    {showPassword ? "🙈" : "👁️"}
+  </span>
+</div>
 
         <button
           type="submit"
