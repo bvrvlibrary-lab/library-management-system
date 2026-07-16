@@ -1,5 +1,5 @@
 'use client';
-import CustomAlert from '../../../components/CustomAlert';
+import CustomAlert from '../../components/CustomAlert';
 import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../../firebase';
