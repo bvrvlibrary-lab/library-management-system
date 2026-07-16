@@ -118,7 +118,7 @@ ${feedback}
 
     });
 
-    setCustomAlert("Book returned successfully.");
+    setCustomAlert("Feedback submitted successfully.");
 
     setSubject("");
     setCategory("General Feedback");
