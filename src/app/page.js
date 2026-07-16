@@ -3,7 +3,10 @@ import CustomAlert from '../components/CustomAlert';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import {
+  onAuthStateChanged,
+  signOut
+} from 'firebase/auth';
 import {
   collection,
   onSnapshot,
@@ -156,7 +159,18 @@ loadLibraryStats();
       if (!user) {
   return alert('Please login first');
 }
+const userRef = doc(db, 'users', user.uid);
+const userSnap = await getDoc(userRef);
 
+if (!userSnap.exists()) {
+  await signOut(auth);
+
+  setCustomAlert(
+    'Your account is no longer active. Please contact the library administrator.'
+  );
+
+  return;
+}
       if ((book.quantity ?? 0) <= 0) {
         return alert('Book out of stock');
       }
