@@ -5,8 +5,13 @@ export const metadata = {
   description:
     "Bhaktivedanta Rajavidyalaya Library Management System",
 
+  manifest: "/manifest.json",
+
+  themeColor: "#6f4e37",
+
   icons: {
     icon: "/logo.png",
+    apple: "/logo.png",
   },
 };
 export default function RootLayout({ children }) {
