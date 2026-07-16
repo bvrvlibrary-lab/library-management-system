@@ -1,4 +1,5 @@
 'use client';
+import CustomAlert from '../components/CustomAlert';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase';
@@ -25,6 +26,7 @@ export default function LibraryDashboard() {
   const [books, setBooks] = useState([]);
   const [requests, setRequests] = useState([]);
   const [user, setUser] = useState(null);
+  const [customAlert, setCustomAlert] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 const [searchTerm, setSearchTerm] = useState('');
 const [languageFilter, setLanguageFilter] = useState('');
@@ -202,10 +204,11 @@ if (pendingSnap.size >= (book.quantity ?? 0)) {
   );
 }
       if (alreadyExists) {
-        return alert(
-          'You already requested this book'
-        );
-      }
+  setCustomAlert(
+    'You already requested this book.'
+  );
+  return;
+}
 
       await addDoc(collection(db, 'bookRequests'), {
         studentEmail: user.email,
@@ -866,6 +869,10 @@ style={{
       )}
 
          </div>
+        <CustomAlert
+  message={customAlert}
+  onClose={() => setCustomAlert('')}
+/>
 </>
   );
 }
