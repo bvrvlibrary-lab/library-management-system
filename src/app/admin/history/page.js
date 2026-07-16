@@ -159,44 +159,55 @@ const unsubscribeRequests =
   }, []);
 
 const handleApproveStudent =
-    async (student) => {
+  async (student) => {
 
-      try {
+    try {
 
-        await updateDoc(
-          doc(
-            db,
-            'users',
-            student.id
-          ),
-          {
-            approved: true
-          }
-        );
+      const studentRef = doc(
+        db,
+        'users',
+        student.id
+      );
 
-        await sendStudentEmail({
-          to_email: student.email,
+      await updateDoc(
+        studentRef,
+        {
+          approved: true
+        }
+      );
 
-          subject: "🎉 Welcome to BVRV Library | Registration Approved",
+      const studentSnap =
+        await getDoc(studentRef);
 
-          message: registrationApprovedTemplate(
-            student.initiatedName?.trim() || student.fullName
-          ),
-        });
+      const studentData =
+        studentSnap.data();
 
-        alert(
-          'Student approved successfully'
-        );
+      await sendStudentEmail({
+        to_email: studentData.email,
 
-      } catch (err) {
+        subject:
+          "🎉 Welcome to BVRV Library | Registration Approved",
 
-        console.error(err);
+        message: registrationApprovedTemplate(
+          studentData.initiatedName?.trim() ||
+          studentData.fullName
+        ),
+      });
 
-        alert(
-          'Approval failed'
-        );
-      }
-    };
+      setCustomAlert(
+        'Student approved successfully.'
+      );
+
+    } catch (err) {
+
+      console.error(err);
+
+      setCustomAlert(
+        'Approval failed.'
+      );
+
+    }
+  };
 const handleDeleteStudent =
   async (student) => {
 
