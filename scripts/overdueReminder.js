@@ -25,6 +25,23 @@ async function checkFirestore() {
 
       const data = doc.data();
 
+      // Get latest student details
+if (data.studentId) {
+  const studentDoc = await db
+    .collection("users")
+    .doc(data.studentId)
+    .get();
+
+  if (studentDoc.exists) {
+    const studentData = studentDoc.data();
+
+    data.studentName =
+      studentData.initiatedName?.trim() ||
+      studentData.fullName ||
+      data.studentName;
+  }
+}
+
       let lastStudentReminderDate = null;
 
 if (data.lastStudentReminderDate) {
