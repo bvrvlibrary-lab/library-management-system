@@ -9,7 +9,10 @@ async function sendAdminSummary(html) {
 
     const response = await resend.emails.send({
       from: process.env.FROM_EMAIL,
-      to: "bvrvlibrary@gmail.com",
+      to: [
+  "bvrvlibrary@gmail.com",
+  "hod.bvrvpune@gmail.com"
+],
       subject,
       html,
     });
