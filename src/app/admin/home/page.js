@@ -132,26 +132,36 @@ useEffect(() => {
   return () => unsubscribe();
 
 }, []);
-  const formatAuthor = (text) => {
+ const formatAuthor = (text) => {
   if (!text) return "";
 
-  const uppercaseTitles = [
-    "HH",
-    "HG",
-    "HDG",
-    "AC"
-  ];
-
-  return text
+  let formatted = text
     .trim()
     .toLowerCase()
     .split(/\s+/)
     .map((word) => {
-      const upperWord = word.toUpperCase();
+      const cleaned = word
+        .replace(/\./g, "")
+        .toUpperCase();
 
-      if (uppercaseTitles.includes(upperWord)) {
-        return upperWord;
+      if (cleaned === "HDG") {
+        return "HDG";
       }
+
+      if (cleaned === "AC") {
+        return "A.C.";
+      }
+
+      if (cleaned === "HH") {
+        return "HH";
+      }
+
+      if (cleaned === "HG") {
+        return "HG";
+      }
+      if (cleaned === "BBT") {
+  return "BBT";
+}
 
       return (
         word.charAt(0).toUpperCase() +
@@ -159,6 +169,14 @@ useEffect(() => {
       );
     })
     .join(" ");
+
+  // Remove "Srila" from author name
+  formatted = formatted.replace(
+    /\bSrila\b\s*/gi,
+    ""
+  );
+
+  return formatted.trim();
 };
 const handleAddBook = async (e) => {
   e.preventDefault();
