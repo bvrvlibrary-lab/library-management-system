@@ -132,12 +132,40 @@ useEffect(() => {
   return () => unsubscribe();
 
 }, []);
+  const formatAuthor = (text) => {
+  if (!text) return "";
+
+  const uppercaseTitles = [
+    "HH",
+    "HG",
+    "HDG",
+    "AC"
+  ];
+
+  return text
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => {
+      const upperWord = word.toUpperCase();
+
+      if (uppercaseTitles.includes(upperWord)) {
+        return upperWord;
+      }
+
+      return (
+        word.charAt(0).toUpperCase() +
+        word.slice(1)
+      );
+    })
+    .join(" ");
+};
 const handleAddBook = async (e) => {
   e.preventDefault();
 
   // Format values
   const formattedName = formatText(name);
-  const formattedAuthor = formatText(author);
+ const formattedAuthor = formatAuthor(author);  
   const formattedLanguage = formatLanguage(language);
   const formattedPosition = formatPosition(position);
 
@@ -153,8 +181,8 @@ const handleAddBook = async (e) => {
       formatText(book.name) ===
         formattedName &&
 
-      formatText(book.author) ===
-        formattedAuthor &&
+      formatAuthor(book.author) ===
+  formattedAuthor &&
 
       formatLanguage(book.language) ===
         formattedLanguage
@@ -226,7 +254,7 @@ const handleAddBook = async (e) => {
 
       const bookName = formatText(cols[0]);
 
-const author = formatText(cols[1]);
+const author = formatAuthor(cols[1]);
 
 const language = formatLanguage(cols[2]);
 
@@ -241,8 +269,8 @@ const position = formatPosition(cols[3]);
       formatText(book.name) ===
         bookName &&
 
-      formatText(book.author) ===
-        author &&
+      formatAuthor(book.author) ===
+  author &&
 
       formatLanguage(book.language) ===
         language
@@ -418,7 +446,7 @@ const handleUpdateBook =
   ),
   {
     name: formatText(editName),
-    author: formatText(editAuthor),
+    author: formatAuthor(editAuthor),
     language: formatLanguage(editLanguage),
     position: formatPosition(editPosition),
     quantity: Number(editQuantity)
