@@ -141,8 +141,9 @@ useEffect(() => {
     .split(/\s+/)
     .map((word) => {
       const cleaned = word
-        .replace(/\./g, "")
-        .toUpperCase();
+  .trim()
+  .replace(/[^A-Za-z]/g, "")
+  .toUpperCase();
 
       if (cleaned === "HDG") {
         return "HDG";
