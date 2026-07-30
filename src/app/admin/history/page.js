@@ -382,6 +382,14 @@ const handleApproveRequest = async (
     console.log("Request Data:", request);
 console.log("Initiated Name:", request.initiatedName);
 console.log("Student Email:", request.studentEmail);
+    const userSnap = await getDoc(
+  doc(db, "users", request.studentId)
+);
+
+if (userSnap.exists()) {
+  request.initiatedName =
+    userSnap.data().initiatedName;
+}
 await sendStudentEmail({
   to_email: request.studentEmail,
   subject: "📚 BVRV Library | Book Issued Successfully",
