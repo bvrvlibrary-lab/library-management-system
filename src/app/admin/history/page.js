@@ -380,7 +380,7 @@ const handleApproveRequest = async (
       }
     );
     console.log("Request Data:", request);
-
+console.log("Initiated Name:", request.initiatedName);
 console.log("Student Email:", request.studentEmail);
 await sendStudentEmail({
   to_email: request.studentEmail,
