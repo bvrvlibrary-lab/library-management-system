@@ -361,7 +361,7 @@ ISKCON NVCC, Pune
 <div style="padding:30px;">
 
 <p>
-Dear <strong>${request.studentName}</strong>,
+Dear <strong>${request.initiatedName?.trim() || request.studentName}</strong>,
 </p>
 
 <p>
