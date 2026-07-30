@@ -510,7 +510,14 @@ message: renewBookTemplate(
         quantity: increment(1)
       }
     );
+const userSnap = await getDoc(
+  doc(db, "users", request.studentId)
+);
 
+if (userSnap.exists()) {
+  request.initiatedName =
+    userSnap.data().initiatedName;
+}
     // Send email
     await sendStudentEmail({
       to_email: request.studentEmail,
