@@ -450,7 +450,14 @@ const handleRenewBook = async (
   adminReminderHistory: [],
 }
 );
+const userSnap = await getDoc(
+  doc(db, "users", request.studentId)
+);
 
+if (userSnap.exists()) {
+  request.initiatedName =
+    userSnap.data().initiatedName;
+}
     await sendStudentEmail({
       to_email:
         request.studentEmail,
