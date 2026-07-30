@@ -46,7 +46,7 @@ ISKCON NVCC, Pune
 
 <p>
 Dear
-<strong>${request.studentName}</strong>,
+<strong>${request.initiatedName?.trim() || request.studentName}</strong>,
 </p>
 
 <p>
