@@ -944,19 +944,42 @@ if (checkingAuth) {
 
       <div className="row">
 
-        <div className="col-md-8 mb-2">
-          <input
-            type="text"
-            placeholder="Search by Book Name or Author"
-            className="form-control"
-            value={searchTerm}
-            onChange={(e) =>
-              setSearchTerm(
-                e.target.value
-              )
-            }
-          />
-        </div>
+       <div className="col-md-8 mb-2">
+  <div style={{ position: "relative" }}>
+    <input
+      type="text"
+      placeholder="Search by Book Name or Author"
+      className="form-control"
+      value={searchTerm}
+      onChange={(e) =>
+        setSearchTerm(e.target.value)
+      }
+      style={{ paddingRight: "40px" }}
+    />
+
+    {searchTerm && (
+      <button
+        type="button"
+        onClick={() => setSearchTerm("")}
+        style={{
+          position: "absolute",
+          right: "12px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          border: "none",
+          background: "transparent",
+          fontSize: "20px",
+          color: "#666",
+          cursor: "pointer",
+          padding: 0,
+          lineHeight: 1,
+        }}
+      >
+        ✕
+      </button>
+    )}
+  </div>
+</div>
 
         <div className="col-md-4 mb-2">
           <select
