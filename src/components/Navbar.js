@@ -13,8 +13,8 @@ export default function Navbar({ isAdmin, user }) {
 
  return (
   <>
-    <nav
-  className="navbar navbar-expand-lg shadow-sm"
+  <nav
+  className="navbar navbar-expand-lg shadow-sm desktop-navbar"
   style={{
   background:
     'linear-gradient(90deg,#4e342e,#6d4c41)'
