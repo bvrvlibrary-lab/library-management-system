@@ -1,5 +1,5 @@
 'use client';
-
+import BottomNavbar from './BottomNavbar';
 import Link from 'next/link';
 import Image from 'next/image';
 import { signOut } from 'firebase/auth';
