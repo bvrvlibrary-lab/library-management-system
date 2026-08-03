@@ -11,8 +11,9 @@ export default function Navbar({ isAdmin, user }) {
     window.location.href = '/login';
   };
 
-  return (
-   <nav
+ return (
+  <>
+    <nav
   className="navbar navbar-expand-lg shadow-sm"
   style={{
   background:
@@ -147,6 +148,9 @@ export default function Navbar({ isAdmin, user }) {
           </div>
         </div>
       </div>
-    </nav>
-  );
+       </nav>
+
+    <BottomNavbar user={user} />
+  </>
+);
 }
