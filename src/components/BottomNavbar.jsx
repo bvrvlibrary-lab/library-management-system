@@ -20,12 +20,7 @@ export default function BottomNavbar({ user }) {
         <small>Home</small>
       </Link>
 
-      <Link href="/" className="bottom-item">
-        <div>📚</div>
-        <small>Books</small>
-      </Link>
-
-      <Link href="/history" className="bottom-item">
+           <Link href="/history" className="bottom-item">
         <div>📜</div>
         <small>History</small>
       </Link>
