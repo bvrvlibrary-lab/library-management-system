@@ -1,4 +1,5 @@
 'use client';
+import BottomNavbar from "@/components/BottomNavbar";
 import CustomAlert from '../components/CustomAlert';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
@@ -444,7 +445,10 @@ const filteredBooks = books
       isAdmin={isAdmin}
       user={user}
     />
- 
+ <BottomNavbar
+  isAdmin={isAdmin}
+  user={user}
+/>
     <div className="container mt-4">
         
      <div
