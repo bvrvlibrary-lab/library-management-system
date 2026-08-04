@@ -32,6 +32,7 @@ export default function LibraryDashboard() {
   const [user, setUser] = useState(null);
   const [customAlert, setCustomAlert] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 const [searchTerm, setSearchTerm] = useState('');
 const [languageFilter, setLanguageFilter] = useState('');
   const [libraryStats, setLibraryStats] = useState({
@@ -46,6 +47,13 @@ const [languageFilter, setLanguageFilter] = useState('');
 
   // ---------------- LOAD DATA ----------------
   useEffect(() => {
+    const checkMobile = () => {
+  setIsMobile(window.innerWidth <= 768);
+};
+
+checkMobile();
+
+window.addEventListener("resize", checkMobile);
   const unsubBooks = onSnapshot(collection(db, 'books'), (snap) => {
 
   console.log("Books loaded:", snap.size);
@@ -132,6 +140,7 @@ loadLibraryStats();
       unsubBooks();
       unsubRequests();
       unsubAuth();
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
@@ -441,14 +450,19 @@ const filteredBooks = books
   );
   return (
   <>
-    <Navbar
-      isAdmin={isAdmin}
-      user={user}
-    />
-<BottomNavbar
-  isAdmin={isAdmin}
-  user={user}
-/>
+{(!isMobile || isAdmin) && (
+  <Navbar
+    isAdmin={isAdmin}
+    user={user}
+  />
+)}
+
+{isMobile && !isAdmin && (
+  <BottomNavbar
+    isAdmin={false}
+    user={user}
+  />
+)}
     <div className="container mt-4">
         
      <div
