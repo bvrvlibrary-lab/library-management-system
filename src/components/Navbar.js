@@ -152,10 +152,7 @@ export default function Navbar({ isAdmin, user }) {
       </div>
        </nav>
 
-  <BottomNavbar
-  user={user}
-  isAdmin={isAdmin}
-/>
+
   </>
 );
 }
