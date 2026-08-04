@@ -4,13 +4,18 @@ import Link from 'next/link';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 
-export default function BottomNavbar({ user }) {
+export default function BottomNavbar({
+  user,
+  isAdmin
+}) {
   const handleLogout = async () => {
     await signOut(auth);
     window.location.href = '/login';
   };
 
-  if (!user) return null;
+if (!user || isAdmin) {
+  return null;
+}
 
   return (
     <div className="bottom-navbar">
