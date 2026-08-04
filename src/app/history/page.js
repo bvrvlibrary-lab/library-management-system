@@ -1,4 +1,5 @@
 'use client';
+import BottomNavbar from "../components/BottomNavbar";
 import CustomAlert from '../../components/CustomAlert';
 import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
@@ -150,7 +151,10 @@ ${feedback}
       isAdmin={false}
       user={auth.currentUser}
     />
-
+<BottomNavbar
+  isAdmin={isAdmin}
+  user={user}
+/>
     <div className="container mt-4">
       <h3 className="mb-4">
         Book History
