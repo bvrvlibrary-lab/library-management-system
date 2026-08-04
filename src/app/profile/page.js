@@ -1,4 +1,5 @@
 'use client';
+import BottomNavbar from "../components/BottomNavbar";
 import Navbar from '../../components/Navbar';
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useEffect, useState } from 'react';
@@ -172,7 +173,10 @@ if (loading) {
       isAdmin={false}
       user={auth.currentUser}
     />
-
+<BottomNavbar
+  isAdmin={isAdmin}
+  user={user}
+/>
     <div className="container mt-4">
   
 
