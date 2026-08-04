@@ -174,7 +174,7 @@ if (loading) {
       user={auth.currentUser}
     />
 <BottomNavbar
-  isAdmin={isAdmin}
+  isAdmin={false}
   user={user}
 />
     <div className="container mt-4">
