@@ -22,7 +22,7 @@ export default function HistoryPage() {
 const [customAlert, setCustomAlert] = useState('');
   const [requests, setRequests] =
     useState([]);
-
+const [isMobile, setIsMobile] = useState(false);
   const [user, setUser] =
     useState(null);
 const [submitting, setSubmitting] = useState(false);
@@ -36,6 +36,13 @@ const [feedback, setFeedback] =
   useState("");
   
   useEffect(() => {
+    const checkMobile = () => {
+  setIsMobile(window.innerWidth <= 768);
+};
+
+checkMobile();
+
+window.addEventListener("resize", checkMobile);
   const unsubscribeAuth =
   onAuthStateChanged(
     auth,
@@ -65,6 +72,7 @@ const [feedback, setFeedback] =
 return () => {
   unsubscribe();
   unsubscribeAuth();
+  window.removeEventListener("resize", checkMobile);
 };
   }, []);
 
@@ -147,14 +155,19 @@ ${feedback}
   return (
     
   <>
-    <Navbar
-      isAdmin={false}
-      user={auth.currentUser}
-    />
-<BottomNavbar
-  isAdmin={false}
-  user={user}
-/>
+{!isMobile && (
+  <Navbar
+    isAdmin={false}
+    user={user}
+  />
+)}
+
+{isMobile && (
+  <BottomNavbar
+    isAdmin={false}
+    user={user}
+  />
+)}
     <div className="container mt-4">
       <h3 className="mb-4">
         Book History
