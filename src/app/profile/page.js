@@ -1,5 +1,5 @@
 'use client';
-import BottomNavbar from "../components/BottomNavbar";
+import BottomNavbar from "../../components/BottomNavbar";
 import Navbar from '../../components/Navbar';
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { useEffect, useState } from 'react';
