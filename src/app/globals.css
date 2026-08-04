@@ -239,3 +239,12 @@ body {
     margin-bottom: 2px;
   }
 }
+
+/* Prevent content from hiding behind Bottom Navbar */
+@media (max-width: 768px) {
+
+  body {
+    padding-bottom: 80px;
+  }
+
+}
