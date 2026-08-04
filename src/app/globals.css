@@ -248,3 +248,9 @@ body {
   }
 
 }
+/* Hide student top navbar only on mobile */
+@media (max-width: 768px) {
+  .student-navbar {
+    display: none !important;
+  }
+}
