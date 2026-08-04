@@ -445,7 +445,10 @@ const filteredBooks = books
       isAdmin={isAdmin}
       user={user}
     />
-
+<BottomNavbar
+  isAdmin={isAdmin}
+  user={user}
+/>
     <div className="container mt-4">
         
      <div
