@@ -41,12 +41,18 @@ const [showCurrentPassword, setShowCurrentPassword] =
 
 const [showNewPassword, setShowNewPassword] =
   useState(false);
-
+const [isMobile, setIsMobile] = useState(false);
 const [showConfirmPassword, setShowConfirmPassword] =
   useState(false);
   
  useEffect(() => {
+const checkMobile = () => {
+  setIsMobile(window.innerWidth <= 768);
+};
 
+checkMobile();
+
+window.addEventListener("resize", checkMobile);
   const unsubscribe = onAuthStateChanged(
     auth,
     (user) => {
@@ -62,6 +68,7 @@ if (user) {
   );
 
   return () => unsubscribe();
+   window.removeEventListener("resize", checkMobile);
 
 }, []);
 
@@ -170,14 +177,19 @@ if (loading) {
 
  return (
   <>
-    <Navbar
-      isAdmin={false}
-      user={auth.currentUser}
-    />
-<BottomNavbar
-  isAdmin={false}
-  user={user}
-/>
+   {!isMobile && (
+  <Navbar
+    isAdmin={false}
+    user={user}
+  />
+)}
+
+{isMobile && (
+  <BottomNavbar
+    isAdmin={false}
+    user={user}
+  />
+)}
     <div className="container mt-4">
   
 
