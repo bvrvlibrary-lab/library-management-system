@@ -21,7 +21,7 @@ import { db, auth } from '../../firebase';
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
-
+const [user, setUser] = useState(null);
   const [fullName, setFullName] = useState('');
   const [mobile, setMobile] = useState('');
   const [temple, setTemple] = useState('');
@@ -51,11 +51,12 @@ const [showConfirmPassword, setShowConfirmPassword] =
     auth,
     (user) => {
 
-      if (user) {
-        loadProfile(user);
-      } else {
-        setLoading(false);
-      }
+if (user) {
+  setUser(user);
+  loadProfile(user);
+} else {
+  setLoading(false);
+}
 
     }
   );
