@@ -235,16 +235,3 @@ body {
     font-size: 22px;
   }
 }
-/* Hide desktop navbar on mobile */
-@media (max-width: 768px) {
-  .desktop-navbar {
-    display: none !important;
-  }
-}
-
-/* Show desktop navbar on desktop */
-@media (min-width: 769px) {
-  .desktop-navbar {
-    display: flex !important;
-  }
-}
