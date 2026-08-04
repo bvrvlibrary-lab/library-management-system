@@ -1,5 +1,5 @@
 'use client';
-import BottomNavbar from "../components/BottomNavbar";
+import BottomNavbar from "../../components/BottomNavbar";
 import CustomAlert from '../../components/CustomAlert';
 import Navbar from '../../components/Navbar';
 import { useEffect, useState } from 'react';
