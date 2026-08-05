@@ -14,7 +14,7 @@ export default function Navbar({ isAdmin, user }) {
  return (
   <>
 <nav
-  cclassName={`navbar navbar-expand-lg shadow-sm ${
+  className={`navbar navbar-expand-lg shadow-sm ${
   !isAdmin ? "student-navbar" : ""
 }`}
   style={{
