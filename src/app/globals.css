@@ -211,33 +211,26 @@ body {
 
 @media (max-width:768px){
 
-.bottom-navbar{
+.bottom-navbar {
+  position: fixed;
 
-position:fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-left:15px;
-right:15px;
-bottom:15px;
+  height: 70px;
 
-height:70px;
+  background: #ffffff;
 
-background:#ffffff;
+  border-top: 1px solid #e6e6e6;
 
-border-radius:20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
-display:flex;
+  box-shadow: 0 -2px 12px rgba(0,0,0,.08);
 
-justify-content:space-around;
-
-align-items:center;
-
-padding:0 8px;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,.18);
-
-z-index:9999;
-
+  z-index: 9999;
 }
 
 .bottom-item{
@@ -290,11 +283,10 @@ font-weight:bold;
 
 .bottom-item.active div{
 
-background:#F4E4BC;
+background:#F8ECD0;
 
-width:42px;
-
-height:42px;
+width:36px;
+height:36px;
 
 border-radius:50%;
 
