@@ -218,7 +218,7 @@ body {
   right: 0;
   bottom: 0;
 
-  height: 70px;
+  height: 74px;
 
   background: #ffffff;
 
@@ -258,14 +258,15 @@ transition:.25s;
 }
 
 .bottom-item div {
+
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
 
-  font-size: 24px;
+  font-size: 21px;
 
   margin-bottom: 4px;
 
@@ -292,11 +293,11 @@ font-weight:bold;
 
 .bottom-item.active div {
 
-  background: #6f4e37;
+  background: #D4AF37;
 
   color: white;
 
-  box-shadow: 0 4px 12px rgba(111,78,55,.35);
+  box-shadow: 0 4px 12px rgba(212,175,55,.35);
 
 }
 
