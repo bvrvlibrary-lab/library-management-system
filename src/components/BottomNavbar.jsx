@@ -27,7 +27,7 @@ export default function BottomNavbar({ user, isAdmin }) {
             href="/"
             className={`bottom-item ${pathname === "/" ? "active" : ""}`}
           >
-            <div>🏠</div>
+           <div><i className="bi bi-house-fill"></i></div>
             <small>Home</small>
           </Link>
 
@@ -35,7 +35,7 @@ export default function BottomNavbar({ user, isAdmin }) {
             href="/login"
             className={`bottom-item ${pathname === "/login" ? "active" : ""}`}
           >
-            <div>🔐</div>
+            <div><i className="bi bi-box-arrow-in-right"></i></div>
             <small>Sign In</small>
           </Link>
         </>
@@ -53,7 +53,7 @@ export default function BottomNavbar({ user, isAdmin }) {
             href="/history"
             className={`bottom-item ${pathname === "/history" ? "active" : ""}`}
           >
-            <div>📜</div>
+           <div><i className="bi bi-clock-history"></i></div>
             <small>History</small>
           </Link>
 
@@ -61,7 +61,7 @@ export default function BottomNavbar({ user, isAdmin }) {
             href="/profile"
             className={`bottom-item ${pathname === "/profile" ? "active" : ""}`}
           >
-            <div>👤</div>
+           <div><i className="bi bi-person-fill"></i></div>
             <small>Profile</small>
           </Link>
 
@@ -69,7 +69,7 @@ export default function BottomNavbar({ user, isAdmin }) {
             onClick={handleLogout}
             className="bottom-item border-0 bg-transparent"
           >
-            <div>🚪</div>
+            <div><i className="bi bi-box-arrow-right"></i></div>
             <small>Logout</small>
           </button>
         </>
