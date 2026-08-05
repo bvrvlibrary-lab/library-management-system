@@ -302,3 +302,12 @@ font-weight:bold;
 }
 
 }
+
+/* Space for Bottom Navigation */
+@media (max-width: 768px) {
+
+  body {
+    padding-bottom: 100px;
+  }
+
+}
