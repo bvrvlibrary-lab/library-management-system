@@ -30,6 +30,7 @@ export default function LibraryDashboard() {
   const [books, setBooks] = useState([]);
   const [requests, setRequests] = useState([]);
   const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
   const [customAlert, setCustomAlert] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 const [isMobile, setIsMobile] = useState(null);
@@ -88,6 +89,7 @@ window.addEventListener("resize", checkMobile);
         u?.email?.toLowerCase() ===
           adminEmail.toLowerCase()
       );
+          setAuthLoading(false);
     });
 const loadLibraryStats = async () => {
   try {
@@ -448,10 +450,11 @@ const filteredBooks = books
       }
     )
   );
-  if (isMobile === null) {
-  return null;
+  if (isMobile === null || authLoading) {
+  return <LoadingSpinner />;
 }
-  return (
+
+return (
   <>
 {(!isMobile || isAdmin) && (
   <Navbar
