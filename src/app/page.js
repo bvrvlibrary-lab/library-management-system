@@ -32,7 +32,7 @@ export default function LibraryDashboard() {
   const [user, setUser] = useState(null);
   const [customAlert, setCustomAlert] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+const [isMobile, setIsMobile] = useState(null);
 const [searchTerm, setSearchTerm] = useState('');
 const [languageFilter, setLanguageFilter] = useState('');
   const [libraryStats, setLibraryStats] = useState({
@@ -448,6 +448,9 @@ const filteredBooks = books
       }
     )
   );
+  if (isMobile === null) {
+  return null;
+}
   return (
   <>
 {(!isMobile || isAdmin) && (
