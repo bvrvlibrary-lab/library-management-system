@@ -450,15 +450,19 @@ const filteredBooks = books
   );
   return (
   <>
-<Navbar
-  isAdmin={isAdmin}
-  user={user}
-/>
+{(!isMobile || isAdmin) && (
+  <Navbar
+    isAdmin={isAdmin}
+    user={user}
+  />
+)}
 
-<BottomNavbar
-  isAdmin={isAdmin}
-  user={user}
-/>
+{isMobile && !isAdmin && (
+  <BottomNavbar
+    isAdmin={isAdmin}
+    user={user}
+  />
+)}
 
     <div className="container mt-4">
         
