@@ -23,8 +23,8 @@ const [customAlert, setCustomAlert] = useState('');
   const [requests, setRequests] =
     useState([]);
 const [isMobile, setIsMobile] = useState(false);
-  const [user, setUser] =
-    useState(null);
+  const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
 const [submitting, setSubmitting] = useState(false);
 const [subject, setSubject] =
   useState("");
@@ -50,6 +50,7 @@ window.addEventListener("resize", checkMobile);
       if (currentUser) {
         setUser(currentUser);
       }
+        setAuthLoading(false);
     }
   );
     const unsubscribe =
@@ -151,7 +152,9 @@ ${feedback}
         req.status ===
           'Returned'
     );
-
+if (authLoading) {
+  return <LoadingSpinner />;
+}
   return (
     
   <>
