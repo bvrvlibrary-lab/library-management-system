@@ -59,7 +59,13 @@ window.addEventListener("resize", checkMobile);
 
 if (user) {
   setUser(user);
+
+  // Show the page immediately
+  setLoading(false);
+
+  // Load profile data in the background
   loadProfile(user);
+
 } else {
   setLoading(false);
 }
@@ -67,8 +73,10 @@ if (user) {
     }
   );
 
-  return () => unsubscribe();
-   window.removeEventListener("resize", checkMobile);
+  return () => {
+  unsubscribe();
+  window.removeEventListener("resize", checkMobile);
+};
 
 }, []);
 
@@ -97,7 +105,6 @@ if (user) {
       console.error(error);
     }
 
-    setLoading(false);
   };
 
   const handleSaveProfile = async () => {
