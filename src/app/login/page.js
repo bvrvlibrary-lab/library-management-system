@@ -316,10 +316,38 @@ Temple: ${userData.temple}
       </p>
 
       {message && (
-        <p style={{ marginTop: '20px' }}>
-          {message}
-        </p>
-      )}
+  <div
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+    style={{
+      marginTop: '20px',
+      padding: '16px',
+      borderRadius: '10px',
+      background: '#fff4cc',
+      border: '2px solid #e0a800',
+      color: '#7a5200',
+      textAlign: 'center',
+      fontSize: '16px',
+      fontWeight: '600',
+      lineHeight: '1.5',
+      boxShadow: '0 3px 10px rgba(224,168,0,0.20)'
+    }}
+  >
+    {message === 'Waiting for admin approval.' && (
+      <div
+        style={{
+          fontSize: '24px',
+          marginBottom: '5px'
+        }}
+      >
+        🟠
+      </div>
+    )}
+
+    {message}
+  </div>
+)}
     </div>
 </div>
   );
