@@ -9,6 +9,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { auth, db } from '../../firebase';
 import { sendAdminEmail } from '../../lib/sendEmail';
+import { formatErrorMessage } from '../../lib/errorHandler';
 
 export default function SignupPage() {
 
@@ -90,7 +91,7 @@ await auth.signOut();
 
     catch (error) {
 
-      setMessage(error.message);
+      setMessage(formatErrorMessage(error));
 
     }
 

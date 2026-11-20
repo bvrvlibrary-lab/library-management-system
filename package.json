@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start"
   },
-   "dependencies": {
+  "dependencies": {
+    "@capacitor/core": "^8.6.2",
     "@emailjs/browser": "^4.4.1",
     "firebase": "^10.8.0",
     "firebase-admin": "^13.0.0",
@@ -15,5 +16,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resend": "^4.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2"
   }
 }

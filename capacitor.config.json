@@ -1,0 +1,13 @@
+{
+  "appId": "com.bvrv.library",
+  "appName": "BVRV Library",
+  "webDir": "public",
+  "server": {
+    "url": "https://library-management-system-mocha-one.vercel.app",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

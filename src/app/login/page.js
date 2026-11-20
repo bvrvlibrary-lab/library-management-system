@@ -14,6 +14,7 @@ import { auth, db } from '../../firebase';
 import { sendAdminEmail } from '../../lib/sendEmail';
 import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
+import { formatErrorMessage } from '../../lib/errorHandler';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ await sendPasswordResetEmail(
   'Password reset link sent. Please check your Inbox or Spam folder.'
 );
     } catch (error) {
-      setMessage(error.message);
+      setMessage(formatErrorMessage(error));
     }
   };
 

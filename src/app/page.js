@@ -50,95 +50,102 @@ const [languageFilter, setLanguageFilter] = useState('');
   // ---------------- LOAD DATA ----------------
   useEffect(() => {
     const checkMobile = () => {
-  setIsMobile(window.innerWidth <= 768);
-};
+      setIsMobile(window.innerWidth <= 768);
+    };
 
-checkMobile();
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
 
-window.addEventListener("resize", checkMobile);
-  const unsubBooks = onSnapshot(collection(db, 'books'), (snap) => {
-
-  console.log("Books loaded:", snap.size);
-  console.log(snap.docs.map(doc => doc.data()));
-
-  setBooks(
-    snap.docs.map((d) => ({
-      id: d.id,
-      ...d.data()
-    }))
-  );
-});
-
-    const unsubRequests = onSnapshot(
-      collection(db, 'bookRequests'),
+    const unsubBooks = onSnapshot(
+      collection(db, 'books'),
       (snap) => {
-        setRequests(
+        setBooks(
           snap.docs.map((d) => ({
             id: d.id,
             ...d.data()
           }))
         );
+      },
+      (error) => {
+        console.warn("Books load notice:", error.message);
       }
     );
+
+    let unsubRequests = () => {};
 
     const unsubAuth = onAuthStateChanged(auth, (u) => {
       setUser(u);
 
       const adminEmail = 'bvrvlibrary@gmail.com';
-
       setIsAdmin(
         u?.email?.toLowerCase() ===
           adminEmail.toLowerCase()
       );
-          setAuthLoading(false);
-    });
-const loadLibraryStats = async () => {
-  try {
+      setAuthLoading(false);
 
-    const booksSnap = await getDocs(
-      collection(db, "books")
-    );
-
-    const studentsSnap = await getDocs(
-      collection(db, "users")
-    );
-
-    let copies = 0;
-
-    const languages = new Set();
-
-    booksSnap.forEach((bookDoc) => {
-
-      const book = bookDoc.data();
-
-      copies += Number(book.quantity || 0);
-
-      if (book.language) {
-        languages.add(
-          book.language.trim().toLowerCase()
+      if (u) {
+        unsubRequests();
+        unsubRequests = onSnapshot(
+          collection(db, 'bookRequests'),
+          (snap) => {
+            setRequests(
+              snap.docs.map((d) => ({
+                id: d.id,
+                ...d.data()
+              }))
+            );
+          },
+          (error) => {
+            console.warn("Book requests listener notice:", error.message);
+          }
         );
+      } else {
+        setRequests([]);
       }
-
     });
 
-    setLibraryStats({
-      books: booksSnap.size,
-      students: studentsSnap.size,
-      languages: languages.size,
-      copies
-    });
+    const loadLibraryStats = async () => {
+      try {
+        const booksSnap = await getDocs(
+          collection(db, "books")
+        );
 
-  } catch (error) {
+        let studentsCount = 0;
+        try {
+          const studentsSnap = await getDocs(
+            collection(db, "users")
+          );
+          studentsCount = studentsSnap.size;
+        } catch (_) {
+          // Non-admin users cannot read entire users collection
+        }
 
-    console.error(
-      "Library statistics error:",
-      error
-    );
+        let copies = 0;
+        const languages = new Set();
 
-  }
-};
+        booksSnap.forEach((bookDoc) => {
+          const book = bookDoc.data();
+          copies += Number(book.quantity || 0);
+          if (book.language) {
+            languages.add(
+              book.language.trim().toLowerCase()
+            );
+          }
+        });
 
-loadLibraryStats();
+        setLibraryStats({
+          books: booksSnap.size,
+          students: studentsCount,
+          languages: languages.size,
+          copies
+        });
+      } catch (error) {
+        console.warn("Library statistics notice:", error.message);
+      }
+    };
+
+    loadLibraryStats();
+
     return () => {
       unsubBooks();
       unsubRequests();
