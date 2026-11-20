@@ -32,9 +32,10 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Add and Sync Android Platform
+      - name: Generate Android Assets and Sync
         run: |
           npx cap add android || true
+          npx @capacitor/assets generate --android
           npx cap sync android
 
       - name: Build Android APK (Debug)
@@ -59,8 +60,13 @@ jobs:
           body: |
             Hare Krishna! 🙏
 
-            Here is the latest Android APK for the Bhaktivedanta Rajavidyalaya Library Management System.
-            Download and install `app-debug.apk` directly on your Android phone.
+            Here is the latest Android APK for the BVRV Library Management System.
+            Features:
+            - Custom BVRV Library emblem launcher icon
+            - App name: BVRV Library
+            - Mobile-responsive catalog with touch filters and fast book requests
+            
+            Download and install `app-debug.apk` directly on your Android device.
           files: android/app/build/outputs/apk/debug/app-debug.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
