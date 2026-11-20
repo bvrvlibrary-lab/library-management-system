@@ -6,23 +6,55 @@ body {
   color: #2c1810;
 }
 
+/* Bootstrap Table Variables & Hover Override */
+.table,
+.book-table,
+.table-striped,
+.table-hover,
+.admin-table,
+.history-table {
+  --bs-table-hover-bg: #fef3c7 !important;
+  --bs-table-hover-color: #451a03 !important;
+  --bs-table-accent-bg: transparent;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > td,
 .table-striped > tbody > tr:nth-of-type(odd) {
   background-color: #fdfbf7 !important;
 }
 
+.table-striped > tbody > tr:nth-of-type(even) > td,
 .table-striped > tbody > tr:nth-of-type(even) {
   background-color: #ffffff !important;
 }
 
-/* Warm golden cream hover instead of dull gray */
+/* Warm golden cream hover instead of dull gray for all library tables */
 .table-hover tbody tr:hover,
 .book-table tbody tr:hover,
 .table-striped tbody tr:hover,
-.admin-table tbody tr:hover {
+.admin-table tbody tr:hover,
+.history-table tbody tr:hover {
   background-color: #fef3c7 !important;
   color: #451a03 !important;
-  box-shadow: inset 5px 0 0 #D4AF37 !important;
   transition: all 0.15s ease-in-out;
+}
+
+.table-hover tbody tr:hover td,
+.book-table tbody tr:hover td,
+.table-striped tbody tr:hover td,
+.admin-table tbody tr:hover td,
+.history-table tbody tr:hover td {
+  background-color: #fef3c7 !important;
+  color: #451a03 !important;
+  box-shadow: none !important;
+}
+
+.table-hover tbody tr:hover td:first-child,
+.book-table tbody tr:hover td:first-child,
+.table-striped tbody tr:hover td:first-child,
+.admin-table tbody tr:hover td:first-child,
+.history-table tbody tr:hover td:first-child {
+  border-left: 5px solid #D4AF37 !important;
 }
 
 .book-table tbody tr td {
@@ -32,7 +64,7 @@ body {
 }
 
 .book-table tbody tr:hover td {
-  color: #1f1008 !important;
+  color: #451a03 !important;
 }
 /* Admin Sidebar */
 
@@ -50,7 +82,7 @@ body {
   transform: translateX(4px);
   transition: 0.2s;
 }
-// for admin history
+/* for admin history */
 .admin-table thead th {
   background-color: #6f4e37 !important;
   color: white !important;
@@ -96,9 +128,7 @@ body {
 .admin-table tbody tr{
     border-bottom:1px solid #e9ecef;
 }
-.admin-table tbody tr:hover{
-    background:#f1ebe6;
-}
+/* admin-table hover handled globally */
 .admin-table thead th:first-child{
     border-top-left-radius:15px;
 }
