@@ -544,18 +544,24 @@ return (
     <div
       className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#2563eb 0%,#38bdf8 100%)",
+        background: "linear-gradient(135deg, #1d4ed8 0%, #38bdf8 100%)",
         borderRadius: "20px",
-        boxShadow: "0 8px 22px rgba(37, 99, 235, 0.2)"
+        boxShadow: "0 8px 22px rgba(29, 78, 216, 0.25)"
       }}
     >
       <div className="card-body p-3 p-md-4">
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="small text-white-50 fw-semibold">Catalog</span>
+          <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '13.5px', textTransform: 'uppercase', letterSpacing: '0.5px', textShadow: '0 1px 3px rgba(0,0,0,0.35)' }}>
+            Catalog
+          </span>
           <span style={{ fontSize: '20px' }}>📚</span>
         </div>
-        <h2 className="fw-bold mb-0">{libraryStats.books}</h2>
-        <div className="small text-white-50 mt-1">Total Titles</div>
+        <h2 className="fw-bold mb-0" style={{ color: '#ffffff', fontSize: '32px', fontWeight: '800', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+          {libraryStats.books}
+        </h2>
+        <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13.5px', marginTop: '4px', textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+          Total Titles
+        </div>
       </div>
     </div>
   </div>
@@ -564,18 +570,24 @@ return (
     <div
       className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#059669 0%,#34d399 100%)",
+        background: "linear-gradient(135deg, #047857 0%, #34d399 100%)",
         borderRadius: "20px",
-        boxShadow: "0 8px 22px rgba(5, 150, 105, 0.2)"
+        boxShadow: "0 8px 22px rgba(4, 120, 87, 0.25)"
       }}
     >
       <div className="card-body p-3 p-md-4">
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="small text-white-50 fw-semibold">Devotees</span>
+          <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '13.5px', textTransform: 'uppercase', letterSpacing: '0.5px', textShadow: '0 1px 3px rgba(0,0,0,0.35)' }}>
+            Devotees
+          </span>
           <span style={{ fontSize: '20px' }}>👨‍🎓</span>
         </div>
-        <h2 className="fw-bold mb-0">{libraryStats.students}</h2>
-        <div className="small text-white-50 mt-1">Registered</div>
+        <h2 className="fw-bold mb-0" style={{ color: '#ffffff', fontSize: '32px', fontWeight: '800', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+          {libraryStats.students}
+        </h2>
+        <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13.5px', marginTop: '4px', textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+          Registered
+        </div>
       </div>
     </div>
   </div>
@@ -584,18 +596,24 @@ return (
     <div
       className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#d97706 0%,#fbbf24 100%)",
+        background: "linear-gradient(135deg, #b45309 0%, #fbbf24 100%)",
         borderRadius: "20px",
-        boxShadow: "0 8px 22px rgba(217, 119, 6, 0.2)"
+        boxShadow: "0 8px 22px rgba(180, 83, 9, 0.25)"
       }}
     >
       <div className="card-body p-3 p-md-4">
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="small text-white-50 fw-semibold">Diversity</span>
+          <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '13.5px', textTransform: 'uppercase', letterSpacing: '0.5px', textShadow: '0 1px 3px rgba(0,0,0,0.35)' }}>
+            Diversity
+          </span>
           <span style={{ fontSize: '20px' }}>🌍</span>
         </div>
-        <h2 className="fw-bold mb-0">{libraryStats.languages}</h2>
-        <div className="small text-white-50 mt-1">Languages</div>
+        <h2 className="fw-bold mb-0" style={{ color: '#ffffff', fontSize: '32px', fontWeight: '800', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+          {libraryStats.languages}
+        </h2>
+        <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13.5px', marginTop: '4px', textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+          Languages
+        </div>
       </div>
     </div>
   </div>
@@ -604,18 +622,24 @@ return (
     <div
       className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#e11d48 0%,#fb7185 100%)",
+        background: "linear-gradient(135deg, #be123c 0%, #fb7185 100%)",
         borderRadius: "20px",
-        boxShadow: "0 8px 22px rgba(225, 29, 72, 0.2)"
+        boxShadow: "0 8px 22px rgba(190, 18, 60, 0.25)"
       }}
     >
       <div className="card-body p-3 p-md-4">
         <div className="d-flex align-items-center justify-content-between mb-2">
-          <span className="small text-white-50 fw-semibold">Inventory</span>
+          <span style={{ color: '#ffffff', fontWeight: '800', fontSize: '13.5px', textTransform: 'uppercase', letterSpacing: '0.5px', textShadow: '0 1px 3px rgba(0,0,0,0.35)' }}>
+            Inventory
+          </span>
           <span style={{ fontSize: '20px' }}>📦</span>
         </div>
-        <h2 className="fw-bold mb-0">{libraryStats.copies}</h2>
-        <div className="small text-white-50 mt-1">Total Copies</div>
+        <h2 className="fw-bold mb-0" style={{ color: '#ffffff', fontSize: '32px', fontWeight: '800', textShadow: '0 2px 4px rgba(0,0,0,0.2)' }}>
+          {libraryStats.copies}
+        </h2>
+        <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '13.5px', marginTop: '4px', textShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+          Total Copies
+        </div>
       </div>
     </div>
   </div>

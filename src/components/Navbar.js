@@ -26,27 +26,45 @@ export default function Navbar({ isAdmin, user }) {
 
         {/* Logo / Brand */}
         <Link
-  href="/"
-  className="navbar-brand d-flex align-items-center"
->
+          href="/"
+          className="navbar-brand d-flex align-items-center"
+        >
+          <div
+            style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '50%',
+              backgroundColor: '#ffffff',
+              border: '2px solid #D4AF37',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.25)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+              flexShrink: 0,
+              marginRight: '12px',
+            }}
+          >
+            <Image
+              src="/logo.png"
+              alt="BVRV Library"
+              width={44}
+              height={44}
+              style={{ objectFit: 'contain' }}
+              priority
+            />
+          </div>
 
-  <Image
-    src="/logo.png"
-    alt="BVRV Library"
-    width={70}
-    height={70}
-  />
-
-<span
-  className="ms-2 fw-bold navbar-brand-text"
-  style={{
-    color: '#F4E4BC'
-  }}
->
-  Bhaktivedanta Rajavidyalaya Library
-</span>
-
-</Link>
+          <span
+            className="fw-bold navbar-brand-text"
+            style={{
+              color: '#F4E4BC',
+              letterSpacing: '0.2px',
+            }}
+          >
+            Bhaktivedanta Rajavidyalaya Library
+          </span>
+        </Link>
 
         {/* Mobile Toggle */}
         <button

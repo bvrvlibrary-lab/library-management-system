@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
         ></script>
       </head>
 
-      <body style={{ backgroundColor: '#f8f9fa' }}>
+      <body style={{ background: 'linear-gradient(180deg, #faf7f2 0%, #f4ede4 100%)', minHeight: '100vh', color: '#2c1810' }}>
         <ServiceWorkerRegister />
         <AlertProvider>
           <main className="container-fluid p-0">

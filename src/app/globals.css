@@ -1,21 +1,38 @@
-/* Library Table Styling */
-
-.table-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #f8f9fa;
-}
-
-.table-hover tbody tr:hover {
-  background-color: #fff3cd;
-  transition: 0.2s;
-}
-/* Dashboard Background */
+/* Library Table & Background Styling */
 
 body {
-  background: linear-gradient(
-    180deg,
-    #f8f6f2 0%,
-    #eef2f7 100%
-  );
+  background: linear-gradient(180deg, #faf7f2 0%, #f4ede4 100%) !important;
+  min-height: 100vh;
+  color: #2c1810;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #fdfbf7 !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: #ffffff !important;
+}
+
+/* Warm golden cream hover instead of dull gray */
+.table-hover tbody tr:hover,
+.book-table tbody tr:hover,
+.table-striped tbody tr:hover,
+.admin-table tbody tr:hover {
+  background-color: #fef3c7 !important;
+  color: #451a03 !important;
+  box-shadow: inset 5px 0 0 #D4AF37 !important;
+  transition: all 0.15s ease-in-out;
+}
+
+.book-table tbody tr td {
+  color: #382417;
+  font-size: 14.5px;
+  vertical-align: middle;
+}
+
+.book-table tbody tr:hover td {
+  color: #1f1008 !important;
 }
 /* Admin Sidebar */
 
