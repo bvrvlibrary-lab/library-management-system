@@ -24,18 +24,15 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install Project Dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Add Android Platform
+      - name: Add and Sync Android Platform
         run: |
           npx cap add android || true
           npx cap sync android

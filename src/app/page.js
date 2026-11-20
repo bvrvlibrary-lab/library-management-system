@@ -1,5 +1,6 @@
 'use client';
 import BottomNavbar from "../components/BottomNavbar";
+import MobileHeader from "../components/MobileHeader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import CustomAlert from '../components/CustomAlert';
 import Navbar from '../components/Navbar';
@@ -37,6 +38,7 @@ export default function LibraryDashboard() {
 const [isMobile, setIsMobile] = useState(null);
 const [searchTerm, setSearchTerm] = useState('');
 const [languageFilter, setLanguageFilter] = useState('');
+const [inStockOnly, setInStockOnly] = useState(false);
   const [libraryStats, setLibraryStats] = useState({
   books: 0,
   students: 0,
@@ -447,7 +449,9 @@ const filteredBooks = books
           .trim()
           .toLowerCase();
 
-    return matchesSearch && matchesLanguage;
+    const matchesStock = !inStockOnly || Number(book.quantity || 0) > 0;
+
+    return matchesSearch && matchesLanguage && matchesStock;
   })
   .sort((a, b) =>
     a.name.localeCompare(
@@ -472,178 +476,299 @@ return (
 )}
 
 {isMobile && !isAdmin && (
-  <BottomNavbar
-    isAdmin={isAdmin}
-    user={user}
-  />
+  <>
+    <MobileHeader user={user} isAdmin={isAdmin} />
+    <BottomNavbar
+      isAdmin={isAdmin}
+      user={user}
+    />
+  </>
 )}
 
-    <div className="container mt-4">
+    <div className="container mt-3 mt-md-4 mb-5 pb-5">
         
+     {/* Hero Welcome Banner */}
      <div
-  className="card border-0 shadow-lg mb-4"
+  className="card border-0 mb-4"
   style={{
     background:
-      'linear-gradient(135deg,#6f4e37,#8b5e3c)',
-    color: 'white'
+      'linear-gradient(135deg, #422617 0%, #6d4223 60%, #85522b 100%)',
+    color: 'white',
+    borderRadius: '22px',
+    boxShadow: '0 8px 30px rgba(66, 38, 23, 0.22)',
+    border: '1px solid rgba(212, 175, 55, 0.35)',
+    overflow: 'hidden',
+    position: 'relative'
   }}
 >
-  <div className="card-body p-4">
-    <h2 className="mb-2">
+  <div className="card-body p-4 position-relative" style={{ zIndex: 1 }}>
+    <div className="d-flex align-items-center justify-content-between mb-2">
+      <span
+        className="badge"
+        style={{
+          background: 'rgba(212, 175, 55, 0.25)',
+          color: '#FBF3D5',
+          border: '1px solid rgba(212, 175, 55, 0.4)',
+          padding: '6px 12px',
+          borderRadius: '9999px',
+          fontSize: '12px',
+          fontWeight: '600'
+        }}
+      >
+        📚 Bhaktivedanta Rajavidyalaya
+      </span>
+      {user && (
+        <span
+          className="badge bg-success bg-opacity-75"
+          style={{ borderRadius: '9999px', fontSize: '11px', padding: '5px 10px' }}
+        >
+          ● Active Devotee
+        </span>
+      )}
+    </div>
+
+    <h2 className="fw-bold mb-2" style={{ color: '#ffffff', letterSpacing: '0.2px' }}>
       Hare Krishna! {user?.email ? '🙏' : ''}
     </h2>
 
-    <p className="mb-0">
-      Explore and request books from the
-      BVRV Library Management System.
+    <p className="mb-0 text-light opacity-90" style={{ fontSize: '14.5px', lineHeight: '1.5', maxWidth: '600px' }}>
+      Explore sacred literature, study Vedic texts, and request library books easily from your mobile phone.
     </p>
   </div>
 </div>
-<div className="row g-4 mb-4">
 
-  <div className="col-md-3">
+{/* 2x2 Grid on Mobile, 4x1 on Desktop */}
+<div className="row g-3 g-md-4 mb-4">
+
+  <div className="col-6 col-md-3">
     <div
-      className="card border-0 shadow-lg text-white"
+      className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#2F80ED,#56CCF2)",
-        borderRadius: "20px"
+        background: "linear-gradient(135deg,#2563eb 0%,#38bdf8 100%)",
+        borderRadius: "20px",
+        boxShadow: "0 8px 22px rgba(37, 99, 235, 0.2)"
       }}
     >
-      <div className="card-body">
-        <h5>📚 Total Books</h5>
-        <h1 className="fw-bold">{libraryStats.books}</h1>
+      <div className="card-body p-3 p-md-4">
+        <div className="d-flex align-items-center justify-content-between mb-2">
+          <span className="small text-white-50 fw-semibold">Catalog</span>
+          <span style={{ fontSize: '20px' }}>📚</span>
+        </div>
+        <h2 className="fw-bold mb-0">{libraryStats.books}</h2>
+        <div className="small text-white-50 mt-1">Total Titles</div>
       </div>
     </div>
   </div>
 
-  <div className="col-md-3">
+  <div className="col-6 col-md-3">
     <div
-      className="card border-0 shadow-lg text-white"
+      className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#11998E,#38EF7D)",
-        borderRadius: "20px"
+        background: "linear-gradient(135deg,#059669 0%,#34d399 100%)",
+        borderRadius: "20px",
+        boxShadow: "0 8px 22px rgba(5, 150, 105, 0.2)"
       }}
     >
-      <div className="card-body">
-        <h5>👨‍🎓 Students</h5>
-        <h1 className="fw-bold">{libraryStats.students}</h1>
+      <div className="card-body p-3 p-md-4">
+        <div className="d-flex align-items-center justify-content-between mb-2">
+          <span className="small text-white-50 fw-semibold">Devotees</span>
+          <span style={{ fontSize: '20px' }}>👨‍🎓</span>
+        </div>
+        <h2 className="fw-bold mb-0">{libraryStats.students}</h2>
+        <div className="small text-white-50 mt-1">Registered</div>
       </div>
     </div>
   </div>
 
-  <div className="col-md-3">
+  <div className="col-6 col-md-3">
     <div
-      className="card border-0 shadow-lg text-white"
+      className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#F7971E,#FFD200)",
-        borderRadius: "20px"
+        background: "linear-gradient(135deg,#d97706 0%,#fbbf24 100%)",
+        borderRadius: "20px",
+        boxShadow: "0 8px 22px rgba(217, 119, 6, 0.2)"
       }}
     >
-      <div className="card-body">
-        <h5>🌍 Languages</h5>
-        <h1 className="fw-bold">{libraryStats.languages}</h1>
+      <div className="card-body p-3 p-md-4">
+        <div className="d-flex align-items-center justify-content-between mb-2">
+          <span className="small text-white-50 fw-semibold">Diversity</span>
+          <span style={{ fontSize: '20px' }}>🌍</span>
+        </div>
+        <h2 className="fw-bold mb-0">{libraryStats.languages}</h2>
+        <div className="small text-white-50 mt-1">Languages</div>
       </div>
     </div>
   </div>
 
-  <div className="col-md-3">
+  <div className="col-6 col-md-3">
     <div
-      className="card border-0 shadow-lg text-white"
+      className="card border-0 pro-card h-100 text-white"
       style={{
-        background: "linear-gradient(135deg,#EB3349,#F45C43)",
-        borderRadius: "20px"
+        background: "linear-gradient(135deg,#e11d48 0%,#fb7185 100%)",
+        borderRadius: "20px",
+        boxShadow: "0 8px 22px rgba(225, 29, 72, 0.2)"
       }}
     >
-      <div className="card-body">
-        <h5>📦 Stock</h5>
-        <h1 className="fw-bold">{libraryStats.copies}</h1>
+      <div className="card-body p-3 p-md-4">
+        <div className="d-flex align-items-center justify-content-between mb-2">
+          <span className="small text-white-50 fw-semibold">Inventory</span>
+          <span style={{ fontSize: '20px' }}>📦</span>
+        </div>
+        <h2 className="fw-bold mb-0">{libraryStats.copies}</h2>
+        <div className="small text-white-50 mt-1">Total Copies</div>
       </div>
     </div>
   </div>
 
 </div>
+
+{/* Search & Touch Filters Section */}
 <div
-  className="card border-0 shadow-lg p-4 mb-4"
+  className="card border-0 mb-4"
   style={{
-    borderRadius: "18px"
+    borderRadius: "20px",
+    boxShadow: "0 6px 24px rgba(78, 52, 46, 0.08)",
+    backgroundColor: "#ffffff",
+    border: "1px solid #ebdcd0",
+    padding: "20px"
   }}
 >
-    <h5
-  className="fw-bold mb-3"
-  style={{ color: "#6f4e37" }}
->
-  Search Library Collection
-</h5>
-  <div className="row">
+  <div className="row g-3 align-items-center mb-3">
+    <div className="col-12 col-md-8">
+      <div style={{ position: "relative" }}>
+        <i
+          className="bi bi-search"
+          style={{
+            position: 'absolute',
+            left: '16px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: '#8c7b72',
+            fontSize: '16px'
+          }}
+        ></i>
+        <input
+          type="text"
+          placeholder="Search by book name, author, or keyword..."
+          className="form-control"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            paddingLeft: "44px",
+            paddingRight: "40px",
+            height: "48px",
+            borderRadius: "14px",
+            border: "1.5px solid #ebdcd0",
+            fontSize: "15px",
+            backgroundColor: "#fbf9f7"
+          }}
+        />
+        {searchTerm && (
+          <button
+            type="button"
+            onClick={() => setSearchTerm("")}
+            style={{
+              position: "absolute",
+              right: "12px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              border: "none",
+              background: "transparent",
+              fontSize: "18px",
+              color: "#8c7b72",
+              cursor: "pointer",
+              padding: 0,
+              lineHeight: 1,
+            }}
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+        )}
+      </div>
+    </div>
 
-   <div className="col-md-8 mb-2">
-  <div style={{ position: "relative" }}>
-    <input
-      type="text"
-      placeholder="🔍 Search books by name or author..."
-      className="form-control"
-      value={searchTerm}
-      onChange={(e) =>
-        setSearchTerm(e.target.value)
-      }
-      style={{ paddingRight: "40px" }}
-    />
-
-    {searchTerm && (
-      <button
-        type="button"
-        onClick={() => setSearchTerm("")}
+    <div className="col-12 col-md-4">
+      <select
+        className="form-select d-none d-md-block"
+        value={languageFilter}
+        onChange={(e) => setLanguageFilter(e.target.value)}
         style={{
-          position: "absolute",
-          right: "10px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          border: "none",
-          background: "transparent",
-          fontSize: "20px",
-          color: "#666",
-          cursor: "pointer",
-          padding: 0,
-          lineHeight: 1,
+          height: "48px",
+          borderRadius: "14px",
+          border: "1.5px solid #ebdcd0",
+          fontSize: "15px",
+          backgroundColor: "#fbf9f7"
         }}
       >
-        ✕
-      </button>
-    )}
-  </div>
-</div>
-
-    <div className="col-md-4 mb-2">
-      <select
-        className="form-select"
-        value={languageFilter}
-        onChange={(e) =>
-          setLanguageFilter(e.target.value)
-        }
-      >
-       <option value="">
-  🌍 All Languages
-</option>
-
-        {[...new Set(
-          books.map(
-            (book) =>
-              book.language
-                ?.trim()
-                .toLowerCase()
-          )
-        )].map((language) => (
-          <option
-            key={language}
-            value={language}
-          >
-            {language.charAt(0).toUpperCase() +
-              language.slice(1)}
+        <option value="">🌍 All Languages</option>
+        {[...new Set(books.map((b) => b.language?.trim().toLowerCase()).filter(Boolean))].map((lang) => (
+          <option key={lang} value={lang}>
+            {lang.charAt(0).toUpperCase() + lang.slice(1)}
           </option>
         ))}
       </select>
     </div>
+  </div>
 
+  {/* Mobile Horizontal Scrolling Filter Chips */}
+  <div
+    className="d-flex align-items-center gap-2 overflow-auto no-scrollbar pb-1"
+    style={{ WebkitOverflowScrolling: 'touch' }}
+  >
+    <div
+      onClick={() => setLanguageFilter('')}
+      className={`filter-chip ${languageFilter === '' ? 'active' : ''}`}
+    >
+      <span>All Books</span>
+      <span
+        className="badge rounded-pill"
+        style={{
+          backgroundColor: languageFilter === '' ? 'rgba(255,255,255,0.3)' : '#f5ebe1',
+          color: languageFilter === '' ? '#ffffff' : '#6f4e37',
+          fontSize: '11px'
+        }}
+      >
+        {books.length}
+      </span>
+    </div>
+
+    {[...new Set(books.map((b) => b.language?.trim().toLowerCase()).filter(Boolean))].map((lang) => {
+      const count = books.filter((b) => b.language?.trim().toLowerCase() === lang).length;
+      const isSelected = languageFilter.toLowerCase() === lang;
+      return (
+        <div
+          key={lang}
+          onClick={() => setLanguageFilter(isSelected ? '' : lang)}
+          className={`filter-chip ${isSelected ? 'active' : ''}`}
+        >
+          <span>{lang.charAt(0).toUpperCase() + lang.slice(1)}</span>
+          <span
+            className="badge rounded-pill"
+            style={{
+              backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : '#f5ebe1',
+              color: isSelected ? '#ffffff' : '#6f4e37',
+              fontSize: '11px'
+            }}
+          >
+            {count}
+          </span>
+        </div>
+      );
+    })}
+
+    <div
+      onClick={() => setInStockOnly(!inStockOnly)}
+      className={`filter-chip ${inStockOnly ? 'active' : ''}`}
+      style={{
+        borderColor: inStockOnly ? '#059669' : '#ebdcd0',
+        background: inStockOnly ? 'linear-gradient(135deg, #059669 0%, #10b981 100%)' : '#ffffff',
+        color: inStockOnly ? '#ffffff' : '#059669'
+      }}
+    >
+      <i className={`bi ${inStockOnly ? 'bi-check-circle-fill' : 'bi-lightning-charge'}`}></i>
+      <span>In Stock Only</span>
+    </div>
   </div>
 </div>
      
@@ -740,67 +865,168 @@ return (
                {/* Mobile Book Cards */}
 <div className="d-md-none">
 
-  {filteredBooks.map((book) => (
+  {filteredBooks.length === 0 ? (
     <div
-      key={book.id}
-      className="card mb-2 shadow-sm"
-style={{
-  backgroundColor: "#fffaf3",
-  border: "1px solid #e2d5c8"
-}}
+      className="text-center py-5 px-3"
+      style={{
+        backgroundColor: '#ffffff',
+        borderRadius: '18px',
+        border: '1px dashed #ebdcd0',
+      }}
     >
-      <div className="card-body p-3">
-
-        <div className="fw-bold mb-1">
-          📖 {book.name}
-        </div>
-
-       <div
-  className="small mb-2"
-  style={{ color: "#5d4037" }}
->
-  ✍️ Author: {book.author}
-</div>
-
-        <div className="d-flex align-items-center justify-content-between gap-2">
-
-          <span className="small">
-            🌐 {book.language}
-          </span>
-
-          <span className="small">
-            📚 Stock: {book.quantity}
-          </span>
-
-          {!user ? (
-            <button
-              onClick={() => {
-                alert("Please login to issue books.");
-                window.location.href = "/login";
-              }}
-              className="btn btn-warning btn-sm"
-            >
-              Issue
-            </button>
-          ) : (
-            <button
-              onClick={() =>
-                handleRequestBook(book)
-              }
-              className="btn btn-primary btn-sm"
-              disabled={book.quantity <= 0}
-            >
-              {book.quantity <= 0
-                ? "Out of Stock"
-                : "Request"}
-            </button>
-          )}
-
-        </div>
-
-      </div>
+      <div style={{ fontSize: '38px', marginBottom: '8px' }}>🔍</div>
+      <h6 className="fw-bold" style={{ color: '#6f4e37' }}>
+        No Books Found
+      </h6>
+      <p className="text-muted small mb-0">
+        Try adjusting your search query or language filter.
+      </p>
     </div>
-  ))}
+  ) : (
+    filteredBooks.map((book) => {
+      const isAvailable = (book.quantity ?? 0) > 0;
+      return (
+        <div
+          key={book.id}
+          className="card pro-card mb-3 border-0"
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '18px',
+            boxShadow: '0 4px 18px rgba(78, 52, 46, 0.08)',
+            border: '1px solid #ebdcd0',
+            overflow: 'hidden',
+          }}
+        >
+          <div className="card-body p-3">
+
+            {/* Header row with language, position, and availability badge */}
+            <div className="d-flex align-items-center justify-content-between gap-1 mb-2">
+              <div className="d-flex align-items-center gap-1 flex-wrap">
+                <span
+                  className="badge rounded-pill"
+                  style={{
+                    backgroundColor: '#f5ebe1',
+                    color: '#6f4e37',
+                    fontWeight: '600',
+                    fontSize: '11px',
+                    padding: '5px 10px',
+                  }}
+                >
+                  🌐 {book.language || 'English'}
+                </span>
+                {book.position && (
+                  <span
+                    className="badge rounded-pill bg-light text-secondary border"
+                    style={{ fontSize: '11px', padding: '5px 9px' }}
+                  >
+                    📍 Shelf: {book.position}
+                  </span>
+                )}
+              </div>
+
+              {isAvailable ? (
+                <span
+                  className="badge rounded-pill"
+                  style={{
+                    backgroundColor: '#e6f4ea',
+                    color: '#137333',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    padding: '5px 9px',
+                  }}
+                >
+                  🟢 In Stock: {book.quantity}
+                </span>
+              ) : (
+                <span
+                  className="badge rounded-pill"
+                  style={{
+                    backgroundColor: '#fce8e6',
+                    color: '#c5221f',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    padding: '5px 9px',
+                  }}
+                >
+                  🔴 Out of Stock
+                </span>
+              )}
+            </div>
+
+            {/* Book Title */}
+            <h6
+              className="fw-bold mb-1"
+              style={{
+                color: '#2e1e17',
+                fontSize: '16px',
+                lineHeight: '1.35',
+              }}
+            >
+              {book.name}
+            </h6>
+
+            {/* Author */}
+            <div
+              className="small mb-3"
+              style={{
+                color: '#7a5a4c',
+                fontSize: '13px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+              }}
+            >
+              <i className="bi bi-pen-fill" style={{ fontSize: '11px', opacity: 0.8 }}></i>
+              <span>{book.author}</span>
+            </div>
+
+            {/* Action Button */}
+            {!user ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setCustomAlert('Please sign in to request or issue library books.');
+                  window.location.href = '/login';
+                }}
+                className="btn btn-touch w-100"
+                style={{
+                  background: 'linear-gradient(135deg, #D4AF37 0%, #ba9425 100%)',
+                  color: '#ffffff',
+                  border: 'none',
+                  fontSize: '14px',
+                  boxShadow: '0 4px 12px rgba(212, 175, 55, 0.28)',
+                }}
+              >
+                <i className="bi bi-box-arrow-in-right"></i>
+                <span>Sign In to Request</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleRequestBook(book)}
+                className="btn btn-touch w-100"
+                disabled={!isAvailable}
+                style={{
+                  background: isAvailable
+                    ? 'linear-gradient(135deg, #6f4e37 0%, #8b5e3c 100%)'
+                    : '#e0d8d0',
+                  color: isAvailable ? '#ffffff' : '#8c7b72',
+                  border: 'none',
+                  fontSize: '14px',
+                  boxShadow: isAvailable ? '0 4px 12px rgba(111, 78, 55, 0.28)' : 'none',
+                  cursor: isAvailable ? 'pointer' : 'not-allowed',
+                }}
+              >
+                <i className={`bi ${isAvailable ? 'bi-bookmark-plus-fill' : 'bi-x-circle'}`}></i>
+                <span>{isAvailable ? '📚 Request This Book' : 'Out of Stock'}</span>
+              </button>
+            )}
+
+          </div>
+        </div>
+      );
+    })
+  )}
 
 </div>
 
